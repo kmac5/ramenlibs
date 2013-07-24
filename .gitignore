@@ -1,0 +1,13 @@
+# QtCreator project file
+CMakeLists.txt.user
+
+# local build directory
+build/
+
+# OSX
+.DS_Store
+
+# fucking vim tmp files
+.swp
+*~
+
