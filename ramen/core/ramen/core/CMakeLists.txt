@@ -29,27 +29,28 @@ INCLUDE_DIRECTORIES(    ../../
 # lib
 FILE( GLOB_RECURSE RAMEN_CORE_HEADERS ./*.hpp)
 SET( RAMEN_CORE_SOURCES  empty.cpp
-                        dictionary.cpp
-                        exceptions.cpp
-                        name.cpp
-                        memory.cpp
-                        regex8.cpp
-                        string8.cpp
-                        string8_vector.cpp
-                        string16.cpp
-                        types.cpp
-                        variant.cpp
-                        )
+                         dictionary.cpp
+                         exceptions.cpp
+                         name.cpp
+                         memory.cpp
+                         regex8.cpp
+                         simple_expression_evaluator.cpp
+                         string8.cpp
+                         string8_vector.cpp
+                         string16.cpp
+                         types.cpp
+                         variant.cpp
+                         )
 
 IF( WITH_TBB)
-    SET( RAMEN_CORE_SOURCES  ${RAMEN_CORE_SOURCES}
+    SET( RAMEN_CORE_SOURCES ${RAMEN_CORE_SOURCES}
                             ref_counted.cpp
                             )
 ENDIF()
 
 SET( RAMEN_CORE_LIBS ${Boost_LIBRARIES}
-                    ${PCRE_LIBRARIES}
-                    )
+                     ${PCRE_LIBRARIES}
+                     )
 
 ADD_LIBRARY( ramen_core SHARED ${RAMEN_CORE_HEADERS} ${RAMEN_CORE_SOURCES})
 TARGET_LINK_LIBRARIES( ramen_core ${RAMEN_CORE_LIBS})

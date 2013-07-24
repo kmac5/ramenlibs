@@ -43,10 +43,12 @@ ENDIF()
 ######################################################
 # options
 
-OPTION( RAMEN_WITH_HALF      "Build EXR Half support"    ON)
-OPTION( RAMEN_BUILD_TESTS    "Build tests"               ON)
+SET( RAMEN_WITH_HALF                ON  CACHE BOOL "Build EXR Half support")
+SET( RAMEN_BUILD_TESTS              ON  CACHE BOOL "Build tests")
+SET( RAMEN_USE_INTERPROCESS_NAMES   OFF CACHE BOOL "Use interprocess singleton for names")
 
-OPTION( RAMEN_USE_INTERPROCESS_NAMES "Use interprocess singleton for names" OFF)
+# libs compile control
+SET( RAMEN_WITH_ARRAYS ON CACHE BOOL "Build arrays lib")
 
 ######################################################
 # platform specific
@@ -117,7 +119,10 @@ INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR}
 ADD_SUBDIRECTORY( ramen/core)
 ADD_SUBDIRECTORY( ramen/color)
 ADD_SUBDIRECTORY( ramen/math)
-ADD_SUBDIRECTORY( ramen/arrays)
+
+IF( RAMEN_WITH_ARRAYS)
+    ADD_SUBDIRECTORY( ramen/arrays)
+ENDIF()
 
 ######################################################
 # tests
