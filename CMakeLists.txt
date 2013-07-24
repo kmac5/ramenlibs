@@ -48,7 +48,8 @@ SET( RAMEN_BUILD_TESTS              ON  CACHE BOOL "Build tests")
 SET( RAMEN_USE_INTERPROCESS_NAMES   OFF CACHE BOOL "Use interprocess singleton for names")
 
 # libs compile control
-SET( RAMEN_WITH_ARRAYS ON CACHE BOOL "Build arrays lib")
+SET( RAMEN_WITH_ARRAYS  ON CACHE BOOL "Build arrays lib")
+SET( RAMEN_WITH_OS      ON CACHE BOOL "Buils os lib")
 
 ######################################################
 # platform specific
@@ -116,12 +117,19 @@ INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR}
 ######################################################
 # libraries
 
-ADD_SUBDIRECTORY( ramen/core)
+ADD_SUBDIRECTORY( ramen/algorithm)
 ADD_SUBDIRECTORY( ramen/color)
+ADD_SUBDIRECTORY( ramen/containers)
+ADD_SUBDIRECTORY( ramen/core)
+ADD_SUBDIRECTORY( ramen/iterators)
 ADD_SUBDIRECTORY( ramen/math)
 
 IF( RAMEN_WITH_ARRAYS)
     ADD_SUBDIRECTORY( ramen/arrays)
+ENDIF()
+
+IF( RAMEN_WITH_OS)
+    ADD_SUBDIRECTORY( ramen/os)
 ENDIF()
 
 ######################################################

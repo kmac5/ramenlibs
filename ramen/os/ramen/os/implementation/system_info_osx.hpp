@@ -20,34 +20,41 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include<gtest/gtest.h>
+#ifndef RAMEN_OS_IMPL_SYSTEM_INFO_OSX_HPP
+#define RAMEN_OS_IMPL_SYSTEM_INFO_OSX_HPP
 
-#include<ramen/arrays/array.hpp>
-#include<ramen/arrays/array_ref.hpp>
+#include<pwd.h>
+#include<sys/sysctl.h>
 
-using namespace ramen::core;
-using namespace ramen::arrays;
-
-TEST( Array, StringArray)
+namespace ramen
 {
-    array_t x( string8_k);
-    array_ref_t<string8_t> x_ref( x);
-    x_ref.push_back( string8_t( "xxx"));
-    x_ref.push_back( string8_t( "yyy"));
-    EXPECT_EQ( x.size(), 2);
-    EXPECT_EQ( x_ref.size(), x.size());
-
-    EXPECT_EQ( x_ref[0], string8_t( "xxx"));
-    EXPECT_EQ( x_ref[1], string8_t( "yyy"));
-
-    EXPECT_EQ( std::distance( x_ref.begin(), x_ref.end()), 3);
-
-    //for( array_ref_t<string8_t>::iterator it( x_ref.begin()), e( x_ref.end()); it != e; ++it)
-    //    ;
-}
-
-int main(int argc, char **argv)
+namespace os
 {
-    ::testing::InitGoogleTest( &argc, argv);
-    return RUN_ALL_TESTS();
-}
+
+struct system_info_t::impl
+{
+    explicit impl( system_info_t& self)
+    {
+        // user name & home path
+        struct passwd *p = getpwuid( geteuid());
+        self.user_name_ = p->pw_name;
+        self.home_path_ = boost::filesystem::path( p->pw_dir);
+
+        // ram size
+        {
+            int mib[2];
+            mib[0] = CTL_HW;
+            mib[1] = HW_MEMSIZE;
+            int64_t size = 0;
+            size_t len = sizeof( size);
+
+            if( sysctl( mib, 2, &size, &len, NULL, 0) == 0)
+                self.ram_size_ = size;
+        }
+    }
+};
+
+} // os
+} // ramen
+
+#endif

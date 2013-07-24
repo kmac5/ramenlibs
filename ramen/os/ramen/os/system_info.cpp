@@ -20,34 +20,34 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include<gtest/gtest.h>
+#include<ramen/os/system_info.hpp>
 
-#include<ramen/arrays/array.hpp>
-#include<ramen/arrays/array_ref.hpp>
+#include<ramen/config/os.hpp>
 
-using namespace ramen::core;
-using namespace ramen::arrays;
+#if defined( RAMEN_CONFIG_OS_LINUX)
+    #include<ramen/os/implementation/system_info_linux.hpp>
+#elif defined( RAMEN_CONFIG_OS_OSX)
+    #include<ramen/os/implementation/system_info_osx.hpp>
+#elif defined( RAMEN_CONFIG_OS_WINDOWS)
+    #include<ramen/os/implementation/system_info_win.hpp>
+#else
+    #error "OS not supported"
+#endif
 
-TEST( Array, StringArray)
+namespace ramen
 {
-    array_t x( string8_k);
-    array_ref_t<string8_t> x_ref( x);
-    x_ref.push_back( string8_t( "xxx"));
-    x_ref.push_back( string8_t( "yyy"));
-    EXPECT_EQ( x.size(), 2);
-    EXPECT_EQ( x_ref.size(), x.size());
+namespace os
+{
 
-    EXPECT_EQ( x_ref[0], string8_t( "xxx"));
-    EXPECT_EQ( x_ref[1], string8_t( "yyy"));
-
-    EXPECT_EQ( std::distance( x_ref.begin(), x_ref.end()), 3);
-
-    //for( array_ref_t<string8_t>::iterator it( x_ref.begin()), e( x_ref.end()); it != e; ++it)
-    //    ;
+system_info_t::system_info_t() : ram_size_( 0)
+{
+    pimpl_ = new impl( *this);
 }
 
-int main(int argc, char **argv)
+system_info_t::~system_info_t()
 {
-    ::testing::InitGoogleTest( &argc, argv);
-    return RUN_ALL_TESTS();
+    delete pimpl_;
 }
+
+} // os
+} // ramen

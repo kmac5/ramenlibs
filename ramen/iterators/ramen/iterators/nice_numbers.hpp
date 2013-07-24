@@ -20,34 +20,44 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include<gtest/gtest.h>
+#ifndef RAMEN_ITERATORS_NICE_NUMBERS_HPP
+#define	RAMEN_ITERATORS_NICE_NUMBERS_HPP
 
-#include<ramen/arrays/array.hpp>
-#include<ramen/arrays/array_ref.hpp>
+#include<ramen/iterators/config.hpp>
 
-using namespace ramen::core;
-using namespace ramen::arrays;
-
-TEST( Array, StringArray)
+namespace ramen
 {
-    array_t x( string8_k);
-    array_ref_t<string8_t> x_ref( x);
-    x_ref.push_back( string8_t( "xxx"));
-    x_ref.push_back( string8_t( "yyy"));
-    EXPECT_EQ( x.size(), 2);
-    EXPECT_EQ( x_ref.size(), x.size());
-
-    EXPECT_EQ( x_ref[0], string8_t( "xxx"));
-    EXPECT_EQ( x_ref[1], string8_t( "yyy"));
-
-    EXPECT_EQ( std::distance( x_ref.begin(), x_ref.end()), 3);
-
-    //for( array_ref_t<string8_t>::iterator it( x_ref.begin()), e( x_ref.end()); it != e; ++it)
-    //    ;
-}
-
-int main(int argc, char **argv)
+namespace iterators
 {
-    ::testing::InitGoogleTest( &argc, argv);
-    return RUN_ALL_TESTS();
-}
+
+class RAMEN_ITERATORS_API nice_numbers_t
+{
+public:
+
+    // begin iterator
+    nice_numbers_t( double imin, double imax, int num_ticks);
+
+    // end iterator
+    nice_numbers_t();
+
+    nice_numbers_t& operator++();
+    nice_numbers_t operator++( int);
+
+    double operator*() const;
+
+    bool operator==( const nice_numbers_t& other) const;
+    bool operator!=( const nice_numbers_t& other) const;
+    bool operator<( const nice_numbers_t& other) const;
+
+private:
+
+    double x_;
+    double d_;
+    double max_;
+    bool end_;
+};
+
+} // iterators
+} // ramen
+
+#endif

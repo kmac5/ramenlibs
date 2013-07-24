@@ -20,34 +20,58 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include<gtest/gtest.h>
+#ifndef RAMEN_OS_SYSTEM_INFO_HPP
+#define	RAMEN_OS_SYSTEM_INFO_HPP
 
-#include<ramen/arrays/array.hpp>
-#include<ramen/arrays/array_ref.hpp>
+#include<ramen/os/system_info_fwd.hpp>
 
-using namespace ramen::core;
-using namespace ramen::arrays;
+#include<boost/cstdint.hpp>
+#include<boost/filesystem/path.hpp>
 
-TEST( Array, StringArray)
+#include<ramen/core/string8.hpp>
+
+namespace ramen
 {
-    array_t x( string8_k);
-    array_ref_t<string8_t> x_ref( x);
-    x_ref.push_back( string8_t( "xxx"));
-    x_ref.push_back( string8_t( "yyy"));
-    EXPECT_EQ( x.size(), 2);
-    EXPECT_EQ( x_ref.size(), x.size());
-
-    EXPECT_EQ( x_ref[0], string8_t( "xxx"));
-    EXPECT_EQ( x_ref[1], string8_t( "yyy"));
-
-    EXPECT_EQ( std::distance( x_ref.begin(), x_ref.end()), 3);
-
-    //for( array_ref_t<string8_t>::iterator it( x_ref.begin()), e( x_ref.end()); it != e; ++it)
-    //    ;
-}
-
-int main(int argc, char **argv)
+namespace os
 {
-    ::testing::InitGoogleTest( &argc, argv);
-    return RUN_ALL_TESTS();
-}
+
+class RAMEN_OS_API system_info_t
+{
+public:
+
+    system_info_t();
+    ~system_info_t();
+
+    boost::uint64_t ram_size() const
+    {
+        return ram_size_;
+    }
+
+    const core::string8_t& user_name() const
+    {
+        return user_name_;
+    }
+
+    const boost::filesystem::path& home_path() const
+    {
+        return home_path_;
+    }
+
+private:
+
+    // non-copyable
+    system_info_t( const system_info_t&);
+    system_info_t& operator=( const system_info_t&);
+
+    boost::uint64_t ram_size_;
+    core::string8_t user_name_;
+    boost::filesystem::path home_path_;
+
+    struct impl;
+    impl *pimpl_;
+};
+
+} // os
+} // ramen
+
+#endif

@@ -20,34 +20,33 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include<gtest/gtest.h>
+#ifndef RAMEN_ALGORITHM_CLAMP_HPP
+#define RAMEN_ALGORITHM_CLAMP_HPP
 
-#include<ramen/arrays/array.hpp>
-#include<ramen/arrays/array_ref.hpp>
+#include<ramen/algorithm/config.hpp>
 
-using namespace ramen::core;
-using namespace ramen::arrays;
+#include<cassert>
 
-TEST( Array, StringArray)
+namespace ramen
 {
-    array_t x( string8_k);
-    array_ref_t<string8_t> x_ref( x);
-    x_ref.push_back( string8_t( "xxx"));
-    x_ref.push_back( string8_t( "yyy"));
-    EXPECT_EQ( x.size(), 2);
-    EXPECT_EQ( x_ref.size(), x.size());
+namespace algorithm
+{
 
-    EXPECT_EQ( x_ref[0], string8_t( "xxx"));
-    EXPECT_EQ( x_ref[1], string8_t( "yyy"));
+template<class T>
+inline T clamp( T x, T lo, T hi)
+{
+    assert( lo <= hi);
 
-    EXPECT_EQ( std::distance( x_ref.begin(), x_ref.end()), 3);
+    if( x < lo)
+        return lo;
 
-    //for( array_ref_t<string8_t>::iterator it( x_ref.begin()), e( x_ref.end()); it != e; ++it)
-    //    ;
+    if( x > hi)
+        return hi;
+
+    return x;
 }
 
-int main(int argc, char **argv)
-{
-    ::testing::InitGoogleTest( &argc, argv);
-    return RUN_ALL_TESTS();
-}
+} // algorithm
+} // ramen
+
+#endif

@@ -32,11 +32,11 @@ TEST( SimpleExprEval, All)
 
     boost::optional<double> result = eval( "11 + 10");
     EXPECT_TRUE( result);
-    EXPECT_EQ( *result, 21.0);
+    EXPECT_EQ( *result, 21);
 
     result = eval( "11 * 10");
     EXPECT_TRUE( result);
-    EXPECT_EQ( *result, 111.0);
+    EXPECT_EQ( *result, 110);
 
     result = eval( "11 * 10 + not_an_expr");
     EXPECT_FALSE( result);

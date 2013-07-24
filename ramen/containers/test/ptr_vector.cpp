@@ -22,28 +22,46 @@ THE SOFTWARE.
 
 #include<gtest/gtest.h>
 
-#include<ramen/arrays/array.hpp>
-#include<ramen/arrays/array_ref.hpp>
+#include<ramen/containers/ptr_vector.hpp>
+
+#include<typeinfo>
+#include<iostream>
 
 using namespace ramen::core;
-using namespace ramen::arrays;
+using namespace ramen::containers;
 
-TEST( Array, StringArray)
+class PtrVectorTest : public ::testing::Test {};
+
+TEST_F( PtrVectorTest, All)
 {
-    array_t x( string8_k);
-    array_ref_t<string8_t> x_ref( x);
-    x_ref.push_back( string8_t( "xxx"));
-    x_ref.push_back( string8_t( "yyy"));
-    EXPECT_EQ( x.size(), 2);
-    EXPECT_EQ( x_ref.size(), x.size());
+    ptr_vector_t<int> ivec;
+    ASSERT_TRUE( ivec.empty());
 
-    EXPECT_EQ( x_ref[0], string8_t( "xxx"));
-    EXPECT_EQ( x_ref[1], string8_t( "yyy"));
+    int *i1 = new int( 7);
+    int *i2 = new int( 11);
+    int *i3 = new int( 17);
+    int *i0 = new int( 77);
 
-    EXPECT_EQ( std::distance( x_ref.begin(), x_ref.end()), 3);
+    ivec.push_back( auto_ptr_t<int>( i1));
+    ASSERT_EQ( ivec.size(), 1);
+    ASSERT_TRUE( ivec.contains_ptr( i1));
 
-    //for( array_ref_t<string8_t>::iterator it( x_ref.begin()), e( x_ref.end()); it != e; ++it)
-    //    ;
+    ivec.push_back( auto_ptr_t<int>( i2));
+    ASSERT_EQ( ivec.size(), 2);
+    ASSERT_TRUE( ivec.contains_ptr( i2));
+
+    ivec.push_back( auto_ptr_t<int>( i3));
+    ASSERT_EQ( ivec.size(), 3);
+    ASSERT_TRUE( ivec.contains_ptr( i3));
+
+    auto_ptr_t<int> pi1 = ivec.release_ptr( i1);
+    ASSERT_EQ( ivec.size(), 2);
+    ASSERT_EQ( *pi1, *i1);
+
+    auto_ptr_t<int> pnull = ivec.release_ptr( i0);
+    ASSERT_FALSE( pnull.get());
+
+    delete i0;
 }
 
 int main(int argc, char **argv)
