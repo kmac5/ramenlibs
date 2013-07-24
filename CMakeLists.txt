@@ -117,6 +117,7 @@ INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR}
 ADD_SUBDIRECTORY( ramen/core)
 ADD_SUBDIRECTORY( ramen/color)
 ADD_SUBDIRECTORY( ramen/math)
+ADD_SUBDIRECTORY( ramen/arrays)
 
 ######################################################
 # tests
