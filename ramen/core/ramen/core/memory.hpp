@@ -25,6 +25,8 @@ THE SOFTWARE.
 
 #include<ramen/core/config.hpp>
 
+#include<stdint.h>
+
 #include<boost/move/move.hpp>
 #include<boost/static_assert.hpp>
 
@@ -396,6 +398,18 @@ private:
 
     const detail::new_delete_t *new_delete_;
 };
+
+template<class T>
+T *aligned_ptr( T *p, int alignment)
+{
+    assert( (( alignment - 1) & alignment) == 0);
+
+    uintptr_t ptr = reinterpret_cast<uintptr_t>( p);
+    uintptr_t align = alignment - 1;
+    uintptr_t aligned = ( ptr + align + 1) & ~align;
+
+    return reinterpret_cast<unsigned char *>( aligned);
+}
 
 } // core
 } // ramen
