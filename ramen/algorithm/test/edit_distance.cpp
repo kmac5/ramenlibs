@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013 Esteban Tovagliari
+ Copyright (c) 2013 Esteban Tovagliari
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,51 +20,41 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-// Based on Paul Heckbert's Nice Numbers for Graph Labels.
-/*
- * Nice Numbers for Graph Labels
- * by Paul Heckbert
- * from "Graphics Gems", Academic Press, 1990
- */
+#include<gtest/gtest.h>
 
-#ifndef RAMEN_ITERATORS_NICE_NUMBERS_HPP
-#define	RAMEN_ITERATORS_NICE_NUMBERS_HPP
+#include<ramen/algorithm/edit_distance.hpp>
 
-#include<ramen/iterators/config.hpp>
+#include<string>
 
-namespace ramen
+#include<ramen/core/string8.hpp>
+
+using namespace ramen::algorithm;
+
+TEST( EditDistance, Basic)
 {
-namespace iterators
+    {
+        edit_distance_t<std::string> x;
+        EXPECT_EQ( x( "one", "one"), 0);
+        EXPECT_EQ( x( "seven", "sevew"), 1);
+    }
+
+    {
+        edit_distance_t<ramen::core::string8_t> x;
+        EXPECT_EQ( x( "one", "one"), 0);
+        EXPECT_EQ( x( "seven", "sevew"), 1);
+    }
+}
+
+TEST( EditDistance, Empty)
 {
+    edit_distance_t<std::string> x;
+    EXPECT_EQ( x( std::string(), std::string()), 0);
+    EXPECT_EQ( x( "a", std::string()), 1);
+    EXPECT_EQ( x( std::string(), "b"), 1);
+}
 
-class RAMEN_ITERATORS_API nice_numbers_t
+int main(int argc, char **argv)
 {
-public:
-
-    // begin iterator
-    nice_numbers_t( double imin, double imax, int num_ticks);
-
-    // end iterator
-    nice_numbers_t();
-
-    nice_numbers_t& operator++();
-    nice_numbers_t operator++( int);
-
-    double operator*() const;
-
-    bool operator==( const nice_numbers_t& other) const;
-    bool operator!=( const nice_numbers_t& other) const;
-    bool operator<( const nice_numbers_t& other) const;
-
-private:
-
-    double x_;
-    double d_;
-    double max_;
-    bool end_;
-};
-
-} // iterators
-} // ramen
-
-#endif
+    ::testing::InitGoogleTest( &argc, argv);
+    return RUN_ALL_TESTS();
+}

@@ -22,11 +22,79 @@ THE SOFTWARE.
 
 #include<gtest/gtest.h>
 
+#include<stdio.h>
+#include<math.h>
+
 #include<ramen/iterators/nice_numbers.hpp>
 
 #include<iostream>
 
 using namespace ramen::iterators;
+
+/*
+ * Nice Numbers for Graph Labels
+ * by Paul Heckbert
+ * from "Graphics Gems", Academic Press, 1990
+ */
+
+/*
+ * label.c: demonstrate nice graph labeling
+ *
+ * Paul Heckbert	2 Dec 88
+ */
+
+/*
+ * nicenum: find a "nice" number approximately equal to x.
+ * Round the number if round=1, take ceiling if round=0
+ */
+
+double nicenum( double x, int round)
+{
+    int expv;				/* exponent of x */
+    double f;				/* fractional part of x */
+    double nf;				/* nice, rounded fraction */
+
+    expv = floor( log10(x));
+    f = x/pow(10., expv);		/* between 1 and 10 */
+    if (round)
+    if (f<1.5) nf = 1.;
+    else if (f<3.) nf = 2.;
+    else if (f<7.) nf = 5.;
+    else nf = 10.;
+    else
+    if (f<=1.) nf = 1.;
+    else if (f<=2.) nf = 2.;
+    else if (f<=5.) nf = 5.;
+    else nf = 10.;
+    return nf*pow(10., expv);
+}
+
+void looselabels( double min, double max, int numticks)
+{
+    char str[6], temp[20];
+    int nfrac;
+    double d;				/* tick mark spacing */
+    double graphmin, graphmax;		/* graph range min and max */
+    double range, x;
+
+    /* we expect min!=max */
+    range = nicenum(max-min, 0);
+    d = nicenum(range/(numticks-1), 1);
+    graphmin = floor(min/d)*d;
+    graphmax = ceil(max/d)*d;
+    nfrac = std::max(-floor(log10(d)), 0.0);	/* # of fractional digits to show */
+    //sprintf(str, "%%.%df", nfrac);	/* simplest axis labels */
+
+    //printf("graphmin=%g graphmax=%g increment=%g\n", graphmin, graphmax, d);
+
+    nice_numbers_t it( min, max, numticks), e;
+
+    for( x=graphmin; x<graphmax+.5*d; x+=d)
+    {
+        //sprintf(temp, str, x);
+        //printf("(%s)\n", temp);
+    }
+}
 
 TEST( NiceNumberIter, All)
 {

@@ -47,7 +47,8 @@ class RAMEN_CORE_API string16_t
 
 public:
 
-    typedef boost::uint16_t     char_type;
+    typedef boost::uint16_t     value_type;
+    typedef value_type          char_type;
     typedef std::size_t         size_type;
     typedef const char_type&    const_reference;
     typedef char_type&          reference;

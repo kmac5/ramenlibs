@@ -46,7 +46,8 @@ class RAMEN_CORE_API string8_t
 
 public:
 
-    typedef char                char_type;
+    typedef char                value_type;
+    typedef value_type          char_type;
     typedef std::size_t         size_type;
     typedef const char_type&    const_reference;
     typedef char_type&          reference;
