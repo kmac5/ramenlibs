@@ -18,9 +18,21 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-ADD_SUBDIRECTORY( ramen/color)
+INCLUDE_DIRECTORIES(    ../../
+                        ${Boost_INCLUDE_DIR}
+                        ../../../core
+                        ../../../math
+                        )
 
-IF( RAMEN_BUILD_TESTS)
-	ADD_SUBDIRECTORY( test)
-	ENABLE_TESTING()
-ENDIF()
+# lib
+FILE( GLOB_RECURSE RAMEN_COLOR_HEADERS ./*.hpp)
+SET( RAMEN_COLOR_SOURCES  color_rgbe.cpp
+                          )
+
+SET( RAMEN_COLOR_LIBS)
+SET( RAMEN_COLOR_ALL ${RAMEN_COLOR_SOURCES}
+                     ${RAMEN_COLOR_HEADERS}
+                     )
+
+ADD_LIBRARY( ramen_color SHARED ${RAMEN_COLOR_ALL})
+TARGET_LINK_LIBRARIES( ramen_color ${RAMEN_COLOR_LIBS})

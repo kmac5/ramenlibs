@@ -43,13 +43,13 @@ namespace color
 /*!
 \brief A 3 component rgbe compressed color.
 */
-class color_rgbe_t : boost::equality_comparable<color_rgbe_t>
+class RAMEN_COLOR_API color_rgbe_t
 {
 public:
 
     typedef boost::uint8_t value_type;
 
-    color_rgbe_t() {}
+    color_rgbe_t();
 
     template<class T>
     explicit color_rgbe_t( const color3_t<T>& col)
@@ -84,11 +84,8 @@ public:
         return color3_t<T>( 0.0);
     }
 
-    inline bool operator==( const color_rgbe_t& other) const
-    {
-        return r_ == other.r_ && g_ == other.g_ &&
-               b_ == other.b_ && e_ == other.e_;
-    }
+    bool operator==( const color_rgbe_t& other) const;
+    bool operator!=( const color_rgbe_t& other) const;
 
 private:
 

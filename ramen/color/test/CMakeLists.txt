@@ -28,10 +28,11 @@ INCLUDE_DIRECTORIES(  ../
                       ../../math
                       )
 
-SET( RAMEN_TEST_TARGET_LIBS  ${RAMEN_COLOR_LIBS}
-                            gmock
-                            ${RAMEN_TEST_SYSTEM_LIBS}
-                            )
+SET( RAMEN_TEST_TARGET_LIBS  ramen_color
+                             ${RAMEN_COLOR_LIBS}
+                             gmock
+                             ${RAMEN_TEST_SYSTEM_LIBS}
+                             )
 
 # tests
 
