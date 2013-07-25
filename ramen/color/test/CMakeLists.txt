@@ -42,6 +42,7 @@ MACRO( ADD_RM_TEST sourcefile)
     ADD_TEST( ${sourcefile} ${CMAKE_CURRENT_BINARY_DIR}/${sourcefile})
 ENDMACRO()
 
+ADD_RM_TEST( cie_xyz_fits)
 ADD_RM_TEST( color3)
 ADD_RM_TEST( rgba_color)
 ADD_RM_TEST( rgbe_color)

@@ -50,6 +50,7 @@ struct cmath
 
     static T pow( T x, T y)         { return ::pow( x, y);}
 
+    static T log( T x)              { return ::log( x);}
     static T log10( T x)            { return ::log10( x);}
 
     static T ldexp( T x, int y)     { return ::ldexp( x, y);}
@@ -75,6 +76,7 @@ struct cmath<float>
 
     static float pow( float x, float y)     { return ::powf( x, y);}
 
+    static float log( float x)              { return ::logf( x);}
     static float log10( float x)            { return ::log10f( x);}
 
     static float ldexp( float x, int y)     { return ::ldexpf( x, y);}
