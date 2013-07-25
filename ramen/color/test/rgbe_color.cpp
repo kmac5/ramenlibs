@@ -22,11 +22,11 @@ THE SOFTWARE.
 
 #include<gtest/gtest.h>
 
-#include<ramen/color/color4.hpp>
+#include<ramen/color/rgbe_color.hpp>
 
 using namespace ramen::color;
 
-TEST( Color4, All)
+TEST( ColorRGBE, All)
 {
 }
 

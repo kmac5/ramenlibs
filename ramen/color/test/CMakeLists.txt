@@ -43,5 +43,5 @@ MACRO( ADD_RM_TEST sourcefile)
 ENDMACRO()
 
 ADD_RM_TEST( color3)
-ADD_RM_TEST( color4)
-ADD_RM_TEST( color_rgbe)
+ADD_RM_TEST( rgba_color)
+ADD_RM_TEST( rgbe_color)

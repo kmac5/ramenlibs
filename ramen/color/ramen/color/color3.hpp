@@ -29,7 +29,10 @@ THE SOFTWARE.
 #include<algorithm>
 #include<iostream>
 
+#include<boost/static_assert.hpp>
 #include<boost/operators.hpp>
+
+#include<ramen/color/colorspace.hpp>
 
 #ifdef RAMEN_WITH_HALF
     #include<ramen/core/half.hpp>
@@ -43,17 +46,20 @@ namespace color
 /*!
 \brief A 3 component color.
 */
-template<class T>
-class color3_t    : boost::addable<color3_t<T>
-                  , boost::subtractable<color3_t<T>
-                  , boost::dividable2<color3_t<T>, T
-                  , boost::multipliable2<color3_t<T>, T
-                  , boost::equality_comparable<color3_t<T>
+template<class T, class Colorspace = rgb_t>
+class color3_t    : boost::addable<color3_t<T,Colorspace>
+                  , boost::subtractable<color3_t<T,Colorspace>
+                  , boost::dividable2<color3_t<T,Colorspace>, T
+                  , boost::multipliable2<color3_t<T,Colorspace>, T
+                  , boost::equality_comparable<color3_t<T,Colorspace>
                   > > > > >
 {
 public:
 
-    typedef T value_type;
+    BOOST_STATIC_ASSERT(( Colorspace::size == 3));
+
+    typedef T           value_type;
+    typedef Colorspace  colorspace_type;
 
     static unsigned int	dimensions() { return 3;}
 
@@ -77,7 +83,7 @@ public:
         return static_cast<T*>( &x)[index];
     }
 
-    color3_t<T>& operator+=( const color3_t<T>& c)
+    color3_t<T,Colorspace>& operator+=( const color3_t<T,Colorspace>& c)
     {
         x += c.x;
         y += c.y;
@@ -85,7 +91,7 @@ public:
         return *this;
     }
 
-    color3_t<T>& operator-=( const color3_t<T>& c)
+    color3_t<T,Colorspace>& operator-=( const color3_t<T,Colorspace>& c)
     {
         x -= c.x;
         y -= c.y;
@@ -93,7 +99,7 @@ public:
         return *this;
     }
 
-    color3_t<T>& operator*=( T s)
+    color3_t<T,Colorspace>& operator*=( T s)
     {
         x *= s;
         y *= s;
@@ -101,7 +107,7 @@ public:
         return *this;
     }
 
-    color3_t<T>& operator/=( T s)
+    color3_t<T,Colorspace>& operator/=( T s)
     {
         assert( s != T(0));
 
@@ -111,7 +117,7 @@ public:
         return *this;
     }
 
-    bool operator==( const color3_t<T>& other) const
+    bool operator==( const color3_t<T,Colorspace>& other) const
     {
         return ( x == other.x && y == other.y && z == other.z);
     }
@@ -121,11 +127,6 @@ public:
         x = std::max( lo, std::min( hi, x));
         y = std::max( lo, std::min( hi, y));
         z = std::max( lo, std::min( hi, z));
-    }
-
-    T luminance() const
-    {
-        return 0.2126f * x + 0.7152f * y + 0.0722f * z;
     }
 
     T min_component() const
@@ -141,8 +142,8 @@ public:
     T x, y, z;
 };
 
-template<class T>
-color3_t<T> clamp( const color3_t<T>& c, T lo = T(0), T hi = T(1))
+template<class T, class Colorspace>
+color3_t<T,Colorspace> clamp( const color3_t<T,Colorspace>& c, T lo = T(0), T hi = T(1))
 {
     color3_t<T> x( c);
     c.clamp( lo, hi);
@@ -150,18 +151,24 @@ color3_t<T> clamp( const color3_t<T>& c, T lo = T(0), T hi = T(1))
 }
 
 template<class T>
-std::ostream& operator<<( std::ostream& os, const color3_t<T>& c)
+T luminance( const color3_t<T>& c)
+{
+    return 0.2126f * c.x + 0.7152f * c.y + 0.0722f * c.z;
+}
+
+template<class T, class Colorspace>
+std::ostream& operator<<( std::ostream& os, const color3_t<T,Colorspace>& c)
 {
     os << c.x << ", " << c.y << ", " << c.z;
     return os;
 }
 
 // typedefs
-typedef color3_t<float>     color3f_t;
-typedef color3_t<double>    color3d_t;
+typedef color3_t<float,rgb_t>     color3f_t;
+typedef color3_t<double,rgb_t>    color3d_t;
 
 #ifdef RAMEN_WITH_HALF
-    typedef color3_t<half> color3h_t;
+    typedef color3_t<half,rgb_t> color3h_t;
 #endif
 
 } // color

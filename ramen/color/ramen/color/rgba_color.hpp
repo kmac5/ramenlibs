@@ -20,14 +20,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_COLOR_COLOR4_HPP
-#define RAMEN_COLOR_COLOR4_HPP
+#ifndef RAMEN_COLOR_RGBA_COLOR_HPP
+#define RAMEN_COLOR_RGBA_COLOR_HPP
 
 #include<ramen/color/config.hpp>
 
 #include<cassert>
 
 #include<boost/operators.hpp>
+
+#include<ramen/color/colorspace.hpp>
 
 #ifdef RAMEN_WITH_HALF
     #include<ramen/core/half.hpp>
@@ -42,19 +44,20 @@ namespace color
 \brief A RGBA color.
 */
 template<class T>
-class color4_t : boost::equality_comparable<color4_t<T> >
+class rgba_color_t : boost::equality_comparable<rgba_color_t<T> >
 {
 public:
 
-    typedef T value_type;
+    typedef T       value_type;
+    typedef rgba_t  colorspace_type;
 
     static unsigned int	dimensions() { return 4;}
 
-    color4_t() {}
+    rgba_color_t() {}
 
-    explicit color4_t( T x) : r( x), g( x), b( x), a( x) {}
+    explicit rgba_color_t( T x) : r( x), g( x), b( x), a( x) {}
 
-    color4_t( T rr, T gg, T bb, T aa = T(1)) : r( rr), g( gg), b( bb), a( aa) {}
+    rgba_color_t( T rr, T gg, T bb, T aa = T(1)) : r( rr), g( gg), b( bb), a( aa) {}
 
     T operator()( unsigned int index) const
     {
@@ -71,7 +74,7 @@ public:
     }
 
     // for regular concept
-    bool operator==( const color4_t<T>& other) const
+    bool operator==( const rgba_color_t<T>& other) const
     {
         return  r == other.r &&
                 g == other.g &&
@@ -83,11 +86,11 @@ public:
 };
 
 // typedefs
-typedef color4_t<float>     color4f_t;
-typedef color4_t<double>    color4d_t;
+typedef rgba_color_t<float>     color4f_t;
+typedef rgba_color_t<double>    color4d_t;
 
 #ifdef RAMEN_WITH_HALF
-    typedef color4_t<half> color4h_t;
+    typedef rgba_color_t<half> color4h_t;
 #endif
 
 } // color

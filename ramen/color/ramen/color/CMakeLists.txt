@@ -26,7 +26,7 @@ INCLUDE_DIRECTORIES(    ../../
 
 # lib
 FILE( GLOB_RECURSE RAMEN_COLOR_HEADERS ./*.hpp)
-SET( RAMEN_COLOR_SOURCES  color_rgbe.cpp
+SET( RAMEN_COLOR_SOURCES  rgbe_color.cpp
                           )
 
 SET( RAMEN_COLOR_LIBS)

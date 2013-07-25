@@ -20,22 +20,22 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include<ramen/color/color_rgbe.hpp>
+#include<ramen/color/rgbe_color.hpp>
 
 namespace ramen
 {
 namespace color
 {
 
-color_rgbe_t::color_rgbe_t() {}
+rgbe_color_t::rgbe_color_t() {}
 
-bool color_rgbe_t::operator==( const color_rgbe_t& other) const
+bool rgbe_color_t::operator==( const rgbe_color_t& other) const
 {
     return r_ == other.r_ && g_ == other.g_ &&
             b_ == other.b_ && e_ == other.e_;
 }
 
-bool color_rgbe_t::operator!=( const color_rgbe_t& other) const
+bool rgbe_color_t::operator!=( const rgbe_color_t& other) const
 {
     return !( *this == other);
 }

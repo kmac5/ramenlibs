@@ -20,18 +20,37 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include<gtest/gtest.h>
+#ifndef RAMEN_COLOR_COLORSPACE_HPP
+#define RAMEN_COLOR_COLORSPACE_HPP
 
-#include<ramen/color/color_rgbe.hpp>
+#include<ramen/color/config.hpp>
 
-using namespace ramen::color;
-
-TEST( ColorRGBE, All)
+namespace ramen
 {
-}
-
-int main( int argc, char **argv)
+namespace color
 {
-    ::testing::InitGoogleTest( &argc, argv);
-    return RUN_ALL_TESTS();
-}
+
+struct rgb_t
+{
+    enum { size = 3};
+};
+
+struct xyz_t
+{
+    enum { size = 3};
+};
+
+struct hsv_t
+{
+    enum { size = 3};
+};
+
+struct rgba_t
+{
+    enum { size = 4};
+};
+
+} // color
+} // ramen
+
+#endif

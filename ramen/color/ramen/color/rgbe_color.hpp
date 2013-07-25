@@ -20,8 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_COLOR_COLOR_RGBE_HPP
-#define RAMEN_COLOR_COLOR_RGBE_HPP
+#ifndef RAMEN_COLOR_RGBE_COLOR_HPP
+#define RAMEN_COLOR_RGBE_COLOR_HPP
 
 #include<ramen/color/config.hpp>
 
@@ -43,16 +43,17 @@ namespace color
 /*!
 \brief A 3 component rgbe compressed color.
 */
-class RAMEN_COLOR_API color_rgbe_t
+class RAMEN_COLOR_API rgbe_color_t
 {
 public:
 
-    typedef boost::uint8_t value_type;
+    typedef boost::uint8_t  value_type;
+    typedef rgb_t           colorspace_type;
 
-    color_rgbe_t();
+    rgbe_color_t();
 
     template<class T>
-    explicit color_rgbe_t( const color3_t<T>& col)
+    explicit rgbe_color_t( const color3_t<T,rgb_t>& col)
     {
         BOOST_STATIC_ASSERT(( boost::is_floating_point<T>::value));
 
@@ -71,7 +72,7 @@ public:
     }
 
     template<class T>
-    operator color3_t<T>()
+    operator color3_t<T,rgb_t>()
     {
         BOOST_STATIC_ASSERT(( boost::is_floating_point<T>::value));
 
@@ -81,11 +82,11 @@ public:
             return color3_t<T>( r_ * f, g_ * f, b_ * f);
         }
 
-        return color3_t<T>( 0.0);
+        return color3_t<T,rgb_t>( 0.0);
     }
 
-    bool operator==( const color_rgbe_t& other) const;
-    bool operator!=( const color_rgbe_t& other) const;
+    bool operator==( const rgbe_color_t& other) const;
+    bool operator!=( const rgbe_color_t& other) const;
 
 private:
 
