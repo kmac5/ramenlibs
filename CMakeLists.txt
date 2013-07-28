@@ -49,6 +49,8 @@ SET( RAMEN_USE_INTERPROCESS_NAMES   OFF CACHE BOOL "Use interprocess singleton f
 
 # libs compile control
 SET( RAMEN_WITH_ARRAYS  ON CACHE BOOL "Build arrays lib")
+SET( RAMEN_WITH_GEO     ON CACHE BOOL "Build geo lib")
+SET( RAMEN_WITH_GEO_IO  ON CACHE BOOL "Build geo io lib")
 SET( RAMEN_WITH_OS      ON CACHE BOOL "Buils os lib")
 
 ######################################################
@@ -130,6 +132,10 @@ ENDIF()
 
 IF( RAMEN_WITH_OS)
     ADD_SUBDIRECTORY( ramen/os)
+ENDIF()
+
+IF( RAMEN_WITH_GEO)
+    ADD_SUBDIRECTORY( ramen/geo)
 ENDIF()
 
 ######################################################
