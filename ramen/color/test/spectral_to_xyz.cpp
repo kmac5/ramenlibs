@@ -22,12 +22,22 @@ THE SOFTWARE.
 
 #include<gtest/gtest.h>
 
-//#include<ramen/color/cie_xyz_fits.hpp>
+#include<iostream>
 
-//using namespace ramen::color;
+#include<ramen/color/spectral_to_xyz.hpp>
+#include<ramen/color/cie_xyz_fits.hpp>
 
-TEST( CIE_XYZ_Fits, All)
+using namespace ramen::color;
+
+TEST( SpectralToXYZ, All)
 {
+    std::vector<float> values;
+    for( int i = 0; i < 32; ++i)
+        values.push_back( i);
+
+    color3_t<float, xyz_t> result = spectral_to_xyz( cie_multi_gaussian_1931_t<float>(),
+                                                     400.0f, 700.0f,
+                                                     values);
 }
 
 int main( int argc, char **argv)

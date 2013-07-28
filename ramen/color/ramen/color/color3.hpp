@@ -151,7 +151,7 @@ color3_t<T,Colorspace> clamp( const color3_t<T,Colorspace>& c, T lo = T(0), T hi
 }
 
 template<class T>
-T luminance( const color3_t<T>& c)
+T luminance( const color3_t<T, rgb_t>& c)
 {
     return 0.2126f * c.x + 0.7152f * c.y + 0.0722f * c.z;
 }

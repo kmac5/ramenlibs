@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013 Esteban Tovagliari
+Copyright (c) 2013 Esteban Tovagliari
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,18 +20,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include<gtest/gtest.h>
+#ifndef RAMEN_RANGE_RANGE_VALUE_TYPE_HPP
+#define	RAMEN_RANGE_RANGE_VALUE_TYPE_HPP
 
-//#include<ramen/color/cie_xyz_fits.hpp>
+#include<ramen/range/config.hpp>
 
-//using namespace ramen::color;
+#include<boost/range/iterator.hpp>
 
-TEST( CIE_XYZ_Fits, All)
+namespace ramen
 {
-}
-
-int main( int argc, char **argv)
+namespace range
 {
-    ::testing::InitGoogleTest( &argc, argv);
-    return RUN_ALL_TESTS();
-}
+
+template<class Range>
+struct value_type
+{
+    typedef typename std::iterator_traits<typename boost::range_iterator<Range>::type>::value_type type;
+};
+
+} // range
+} // ramen
+
+#endif

@@ -20,18 +20,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include<gtest/gtest.h>
+#ifndef RAMEN_RANGE_CONFIG_HPP
+#define RAMEN_RANGE_CONFIG_HPP
 
-//#include<ramen/color/cie_xyz_fits.hpp>
+#include<ramen/config/config.hpp>
 
-//using namespace ramen::color;
-
-TEST( CIE_XYZ_Fits, All)
-{
-}
-
-int main( int argc, char **argv)
-{
-    ::testing::InitGoogleTest( &argc, argv);
-    return RUN_ALL_TESTS();
-}
+#endif

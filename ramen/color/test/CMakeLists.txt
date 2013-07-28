@@ -26,6 +26,8 @@ INCLUDE_DIRECTORIES(  ../
                       ../../../google_testing_libs/google/gmock
                       ../../core
                       ../../math
+                      ../../algorithm
+                      ../../range
                       )
 
 SET( RAMEN_TEST_TARGET_LIBS  ramen_color
@@ -46,3 +48,4 @@ ADD_RM_TEST( cie_xyz_fits)
 ADD_RM_TEST( color3)
 ADD_RM_TEST( rgba_color)
 ADD_RM_TEST( rgbe_color)
+ADD_RM_TEST( spectral_to_xyz)

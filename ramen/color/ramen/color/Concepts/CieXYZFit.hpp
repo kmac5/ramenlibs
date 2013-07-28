@@ -20,18 +20,31 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include<gtest/gtest.h>
+#ifndef RAMEN_COLOR_CIE_XYZ_FIT_CONCEPT_HPP
+#define RAMEN_COLOR_CIE_XYZ_FIT_CONCEPT_HPP
 
-//#include<ramen/color/cie_xyz_fits.hpp>
+#include<boost/concept_check.hpp>
 
-//using namespace ramen::color;
-
-TEST( CIE_XYZ_Fits, All)
+namespace ramen
 {
-}
-
-int main( int argc, char **argv)
+namespace color
 {
-    ::testing::InitGoogleTest( &argc, argv);
-    return RUN_ALL_TESTS();
-}
+
+template <class T>
+struct CieXYZFit : boost::CopyConstructible<T>
+                 , boost::Assignable<T>
+{
+    BOOST_CONCEPT_USAGE( CieXYZFit)
+    {
+        typename T::result_type x = fun.X( 400.0);
+        typename T::result_type y = fun.Y( 550.0);
+        typename T::result_type z = fun.Z( 700.0);
+    }
+
+    T fun;
+};
+
+} // core
+} // ramen
+
+#endif
