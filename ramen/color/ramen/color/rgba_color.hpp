@@ -86,11 +86,11 @@ public:
 };
 
 // typedefs
-typedef rgba_color_t<float>     color4f_t;
-typedef rgba_color_t<double>    color4d_t;
+typedef rgba_color_t<float>     rgba_colorf_t;
+typedef rgba_color_t<double>    rgba_colord_t;
 
 #ifdef RAMEN_WITH_HALF
-    typedef rgba_color_t<half> color4h_t;
+    typedef rgba_color_t<half> rgba_colorh_t;
 #endif
 
 } // color
