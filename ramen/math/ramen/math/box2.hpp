@@ -61,7 +61,7 @@ public:
         max.x = max.y = -std::numeric_limits<T>::max();
     }
 
-    bool empty() const
+    bool is_empty() const
     {
         return max.x < min.x || max.y < min.y;
     }
@@ -76,10 +76,55 @@ public:
         return min + ( size() * T(0.5));
     }
 
+    void extend_by( const point_type& p)
+    {
+        min.x = std::min( min.x, p.x);
+        max.x = std::max( max.x, p.x);
+        min.y = std::min( min.y, p.y);
+        max.y = std::max( max.y, p.y);
+    }
+
+    void extend_by( const box2_t<T>& b)
+    {
+        min.x = std::min( min.x, b.min.x);
+        max.x = std::max( max.x, b.max.x);
+        min.y = std::min( min.y, b.min.y);
+        max.y = std::max( max.y, b.max.y);
+    }
+
+    void intersect( const box2_t<T>& b)
+    {
+        if( !( min.x > b.max.x || max.x < b.min.x || min.y > b.max.y || max.y < b.min.y))
+        {
+          min.x = std::max( min.x, b.min.x);
+          min.y = std::max( min.y, b.min.y);
+          max.x = std::min( max.x, b.max.x);
+          max.y = std::min( max.y, b.max.y);
+        }
+        else
+            reset();
+    }
+
     void offset_by( const vector2_t<T>& v)
     {
         min += v;
         max += v;
+    }
+
+    bool is_inside( const point_type& p) const
+    {
+        if( p.x < min.x || p.x > max.x)
+            return false;
+
+        if( p.y < min.y || p.y > max.y)
+            return false;
+
+        return true;
+    }
+
+    bool is_inside( const box2_t<T>& b) const
+    {
+        return is_inside( b.min) && is_inside( b.max);
     }
 
     bool operator==( const box2_t<T>& other) const
@@ -89,6 +134,14 @@ public:
 
     point_type min, max;
 };
+
+template<class T>
+box2_t<T> intersect( const box2_t<T>& a, const box2_t<T>& b)
+{
+    box2_t<T> tmp( a);
+    tmp.intersect( b);
+    return tmp;
+}
 
 typedef box2_t<int>     box2i_t;
 typedef box2_t<float>   box2f_t;

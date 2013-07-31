@@ -34,7 +34,7 @@ TEST( Box2, All)
 TEST( Box3, Contruct)
 {
     box3i_t box;
-    ASSERT_TRUE( box.empty());
+    ASSERT_TRUE( box.is_empty());
 
     point3i_t p( 3, 4, 5);
     point3i_t q( 7, 11, 25);
@@ -52,7 +52,7 @@ TEST( Box3, Contruct)
 TEST( Box3, ExtendBy)
 {
     box3i_t x;
-    ASSERT_TRUE( x.empty());
+    ASSERT_TRUE( x.is_empty());
 
     point3i_t p( 1, 5, 77);
 

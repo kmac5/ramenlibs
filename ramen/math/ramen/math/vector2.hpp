@@ -79,6 +79,22 @@ public:
         return static_cast<T*>( &x)[index];
     }
 
+    // we need this for ramen. will be removed when possible
+    T operator[]( unsigned int index) const
+    {
+        assert( index < size());
+
+        return static_cast<const T*>( &x)[index];
+    }
+
+    // we need this for ramen. will be removed when possible
+    T& operator[]( unsigned int index)
+    {
+        assert( index < size());
+
+        return static_cast<T*>( &x)[index];
+    }
+
     // operators
 
     vector2_t<T>& operator+=( const vector2_t<T>& vec)

@@ -62,6 +62,7 @@ public:
     typedef Colorspace  colorspace_type;
 
     static unsigned int	dimensions() { return 3;}
+    static unsigned int	size()       { return 3;}
 
     color3_t() {}
 

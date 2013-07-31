@@ -65,7 +65,7 @@ public:
         max.x = max.y = max.z = -std::numeric_limits<T>::max();
     }
 
-    bool empty() const
+    bool is_empty() const
     {
         return max.x < min.x || max.y < min.y || max.z < min.z;
     }
@@ -105,12 +105,12 @@ public:
         // TODO: this could be optimized if m is affine
         box3_t<T> saved( *this);
         extend_by( saved.min * m);
-        extend_by( point3_t<T>( saved.max.x, saved.min.y, saved.min.z) * m);
-        extend_by( point3_t<T>( saved.max.x, saved.max.y, saved.min.z) * m);
-        extend_by( point3_t<T>( saved.min.x, saved.max.y, saved.min.z) * m);
-        extend_by( point3_t<T>( saved.max.x, saved.min.y, saved.max.z) * m);
-        extend_by( point3_t<T>( saved.max.x, saved.max.y, saved.max.z) * m);
-        extend_by( point3_t<T>( saved.min.x, saved.max.y, saved.max.z) * m);
+        extend_by( point_type( saved.max.x, saved.min.y, saved.min.z) * m);
+        extend_by( point_type( saved.max.x, saved.max.y, saved.min.z) * m);
+        extend_by( point_type( saved.min.x, saved.max.y, saved.min.z) * m);
+        extend_by( point_type( saved.max.x, saved.min.y, saved.max.z) * m);
+        extend_by( point_type( saved.max.x, saved.max.y, saved.max.z) * m);
+        extend_by( point_type( saved.min.x, saved.max.y, saved.max.z) * m);
         extend_by( saved.max * m);
     }
 
@@ -118,6 +118,25 @@ public:
     {
         min += v;
         max += v;
+    }
+
+    bool is_inside( const point_type& p) const
+    {
+        if( p.x < min.x || p.x > max.x)
+            return false;
+
+        if( p.y < min.y || p.y > max.y)
+            return false;
+
+        if( p.z < min.z || p.z > max.z)
+            return false;
+
+        return true;
+    }
+
+    bool is_inside( const box3_t<T>& b) const
+    {
+        return is_inside( b.min) && is_inside( b.max);
     }
 
     // regular concept
