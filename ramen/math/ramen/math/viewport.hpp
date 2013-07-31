@@ -44,7 +44,7 @@ public:
 
     const box2f_t& world() const   { return world_;}
     const box2i_t& device() const  { return device_;}
-	
+
     float zoom_x() const;
     float zoom_y() const;
 
@@ -67,7 +67,7 @@ public:
     void resize( const box2i_t& device);
     void resize( int w, int h);
 
-    void scroll( const point2i_t& inc);
+    void scroll( const vector2i_t& inc);
     void scroll_to_center_point( const point2f_t& center);
 
     void zoom( const point2f_t& center, float factor);

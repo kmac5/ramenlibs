@@ -41,10 +41,10 @@ float viewport_t::zoom_y() const
 
 point2f_t viewport_t::screen_to_world( const point2i_t& p) const
 {
-	int y = p.y;
+    int y = p.y;
 
-	if( y_down_)
-		y = device_.min.y + ( device_.max.y - y);
+    if( y_down_)
+        y = device_.min.y + ( device_.max.y - y);
 
     return point2f_t( ((p.x - device_.min.x) / zoom_x()) + world_.min.x,
                       ((  y - device_.min.y) / zoom_y()) + world_.min.y);
@@ -52,12 +52,12 @@ point2f_t viewport_t::screen_to_world( const point2i_t& p) const
 
 point2i_t viewport_t::world_to_screen( const point2f_t& p) const
 {
-	int x = ((p.x - world_.min.x) * zoom_x()) + device_.min.x;
-	int y = ((p.y - world_.min.y) * zoom_y()) + device_.min.y;
+    int x = ((p.x - world_.min.x) * zoom_x()) + device_.min.x;
+    int y = ((p.y - world_.min.y) * zoom_y()) + device_.min.y;
 
-	if( y_down_)
-		y = device_.min.y + ( device_.max.y - y);
-	
+    if( y_down_)
+        y = device_.min.y + ( device_.max.y - y);
+
     return point2i_t( x, y);
 }
 
@@ -85,27 +85,27 @@ void viewport_t::reset()
 }
 
 void viewport_t::reset( int w, int h)
-{ 
+{
     reset( box2i_t( point2i_t( 0, 0), point2i_t( w - 1, h - 1)));
 }
 
 void viewport_t::reset( const box2i_t& device)
 {
-	device_ = device;
-	reset();
+    device_ = device;
+    reset();
 }
 
 void viewport_t::reset( const box2i_t& device, const box2f_t& world)
 {
-	world_ = world;
-	device_ = device;
+    world_ = world;
+    device_ = device;
 }
 
 void viewport_t::resize( const box2i_t& device)
 {
-	world_.max.x = world_.min.x + ( device.size().x / zoom_x());
-	world_.max.y = world_.min.y + ( device.size().y / zoom_y());
-	device_ = device;
+    world_.max.x = world_.min.x + ( device.size().x / zoom_x());
+    world_.max.y = world_.min.y + ( device.size().y / zoom_y());
+    device_ = device;
 }
 
 void viewport_t::resize( int w, int h)
@@ -113,11 +113,11 @@ void viewport_t::resize( int w, int h)
     resize( box2i_t( point2i_t( 0, 0), point2i_t( w - 1, h - 1)));
 }
 
-void viewport_t::scroll( const point2i_t& inc)
+void viewport_t::scroll( const vector2i_t& inc)
 {
-	if( y_down_)
+    if( y_down_)
         world_.offset_by( vector2f_t( inc.x / zoom_x(), -inc.y / zoom_y()));
-	else
+    else
         world_.offset_by( vector2f_t( inc.x / zoom_x(),  inc.y / zoom_y()));
 }
 
@@ -127,20 +127,20 @@ void viewport_t::scroll_to_center_point( const point2f_t& center)
 }
 
 void viewport_t::zoom( const point2f_t& center, float factor)
-{ 
-	zoom( center, factor, factor);
+{
+    zoom( center, factor, factor);
 }
 
 void viewport_t::zoom( const point2f_t& center, float xfactor, float yfactor)
 {
     world_.offset_by( vector2f_t( -center.x, -center.y));
-	world_.min.x *= xfactor;
-	world_.min.y *= yfactor;
-	world_.max.x *= xfactor;
-	world_.max.y *= yfactor;
+    world_.min.x *= xfactor;
+    world_.min.y *= yfactor;
+    world_.max.x *= xfactor;
+    world_.max.y *= yfactor;
     world_.offset_by( vector2f_t( center.x, center.y));
 }
-	
+
 matrix33f_t viewport_t::world_to_screen_matrix() const
 {
     matrix33f_t m;

@@ -103,6 +103,20 @@ public:
     T x, y;
 };
 
+template<class T>
+T squared_distance( const point2_t<T>& a, const point2_t<T>& b)
+{
+    T dx = b.x - a.x;
+    T dy = b.y - a.y;
+    return dx * dx + dy * dy;
+}
+
+template<class T>
+T distance( const point2_t<T>& a, const point2_t<T>& b)
+{
+    return cmath<T>::sqrt( squared_distance( a, b));
+}
+
 // typedefs
 typedef point2_t<int>       point2i_t;
 typedef point2_t<float>     point2f_t;

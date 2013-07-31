@@ -124,6 +124,21 @@ public:
     T x, y, z;
 };
 
+template<class T>
+T squared_distance( const point3_t<T>& a, const point3_t<T>& b)
+{
+    T dx = b.x - a.x;
+    T dy = b.y - a.y;
+    T dz = b.z - a.z;
+    return dx * dx + dy * dy + dz * dz;
+}
+
+template<class T>
+T distance( const point3_t<T>& a, const point3_t<T>& b)
+{
+    return cmath<T>::sqrt( squared_distance( a, b));
+}
+
 // typedefs
 typedef point3_t<float>     point3f_t;
 typedef point3_t<double>    point3d_t;
