@@ -56,13 +56,11 @@ class color3_t    : boost::addable<color3_t<T,Colorspace>
 {
 public:
 
-    BOOST_STATIC_ASSERT(( Colorspace::size == 3));
+    typedef T                                       value_type;
+    typedef Colorspace                              colorspace_type;
+    typedef typename colorspace_type::size          size;
 
-    typedef T           value_type;
-    typedef Colorspace  colorspace_type;
-
-    static unsigned int	dimensions() { return 3;}
-    static unsigned int	size()       { return 3;}
+    BOOST_STATIC_ASSERT(( colorspace_type::size::value == 3));
 
     color3_t() {}
 
@@ -72,14 +70,14 @@ public:
 
     T operator()( unsigned int index) const
     {
-        assert( index < dimensions());
+        assert( index < size::value);
 
         return static_cast<const T*>( &x)[index];
     }
 
     T& operator()( unsigned int index)
     {
-        assert( index < dimensions());
+        assert( index < size::value);
 
         return static_cast<T*>( &x)[index];
     }

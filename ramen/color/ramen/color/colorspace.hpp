@@ -25,6 +25,8 @@ THE SOFTWARE.
 
 #include<ramen/color/config.hpp>
 
+#include<boost/mpl/int.hpp>
+
 namespace ramen
 {
 namespace color
@@ -32,22 +34,22 @@ namespace color
 
 struct rgb_t
 {
-    enum { size = 3};
+    typedef boost::mpl::int_<3> size;
 };
 
 struct xyz_t
 {
-    enum { size = 3};
+    typedef boost::mpl::int_<3> size;
 };
 
 struct hsv_t
 {
-    enum { size = 3};
+    typedef boost::mpl::int_<3> size;
 };
 
 struct rgba_t
 {
-    enum { size = 4};
+    typedef boost::mpl::int_<4> size;
 };
 
 } // color

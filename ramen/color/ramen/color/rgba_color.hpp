@@ -29,6 +29,7 @@ THE SOFTWARE.
 
 #include<boost/operators.hpp>
 #include<boost/integer.hpp>
+#include<boost/mpl/int.hpp>
 
 #include<ramen/color/colorspace.hpp>
 
@@ -49,11 +50,9 @@ class rgba_color_t : boost::equality_comparable<rgba_color_t<T> >
 {
 public:
 
-    typedef T       value_type;
-    typedef rgba_t  colorspace_type;
-
-    static unsigned int	dimensions() { return 4;}
-    static unsigned int	size()       { return 4;}
+    typedef T                                       value_type;
+    typedef rgba_t                                  colorspace_type;
+    typedef typename colorspace_type::size          size;
 
     rgba_color_t() {}
 
@@ -63,14 +62,14 @@ public:
 
     T operator()( unsigned int index) const
     {
-        assert( index < dimensions());
+        assert( index < size::value);
 
         return static_cast<const T*>( &r)[index];
     }
 
     T& operator()( unsigned int index)
     {
-        assert( index < dimensions());
+        assert( index < size::value);
 
         return static_cast<T*>( &r)[index];
     }
@@ -78,17 +77,13 @@ public:
     // we need this for ramen. will be removed when possible
     T operator[]( unsigned int index) const
     {
-        assert( index < size());
-
-        return static_cast<const T*>( &r)[index];
+        return (*this)( index);
     }
 
     // we need this for ramen. will be removed when possible
     T& operator[]( unsigned int index)
     {
-        assert( index < size());
-
-        return static_cast<T*>( &r)[index];
+        return (*this)( index);
     }
 
     // for regular concept

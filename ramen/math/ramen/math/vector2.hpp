@@ -29,6 +29,8 @@ THE SOFTWARE.
 #include<limits>
 
 #include<boost/operators.hpp>
+#include<boost/mpl/bool.hpp>
+#include<boost/mpl/int.hpp>
 
 #ifdef RAMEN_WITH_HALF
     #include<ramen/core/half.hpp>
@@ -54,10 +56,9 @@ class vector2_t     : boost::addable<vector2_t<T>
 {
 public:
 
-    typedef T value_type;
-
-    static unsigned int	size()          { return 2;}
-    static unsigned int	dimensions()    { return 2;}
+    typedef T                   value_type;
+    typedef boost::mpl::int_<2> dimensions;
+    typedef boost::mpl::int_<2> size;
 
     vector2_t() {}
 
@@ -67,14 +68,14 @@ public:
 
     T operator()( unsigned int index) const
     {
-        assert( index < size());
+        assert( index < size::value);
 
         return static_cast<const T*>( &x)[index];
     }
 
     T& operator()( unsigned int index)
     {
-        assert( index < size());
+        assert( index < size::value);
 
         return static_cast<T*>( &x)[index];
     }
@@ -82,17 +83,13 @@ public:
     // we need this for ramen. will be removed when possible
     T operator[]( unsigned int index) const
     {
-        assert( index < size());
-
-        return static_cast<const T*>( &x)[index];
+        return (*this)( index);
     }
 
     // we need this for ramen. will be removed when possible
     T& operator[]( unsigned int index)
     {
-        assert( index < size());
-
-        return static_cast<T*>( &x)[index];
+        return (*this)( index);
     }
 
     // operators
