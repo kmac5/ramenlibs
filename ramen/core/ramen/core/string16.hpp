@@ -39,7 +39,7 @@ namespace core
 {
 
 /*!
-\brief UTF16 string class.
+\brief string class with 16 bit characters.
 */
 class RAMEN_CORE_API string16_t
 {

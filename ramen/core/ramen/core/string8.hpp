@@ -38,7 +38,7 @@ namespace core
 {
 
 /*!
-\brief UTF8 string class.
+\brief string class with 8 bit characters.
 */
 class RAMEN_CORE_API string8_t
 {
