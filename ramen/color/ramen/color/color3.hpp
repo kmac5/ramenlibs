@@ -31,6 +31,7 @@ THE SOFTWARE.
 
 #include<boost/static_assert.hpp>
 #include<boost/operators.hpp>
+#include<boost/integer.hpp>
 
 #include<ramen/color/colorspace.hpp>
 
@@ -163,8 +164,10 @@ std::ostream& operator<<( std::ostream& os, const color3_t<T,Colorspace>& c)
 }
 
 // typedefs
-typedef color3_t<float,rgb_t>     color3f_t;
-typedef color3_t<double,rgb_t>    color3d_t;
+typedef color3_t<boost::uint8_t, rgb_t>     color3c_t;
+typedef color3_t<boost::uint16_t, rgb_t>    color3s_t;
+typedef color3_t<float, rgb_t>              color3f_t;
+typedef color3_t<double, rgb_t>             color3d_t;
 
 #ifdef RAMEN_WITH_HALF
     typedef color3_t<half,rgb_t> color3h_t;
