@@ -120,7 +120,7 @@ public:
         max += v;
     }
 
-    bool is_inside( const point_type& p) const
+    bool contains( const point_type& p) const
     {
         if( p.x < min.x || p.x > max.x)
             return false;
@@ -134,9 +134,9 @@ public:
         return true;
     }
 
-    bool is_inside( const box3_t<T>& b) const
+    bool contains( const box3_t<T>& b) const
     {
-        return is_inside( b.min) && is_inside( b.max);
+        return contains( b.min) && contains( b.max);
     }
 
     // regular concept

@@ -92,9 +92,14 @@ public:
         max.y = std::max( max.y, b.max.y);
     }
 
+    bool intersects( const box2_t<T>& b) const
+    {
+        return !( min.x > b.max.x || max.x < b.min.x || min.y > b.max.y || max.y < b.min.y);
+    }
+
     void intersect( const box2_t<T>& b)
     {
-        if( !( min.x > b.max.x || max.x < b.min.x || min.y > b.max.y || max.y < b.min.y))
+        if( intersects( b))
         {
           min.x = std::max( min.x, b.min.x);
           min.y = std::max( min.y, b.min.y);
@@ -111,7 +116,7 @@ public:
         max += v;
     }
 
-    bool is_inside( const point_type& p) const
+    bool contains( const point_type& p) const
     {
         if( p.x < min.x || p.x > max.x)
             return false;
@@ -122,9 +127,9 @@ public:
         return true;
     }
 
-    bool is_inside( const box2_t<T>& b) const
+    bool contains( const box2_t<T>& b) const
     {
-        return is_inside( b.min) && is_inside( b.max);
+        return contains( b.min) && contains( b.max);
     }
 
     bool operator==( const box2_t<T>& other) const

@@ -46,6 +46,7 @@ public:
     typedef T                           value_type;
     typedef boost::mpl::int_<2>         size_type;
     typedef boost::mpl::bool_<false>    is_homogeneus_type;
+    typedef vector2_t<T>                vector_type;
 
     point2_t() {}
 
