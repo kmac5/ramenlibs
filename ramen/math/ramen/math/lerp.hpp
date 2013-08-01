@@ -33,7 +33,7 @@ namespace math
 template<class T, class S>
 T lerp( T a, T b, S t)
 {
-    return (T) ( a * ( S(1) - t) + b * t);
+    return static_cast<T>( a * ( S(1) - t) + b * t);
 }
 
 } // math

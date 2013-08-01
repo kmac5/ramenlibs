@@ -52,9 +52,9 @@ public:
     typedef const T*    const_iterator;
     typedef T*          iterator;
 
-    static unsigned int	rows()  { return 4;}
-    static unsigned int	cols()  { return 4;}
-    static unsigned int	size()  { return 16;}
+    typedef boost::mpl::int_<4>  row_size_type;
+    typedef boost::mpl::int_<4>  col_size_type;
+    typedef boost::mpl::int_<16> size_type;
 
     matrix44_t() {}
 
@@ -72,40 +72,40 @@ public:
     template<class Iter>
     explicit matrix44_t( Iter it)
     {
-        std::copy( it, it + size(), begin());
+        std::copy( it, it + size_type::value, begin());
     }
 
     T operator()( unsigned int j, unsigned int i) const
     {
-        assert( j < rows());
-        assert( i < cols());
+        assert( j < row_size_type::value);
+        assert( i < col_size_type::value);
 
         return data_[j][i];
     }
 
     T& operator()( unsigned int j, unsigned int i)
     {
-        assert( j < rows());
-        assert( i < cols());
+        assert( j < row_size_type::value);
+        assert( i < col_size_type::value);
 
         return data_[j][i];
     }
 
     // iterators
     const_iterator begin() const    { return &data_[0][0];}
-    const_iterator end() const      { return begin() + size();}
+    const_iterator end() const      { return begin() + size_type::value;}
 
     iterator begin()    { return &data_[0][0];}
-    iterator end()      { return begin() + size();}
+    iterator end()      { return begin() + size_type::value;}
 
     // operators
     matrix44_t<T>& operator*=( const matrix44_t<T>& other)
     {
         matrix44_t<T> tmp( zero_matrix());
 
-        for( unsigned int i = 0; i < rows(); i++)
-            for( unsigned int j = 0; j < cols(); j++)
-                for( unsigned int k = 0; k < rows(); k++)
+        for( unsigned int i = 0; i < 4; i++)
+            for( unsigned int j = 0; j < 4; j++)
+                for( unsigned int k = 0; k < 4; k++)
                     tmp( i, j) += data_[i][k] * other( k, j);
 
         *this = tmp;
@@ -115,8 +115,8 @@ public:
     void transpose()
     {
         matrix44_t<T> tmp;
-        for( int i = 0; i < rows(); i++)
-            for( int j = 0; j < cols(); j++)
+        for( int i = 0; i < 4; i++)
+            for( int j = 0; j < 4; j++)
                 tmp( i, j) = (*this)( j, i);
 
         *this = tmp;
@@ -130,42 +130,42 @@ public:
     // static factory methods
     static matrix44_t<T> identity_matrix()
     {
-        return matrix44_t<T>(   1, 0, 0, 0,
-                                0, 1, 0, 0,
-                                0, 0, 1, 0,
-                                0, 0, 0, 1);
+        return matrix44_t<T>( 1, 0, 0, 0,
+                              0, 1, 0, 0,
+                              0, 0, 1, 0,
+                              0, 0, 0, 1);
     }
 
     static matrix44_t<T> zero_matrix()
     {
-        return matrix44_t<T>(   0, 0, 0, 0,
-                                0, 0, 0, 0,
-                                0, 0, 0, 0,
-                                0, 0, 0, 0);
+        return matrix44_t<T>( 0, 0, 0, 0,
+                              0, 0, 0, 0,
+                              0, 0, 0, 0,
+                              0, 0, 0, 0);
     }
 
     static matrix44_t<T> translation_matrix( const vector3_t<T>& t)
     {
-        return matrix44_t<T>(   1  , 0  , 0  , 0,
-                                0  , 1  , 0  , 0,
-                                0  , 0  , 1  , 0,
-                                t.x, t.y, t.z, 1);
+        return matrix44_t<T>( 1  , 0  , 0  , 0,
+                              0  , 1  , 0  , 0,
+                              0  , 0  , 1  , 0,
+                              t.x, t.y, t.z, 1);
     }
 
     static matrix44_t<T> scale_matrix( T s)
     {
-        return matrix44_t<T>(   s, 0, 0, 0,
-                                0, s, 0, 0,
-                                0, 0, s, 0,
-                                0, 0, 0, 1);
+        return matrix44_t<T>( s, 0, 0, 0,
+                              0, s, 0, 0,
+                              0, 0, s, 0,
+                              0, 0, 0, 1);
     }
 
     static matrix44_t<T> scale_matrix( const vector3_t<T>& s)
     {
-        return matrix44_t<T>(   s.x, 0  , 0  , 0,
-                                0  , s.y, 0  , 0,
-                                0  , 0  , s.z, 0,
-                                0  , 0  , 0  , 1);
+        return matrix44_t<T>( s.x, 0  , 0  , 0,
+                              0  , s.y, 0  , 0,
+                              0  , 0  , s.z, 0,
+                              0  , 0  , 0  , 1);
     }
 
     static matrix44_t<T> axis_angle_rotation_matrix( vector3_t<T> axis, T angle_in_deg)
@@ -292,10 +292,12 @@ public:
         else
         {
             matrix44_t<T> z_axis_to_from_dir;
-            z_axis_to_from_dir = align_z_axis_with_target_dir_matrix( from_dir, vector3_t<T>( 0, 1, 0));
+            z_axis_to_from_dir = align_z_axis_with_target_dir_matrix( from_dir,
+                                                                      vector3_t<T>( 0, 1, 0));
 
             matrix44_t<T> from_dir_to_z_axis = z_axis_to_from_dir.transposed();
-            matrix44_t<T> z_axis_to_to_dir = align_z_axis_with_target_dir_matrix( to_dir, up_dir);
+            matrix44_t<T> z_axis_to_to_dir = align_z_axis_with_target_dir_matrix( to_dir,
+                                                                                  up_dir);
             return from_dir_to_z_axis * z_axis_to_to_dir;
         }
     }
@@ -482,10 +484,7 @@ boost::optional<matrix44_t<T> > invert( const matrix44_t<T>& m)
                      m( 0,0) * m( 1,1) - m( 1,0) * m( 0,1),
                      0,
 
-                     0,
-                     0,
-                     0,
-                     1);
+                     0, 0, 0, 1);
 
     T r = m( 0,0) * s( 0, 0) + m( 0,1) * s( 1, 0) + m( 0,2) * s( 2, 0);
 

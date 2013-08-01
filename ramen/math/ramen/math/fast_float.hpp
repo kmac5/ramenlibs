@@ -39,26 +39,31 @@ namespace ramen
 {
 namespace math
 {
-
-#define RAMEN_MATH_DOUBLEMAGICROUNDEPS (.5-1.4e-11)
-#define RAMEN_MATH_DOUBLEMAGIC double (6755399441055744.0)
+namespace detail
+{
 
 union fast_float_double_long
 {
-	double d;
-	long l;
+    double d;
+    long l;
 };
+
+} // detail
+
+#define RAMEN_MATH_DOUBLEMAGICROUNDEPS ( .5 - 1.4e-11)
+#define RAMEN_MATH_DOUBLEMAGIC double( 6755399441055744.0)
 
 inline int fast_float_round( double v)
 {
-	fast_float_double_long vv;
+    detail::fast_float_double_long vv;
     vv.d = v + RAMEN_MATH_DOUBLEMAGIC;
 	return vv.l;
 }
 
 inline int fast_float_to_int( double v)
 {
-    return ( v < 0.0) ? fast_float_round( v + RAMEN_MATH_DOUBLEMAGICROUNDEPS) : fast_float_round( v - RAMEN_MATH_DOUBLEMAGICROUNDEPS);
+    return ( v < 0.0) ? fast_float_round( v + RAMEN_MATH_DOUBLEMAGICROUNDEPS)
+                      : fast_float_round( v - RAMEN_MATH_DOUBLEMAGICROUNDEPS);
 }
 
 inline int fast_float_floor( double v)

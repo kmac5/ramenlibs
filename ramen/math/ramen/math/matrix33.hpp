@@ -50,9 +50,9 @@ public:
     typedef const T*    const_iterator;
     typedef T*          iterator;
 
-    static unsigned int	rows()  { return 3;}
-    static unsigned int	cols()  { return 3;}
-    static unsigned int	size()  { return 9;}
+    typedef boost::mpl::int_<3> row_size_type;
+    typedef boost::mpl::int_<3> col_size_type;
+    typedef boost::mpl::int_<9> size_type;
 
     matrix33_t() {}
 
@@ -69,28 +69,28 @@ public:
     {
         assert( data);
 
-        std::copy( data, data + size(), &data_[0][0]);
+        std::copy( data, data + size_type::value, &data_[0][0]);
     }
 
     // iterators
     const_iterator begin() const    { return &data_[0][0];}
-    const_iterator end() const      { return begin() + size();}
+    const_iterator end() const      { return begin() + size_type::value;}
 
     iterator begin()    { return &data_[0][0];}
-    iterator end()      { return begin() + size();}
+    iterator end()      { return begin() + size_type::value;}
 
     T operator()( unsigned int j, unsigned int i) const
     {
-        assert( j < 3);
-        assert( i < 3);
+        assert( j < row_size_type::value);
+        assert( i < col_size_type::value);
 
         return data_[j][i];
     }
 
     T& operator()( unsigned int j, unsigned int i)
     {
-        assert( j < 3);
-        assert( i < 3);
+        assert( j < row_size_type::value);
+        assert( i < col_size_type::value);
 
         return data_[j][i];
     }
@@ -123,37 +123,37 @@ public:
 
     static matrix33_t<T> identity_matrix()
     {
-        return matrix33_t<T>(   1, 0, 0,
-                                0, 1, 0,
-                                0, 0, 1);
+        return matrix33_t<T>( 1, 0, 0,
+                              0, 1, 0,
+                              0, 0, 1);
     }
 
     static matrix33_t<T> zero_matrix()
     {
-        return matrix33_t<T>(   0, 0, 0,
-                                0, 0, 0,
-                                0, 0, 0);
+        return matrix33_t<T>( 0, 0, 0,
+                              0, 0, 0,
+                              0, 0, 0);
     }
 
     static matrix33_t<T> translation_matrix( const vector2_t<T>& t)
     {
-        return matrix33_t<T>(   1  , 0  , 0,
-                                0  , 1  , 0,
-                                t.x, t.y, 1);
+        return matrix33_t<T>( 1  , 0  , 0,
+                              0  , 1  , 0,
+                              t.x, t.y, 1);
     }
 
     static matrix33_t<T> scale_matrix( T s)
     {
-        return matrix33_t<T>(   s, 0, 0,
-                                0, s, 0,
-                                0, 0, 1);
+        return matrix33_t<T>( s, 0, 0,
+                              0, s, 0,
+                              0, 0, 1);
     }
 
     static matrix33_t<T> scale_matrix( const vector2_t<T>& s)
     {
-        return matrix33_t<T>(   s.x, 0  , 0,
-                                0  , s.y, 0,
-                                0  , 0  , 1);
+        return matrix33_t<T>( s.x, 0  , 0,
+                              0  , s.y, 0,
+                              0  , 0  , 1);
     }
 
 private:
