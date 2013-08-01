@@ -41,9 +41,8 @@ class hpoint3_t : boost::equality_comparable<hpoint3_t<T> >
 public:
 
     typedef T                           value_type;
-    typedef boost::mpl::int_<3>         dimensions;
-    typedef boost::mpl::int_<4>         size;
-    typedef boost::mpl::bool_<true>     is_homogeneus;
+    typedef boost::mpl::int_<4>         size_type;
+    typedef boost::mpl::bool_<true>     is_homogeneus_type;
 
     hpoint3_t() {}
 
@@ -55,14 +54,14 @@ public:
 
     T operator()( unsigned int index) const
     {
-        assert( index < size::value);
+        assert( index < size_type::value);
 
         return static_cast<const T*>( &x)[index];
     }
 
     T& operator()( unsigned int index)
     {
-        assert( index < size::value);
+        assert( index < size_type::value);
 
         return static_cast<T*>( &x)[index];
     }

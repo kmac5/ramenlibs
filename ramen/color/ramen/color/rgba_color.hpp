@@ -52,7 +52,7 @@ public:
 
     typedef T                                       value_type;
     typedef rgba_t                                  colorspace_type;
-    typedef typename colorspace_type::size          size;
+    typedef typename colorspace_type::size_type     size_type;
 
     rgba_color_t() {}
 
@@ -62,14 +62,14 @@ public:
 
     T operator()( unsigned int index) const
     {
-        assert( index < size::value);
+        assert( index < size_type::value);
 
         return static_cast<const T*>( &r)[index];
     }
 
     T& operator()( unsigned int index)
     {
-        assert( index < size::value);
+        assert( index < size_type::value);
 
         return static_cast<T*>( &r)[index];
     }

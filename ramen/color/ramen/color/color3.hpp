@@ -58,9 +58,9 @@ public:
 
     typedef T                                       value_type;
     typedef Colorspace                              colorspace_type;
-    typedef typename colorspace_type::size          size;
+    typedef typename colorspace_type::size_type     size_type;
 
-    BOOST_STATIC_ASSERT(( colorspace_type::size::value == 3));
+    BOOST_STATIC_ASSERT(( size_type::value == 3));
 
     color3_t() {}
 
@@ -70,14 +70,14 @@ public:
 
     T operator()( unsigned int index) const
     {
-        assert( index < size::value);
+        assert( index < size_type::value);
 
         return static_cast<const T*>( &x)[index];
     }
 
     T& operator()( unsigned int index)
     {
-        assert( index < size::value);
+        assert( index < size_type::value);
 
         return static_cast<T*>( &x)[index];
     }

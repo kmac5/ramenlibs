@@ -57,8 +57,7 @@ class vector3_t     : boost::addable<vector3_t<T>
 public:
 
     typedef T                   value_type;
-    typedef boost::mpl::int_<3> dimensions;
-    typedef boost::mpl::int_<3> size;
+    typedef boost::mpl::int_<3> size_type;
 
     vector3_t() {}
 
@@ -68,14 +67,14 @@ public:
 
     T operator()( unsigned int index) const
     {
-        assert( index < size::value);
+        assert( index < size_type::value);
 
         return static_cast<const T*>( &x)[index];
     }
 
     T& operator()( unsigned int index)
     {
-        assert( index < size::value);
+        assert( index < size_type::value);
 
         return static_cast<T*>( &x)[index];
     }
@@ -83,9 +82,7 @@ public:
     // we need this for ramen. will be removed when possible
     T operator[]( unsigned int index) const
     {
-        assert( index < size());
-
-        return static_cast<const T*>( &x)[index];
+        return (*this)( index);
     }
 
     // we need this for ramen. will be removed when possible

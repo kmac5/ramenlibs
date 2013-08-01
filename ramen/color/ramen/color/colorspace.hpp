@@ -34,22 +34,22 @@ namespace color
 
 struct rgb_t
 {
-    typedef boost::mpl::int_<3> size;
+    typedef boost::mpl::int_<3> size_type;
 };
 
 struct xyz_t
 {
-    typedef boost::mpl::int_<3> size;
+    typedef boost::mpl::int_<3> size_type;
 };
 
 struct hsv_t
 {
-    typedef boost::mpl::int_<3> size;
+    typedef boost::mpl::int_<3> size_type;
 };
 
 struct rgba_t
 {
-    typedef boost::mpl::int_<4> size;
+    typedef boost::mpl::int_<4> size_type;
 };
 
 } // color

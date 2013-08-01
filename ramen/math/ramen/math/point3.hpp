@@ -47,9 +47,8 @@ class point3_t  : boost::addable2<point3_t<T>, vector3_t<T>
 public:
 
     typedef T                           value_type;
-    typedef boost::mpl::int_<3>         dimensions;
-    typedef boost::mpl::int_<3>         size;
-    typedef boost::mpl::bool_<false>    is_homogeneus;
+    typedef boost::mpl::int_<3>         size_type;
+    typedef boost::mpl::bool_<false>    is_homogeneus_type;
 
     point3_t() {}
 
@@ -59,14 +58,14 @@ public:
 
     T operator()( unsigned int index) const
     {
-        assert( index < size::value);
+        assert( index < size_type::value);
 
         return static_cast<const T*>( &x)[index];
     }
 
     T& operator()( unsigned int index)
     {
-        assert( index < size::value);
+        assert( index < size_type::value);
 
         return static_cast<T*>( &x)[index];
     }
