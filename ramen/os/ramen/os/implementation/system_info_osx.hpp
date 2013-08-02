@@ -25,6 +25,7 @@ THE SOFTWARE.
 
 #include<pwd.h>
 #include<sys/sysctl.h>
+#include<libproc.h>
 
 namespace ramen
 {
@@ -50,6 +51,13 @@ struct system_info_t::impl
 
             if( sysctl( mib, 2, &size, &len, NULL, 0) == 0)
                 self.ram_size_ = size;
+        }
+
+        // executable location
+        {
+            char buf[PROC_PIDPATHINFO_MAXSIZE];
+            if( proc_pidpath( getpid(), buf, sizeof( buf)) >= 0)
+                self.executable_path_ = boost::filesystem::path( buf);
         }
     }
 };

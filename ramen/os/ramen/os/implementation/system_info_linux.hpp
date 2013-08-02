@@ -23,9 +23,16 @@ THE SOFTWARE.
 #ifndef RAMEN_OS_IMPL_SYSTEM_INFO_LINUX_HPP
 #define RAMEN_OS_IMPL_SYSTEM_INFO_LINUX_HPP
 
+#include<stdio.h>
+#include<string.h>
 #include<pwd.h>
 #include<unistd.h>
 #include<sys/sysinfo.h>
+#include<sys/ioctl.h>
+#include<sys/types.h>
+#include<sys/socket.h>
+#include<netinet/in.h>
+#include<linux/if.h>
 
 namespace ramen
 {
@@ -35,7 +42,7 @@ namespace os
 struct system_info_t::impl
 {
     explicit impl( system_info_t& self)
-    {        
+    {
         // user name & home path
         struct passwd *p = getpwuid( geteuid());
         self.user_name_ = p->pw_name;
@@ -46,6 +53,21 @@ struct system_info_t::impl
             struct sysinfo info;
             sysinfo( &info);
             self.ram_size_ = info.totalram * info.mem_unit;
+        }
+
+        // executable location
+        {
+            char linkname[128];
+            if( snprintf( linkname, sizeof( linkname), "/proc/%i/exe", getpid()) >= 0)
+            {
+                char buf[1024];
+                int ret = readlink( linkname, buf, sizeof( buf));
+                if( ret < sizeof( buf))
+                {
+                    buf[ret] = 0;
+                    self.executable_path_ = boost::filesystem::path( buf);
+                }
+            }
         }
     }
 };

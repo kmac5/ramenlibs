@@ -57,6 +57,11 @@ public:
         return home_path_;
     }
 
+    const boost::filesystem::path& executable_path() const
+    {
+        return executable_path_;
+    }
+
 private:
 
     // non-copyable
@@ -66,6 +71,7 @@ private:
     boost::uint64_t ram_size_;
     core::string8_t user_name_;
     boost::filesystem::path home_path_;
+    boost::filesystem::path executable_path_;
 
     struct impl;
     impl *pimpl_;
