@@ -52,6 +52,7 @@ SET( RAMEN_WITH_ARRAYS  ON CACHE BOOL "Build arrays lib")
 SET( RAMEN_WITH_GEO     ON CACHE BOOL "Build geo lib")
 SET( RAMEN_WITH_GEO_IO  ON CACHE BOOL "Build geo io lib")
 SET( RAMEN_WITH_OS      ON CACHE BOOL "Buils os lib")
+SET( RAMEN_WITH_GL      ON CACHE BOOL "Buils gl lib")
 
 ######################################################
 # platform specific
@@ -102,6 +103,11 @@ IF( RAMEN_WITH_HALF)
     INCLUDE_DIRECTORIES( ${HALF_INCLUDE_DIRS})
 ENDIF()
 
+IF( RAMEN_WITH_GL)
+    FIND_PACKAGE( OpenGL REQUIRED)
+    FIND_PACKAGE( GLEW REQUIRED)
+ENDIF()
+
 ######################################################
 # definitions
 
@@ -136,6 +142,10 @@ ENDIF()
 
 IF( RAMEN_WITH_GEO)
     ADD_SUBDIRECTORY( ramen/geo)
+ENDIF()
+
+IF( RAMEN_WITH_GL)
+    ADD_SUBDIRECTORY( ramen/gl)
 ENDIF()
 
 ######################################################
