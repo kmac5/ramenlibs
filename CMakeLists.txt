@@ -131,6 +131,7 @@ ADD_SUBDIRECTORY( ramen/containers)
 ADD_SUBDIRECTORY( ramen/core)
 ADD_SUBDIRECTORY( ramen/iterators)
 ADD_SUBDIRECTORY( ramen/math)
+ADD_SUBDIRECTORY( ramen/string_algo)
 
 IF( RAMEN_WITH_ARRAYS)
     ADD_SUBDIRECTORY( ramen/arrays)
