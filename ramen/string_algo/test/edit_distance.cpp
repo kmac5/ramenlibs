@@ -22,13 +22,13 @@ THE SOFTWARE.
 
 #include<gtest/gtest.h>
 
-#include<ramen/algorithm/edit_distance.hpp>
+#include<ramen/string_algo/edit_distance.hpp>
 
 #include<string>
 
 #include<ramen/core/string8.hpp>
 
-using namespace ramen::algorithm;
+using namespace ramen::string_algo;
 
 TEST( EditDistance, Basic)
 {

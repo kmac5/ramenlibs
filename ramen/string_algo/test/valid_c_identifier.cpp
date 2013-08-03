@@ -22,16 +22,21 @@ THE SOFTWARE.
 
 #include<gtest/gtest.h>
 
-#include<ramen/algorithm/clamp.hpp>
+#include<ramen/string_algo/valid_c_identifier.hpp>
 
-using namespace ramen::algorithm;
+#include<string>
 
-TEST( Clamp, All)
+#include<ramen/core/name.hpp>
+#include<ramen/core/string8.hpp>
+
+using namespace ramen::string_algo;
+using namespace ramen::core;
+
+TEST( ValidCIdentifier, All)
 {
-    ASSERT_EQ( clamp( 7, 0, 11), 7);
-    ASSERT_EQ( clamp( -2, 0, 11), 0);
-    ASSERT_EQ( clamp( 77, 0, 11), 11);
-    ASSERT_EQ( clamp( 3, 3, 3), 3);
+    EXPECT_TRUE( is_valid_c_identifier( string8_t( "valid_id")));
+    EXPECT_FALSE( is_valid_c_identifier( std::string( "invalid id")));
+    EXPECT_FALSE( is_valid_c_identifier( "77 invalid"));
 }
 
 int main(int argc, char **argv)

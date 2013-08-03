@@ -41,4 +41,5 @@ MACRO( ADD_RM_TEST sourcefile)
     ADD_TEST( ${sourcefile} ${CMAKE_CURRENT_BINARY_DIR}/${sourcefile})
 ENDMACRO()
 
-#ADD_RM_TEST( clamp)
+ADD_RM_TEST( edit_distance)
+ADD_RM_TEST( valid_c_identifier)

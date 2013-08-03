@@ -23,10 +23,10 @@ THE SOFTWARE.
 // Based on Levenshtein Distance Algorithm:
 // public domain C++ implementation by Anders Sewerin Johansen.
 
-#ifndef RAMEN_ALGORITHM_EDIT_DISTANCE_HPP
-#define RAMEN_ALGORITHM_EDIT_DISTANCE_HPP
+#ifndef RAMEN_STRING_ALGO_EDIT_DISTANCE_HPP
+#define RAMEN_STRING_ALGO_EDIT_DISTANCE_HPP
 
-#include<ramen/algorithm/config.hpp>
+#include<ramen/string_algo/config.hpp>
 
 #include<cassert>
 #include<algorithm>
@@ -35,7 +35,7 @@ THE SOFTWARE.
 
 namespace ramen
 {
-namespace algorithm
+namespace string_algo
 {
 
 template<class T>
@@ -136,7 +136,7 @@ private:
     int rows_, cols_;
 };
 
-} // algorithm
+} // string_algo
 } // ramen
 
 #endif

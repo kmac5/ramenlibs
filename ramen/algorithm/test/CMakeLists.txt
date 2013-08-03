@@ -42,5 +42,4 @@ MACRO( ADD_RM_TEST sourcefile)
 ENDMACRO()
 
 ADD_RM_TEST( clamp)
-ADD_RM_TEST( edit_distance)
 ADD_RM_TEST( for_each_position)
