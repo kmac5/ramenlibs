@@ -38,7 +38,7 @@ namespace string_algo
 namespace detail
 {
 
-bool check_char( int c, bool numbers_valid)
+inline bool check_char( int c, bool numbers_valid)
 {
     if( isalpha( c))
         return true;
