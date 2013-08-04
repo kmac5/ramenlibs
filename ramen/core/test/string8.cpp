@@ -23,7 +23,7 @@ THE SOFTWARE.
 #include<gtest/gtest.h>
 
 #include<cstring>
-#include<iostream>
+#include<utility>
 
 #include<ramen/core/string8.hpp>
 
@@ -218,6 +218,14 @@ TEST( String8, BoostLexicalCast)
 
     string8_t str3( "any_string_123");
     EXPECT_ANY_THROW( boost::lexical_cast<int>( str3));
+}
+
+TEST( String8, PairAssign)
+{
+    std::pair<string8_t, string8_t> a( std::make_pair( string8_t( "one"), string8_t( "two")));
+    std::pair<string8_t, string8_t> b = a;
+    EXPECT_EQ( b.first, string8_t( "one"));
+    EXPECT_EQ( b.second, string8_t( "two"));
 }
 
 int main(int argc, char **argv)
