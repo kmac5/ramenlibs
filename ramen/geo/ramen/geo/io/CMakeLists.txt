@@ -18,6 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+FIND_PACKAGE( Boost COMPONENTS ${BOOST_NEEDED_LIBRARIES} filesystem system REQUIRED)
+
 SET( RAMEN_GEO_IO_SOURCES exceptions.cpp
                           format.cpp
                           io.cpp
@@ -29,6 +31,7 @@ SET( RAMEN_GEO_IO_SOURCES exceptions.cpp
 
 SET( RAMEN_GEO_IO_LIBS   ramen_geo
                          ${RAMEN_GEO_LIBS}
+                         ${Boost_LIBRARIES}
                          )
 
 ######################################################

@@ -1,3 +1,4 @@
+
 # Copyright (c) 2013 Esteban Tovagliari
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -18,47 +19,49 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-INCLUDE_DIRECTORIES(    ../../
+INCLUDE_DIRECTORIES(    ../
                         ../../../core
                         ../../../arrays
                         ../../../math
                         ../../../color
+                        ../../../gl
                         ${Boost_INCLUDE_DIR}
+                        ${OPENGL_INCLUDE_DIR}
+                        ${GLEW_INCLUDE_DIRS}
+
+                        ${NEEDED_QT_INCLUDES}
+
+                        ${CMAKE_CURRENT_BINARY_DIR}
                         )
 
-# lib
-FILE( GLOB_RECURSE RAMEN_GEO_HEADERS ./*.hpp)
-SET( RAMEN_GEO_SOURCES  attribute_ref.cpp
-                        attribute_table.cpp
-                        exceptions.cpp
-                        global_names.cpp
-
-                        shape.cpp
-                        shape_vector.cpp
-                        shape_attributes.cpp
-
-                        shape_models/curves_model.cpp
-                        shape_models/mesh_model.cpp
-                        shape_models/nurbs_curve_model.cpp
-                        shape_models/nurbs_model.cpp
-                        shape_models/nurbs_surface_model.cpp
-                        shape_models/points_model.cpp
-                        shape_models/poly_mesh_model.cpp
-                        shape_models/shape_types.cpp
-                        shape_models/shape_visitor.cpp
-                        shape_models/subd_mesh_model.cpp
-
-                        visitors/compute_face_normals.cpp
-                        visitors/shape_to_points.cpp
+SET( GEO_VIEWER_HEADERS main_window.hpp
+                        scene_view_fwd.hpp
+                        scene_view.hpp
                         )
 
-SET( RAMEN_GEO_LIBS  ramen_arrays
-                     ${RAMEN_ARRAYS_LIBS}
-                     )
+SET( GEO_VIEWER_MOC_CLASSES main_window.hpp
+                            scene_view.hpp
+                            )
 
-ADD_LIBRARY( ramen_geo SHARED ${RAMEN_GEO_HEADERS} ${RAMEN_GEO_SOURCES})
-TARGET_LINK_LIBRARIES( ramen_geo ${RAMEN_GEO_LIBS})
+QT4_WRAP_CPP( GEO_VIEWER_MOC_SOURCES ${GEO_VIEWER_MOC_CLASSES} OPTIONS ${MOC_EXTRA_ARGS})
 
-IF( RAMEN_WITH_GEO_IO)
-    ADD_SUBDIRECTORY( io)
-ENDIF()
+SET( GEO_VIEWER_SOURCES main.cpp
+                        main_window.cpp
+                        scene_view.cpp
+                        )
+
+SET( GEO_VIEWER_ALL_SOURCES ${GEO_VIEWER_SOURCES}
+                            ${GEO_VIEWER_HEADERS}
+                            ${GEO_VIEWER_MOC_SOURCES}
+                            )
+
+ADD_EXECUTABLE( geo_viewer ${GEO_VIEWER_ALL_SOURCES})
+
+TARGET_LINK_LIBRARIES( geo_viewer   ramen_geo_io
+                                    ramen_gl
+                                    ${RAMEN_GEO_IO_LIBS}
+
+                                    ${NEEDED_QT_LIBS}
+                                    ${OPENGL_LIBRARY}
+                                    ${GLEW_LIBRARIES}
+                                    )

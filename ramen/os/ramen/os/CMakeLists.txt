@@ -18,6 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+FIND_PACKAGE( Boost COMPONENTS ${BOOST_NEEDED_LIBRARIES} filesystem system REQUIRED)
+
 INCLUDE_DIRECTORIES(    ../../
                         ${Boost_INCLUDE_DIR}
                         ../../../core
