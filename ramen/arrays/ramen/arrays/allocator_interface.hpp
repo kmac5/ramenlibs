@@ -20,48 +20,40 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include<gmock/gmock.h>
-#include<gtest/gtest.h>
+#ifndef RAMEN_ARRAYS_ALLOCATOR_INTERFACE_HPP
+#define RAMEN_ARRAYS_ALLOCATOR_INTERFACE_HPP
 
-#include<ramen/arrays/allocator_interface.hpp>
-#include<ramen/arrays/detail/new_allocator.hpp>
-#include<ramen/arrays/detail/allocator_wrapper.hpp>
+#include<ramen/arrays/config.hpp>
 
-#include<boost/shared_ptr.hpp>
-#include<boost/container/vector.hpp>
+#include<cstddef>
 
-#include<iostream>
-
-using namespace ramen::arrays;
-
-TEST( ArrayAllocators, All)
+namespace ramen
 {
-    boost::shared_ptr<allocator_interface_t> alloc( new detail::new_allocator_t());
-    detail::allocator_wrapper_t<int> alloc_wrapper( alloc);
-
-    typedef boost::container::vector<int, detail::allocator_wrapper_t<int> > vector_type;
-
-    vector_type vec( alloc_wrapper);
-    boost::container::vector<int> vec_no_alloc;
-
-    for( int i = 0; i < 100; ++i)
-    {
-        vec.push_back( i);
-        vec_no_alloc.push_back( i);
-    }
-
-    EXPECT_EQ( vec.size(), vec_no_alloc.size());
-    EXPECT_EQ( vec.capacity(), vec_no_alloc.capacity());
-
-    vector_type vec2 = vec;
-    vec.swap( vec2);
-
-    vec.clear();
-    vec.reserve( 100);
-}
-
-int main(int argc, char **argv)
+namespace arrays
 {
-    ::testing::InitGoogleMock( &argc, argv);
-    return RUN_ALL_TESTS();
-}
+
+class RAMEN_ARRAYS_API allocator_interface_t
+{
+public:
+
+    virtual ~allocator_interface_t() {}
+
+    virtual void *allocate( std::size_t size) = 0;
+    virtual void deallocate( void *ptr) = 0;
+
+protected:
+
+    allocator_interface_t() {}
+
+private:
+
+    // non-copyable
+    allocator_interface_t( const allocator_interface_t&);
+    allocator_interface_t& operator=( const allocator_interface_t&);
+};
+
+} // arrays
+} // ramen
+
+#endif
+

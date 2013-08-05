@@ -20,48 +20,26 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include<gmock/gmock.h>
-#include<gtest/gtest.h>
-
-#include<ramen/arrays/allocator_interface.hpp>
 #include<ramen/arrays/detail/new_allocator.hpp>
-#include<ramen/arrays/detail/allocator_wrapper.hpp>
 
-#include<boost/shared_ptr.hpp>
-#include<boost/container/vector.hpp>
-
-#include<iostream>
-
-using namespace ramen::arrays;
-
-TEST( ArrayAllocators, All)
+namespace ramen
 {
-    boost::shared_ptr<allocator_interface_t> alloc( new detail::new_allocator_t());
-    detail::allocator_wrapper_t<int> alloc_wrapper( alloc);
+namespace arrays
+{
+namespace detail
+{
 
-    typedef boost::container::vector<int, detail::allocator_wrapper_t<int> > vector_type;
-
-    vector_type vec( alloc_wrapper);
-    boost::container::vector<int> vec_no_alloc;
-
-    for( int i = 0; i < 100; ++i)
-    {
-        vec.push_back( i);
-        vec_no_alloc.push_back( i);
-    }
-
-    EXPECT_EQ( vec.size(), vec_no_alloc.size());
-    EXPECT_EQ( vec.capacity(), vec_no_alloc.capacity());
-
-    vector_type vec2 = vec;
-    vec.swap( vec2);
-
-    vec.clear();
-    vec.reserve( 100);
+void *new_allocator_t::allocate( std::size_t size)
+{
+    return ::operator new( size);
 }
 
-int main(int argc, char **argv)
+void new_allocator_t::deallocate( void *ptr)
 {
-    ::testing::InitGoogleMock( &argc, argv);
-    return RUN_ALL_TESTS();
+    ::operator delete( ptr);
 }
+
+} // detail
+} // arrays
+} // ramen
+

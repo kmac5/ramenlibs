@@ -32,6 +32,8 @@ THE SOFTWARE.
 
 #include<ramen/core/types.hpp>
 
+#include<ramen/arrays/allocator_interface.hpp>
+
 #include<ramen/arrays/detail/array_interface_fwd.hpp>
 
 namespace ramen
@@ -136,6 +138,8 @@ inline void swap( array_t& x, array_t& y)
 {
     x.swap( y);
 }
+
+void RAMEN_ARRAYS_API set_global_allocator( allocator_interface_t *alloc);
 
 } // arrays
 } // ramen

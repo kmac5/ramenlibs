@@ -23,6 +23,9 @@ THE SOFTWARE.
 #include<ramen/arrays/array.hpp>
 
 #include<boost/container/vector.hpp>
+#include<boost/shared_ptr.hpp>
+
+#include"tinythread.h"
 
 #include<ramen/core/exceptions.hpp>
 
@@ -33,6 +36,25 @@ namespace ramen
 {
 namespace arrays
 {
+namespace
+{
+
+boost::shared_ptr<allocator_interface_t> g_global_alloc;
+
+boost::shared_ptr<allocator_interface_t> get_global_allocator()
+{
+    return g_global_alloc;
+}
+
+} // unnamed
+
+void set_global_allocator( allocator_interface_t *alloc)
+{
+    assert( alloc);
+
+    // TODO: implement this
+    assert( false);
+}
 
 array_t::array_t() : model_( 0)
 {
