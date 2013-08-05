@@ -24,6 +24,8 @@ INCLUDE_DIRECTORIES(    ../../
                         ../../../core
                         ../../../math
                         ../../../color
+
+                        ../../../extern/tinythreadpp
                         )
 
 # lib
@@ -40,6 +42,9 @@ SET( RAMEN_CORE_SOURCES  empty.cpp
                          string16.cpp
                          types.cpp
                          variant.cpp
+
+                         ../../../extern/tinythreadpp/tinythread.h
+                         ../../../extern/tinythreadpp/tinythread.cpp
                          )
 
 IF( WITH_TBB)
@@ -48,8 +53,8 @@ IF( WITH_TBB)
                             )
 ENDIF()
 
-SET( RAMEN_CORE_LIBS ${Boost_LIBRARIES}
-                     ${PCRE_LIBRARIES}
+SET( RAMEN_CORE_LIBS ${PCRE_LIBRARIES}
+                    #${Boost_LIBRARIES}
                      )
 
 ADD_LIBRARY( ramen_core SHARED ${RAMEN_CORE_HEADERS} ${RAMEN_CORE_SOURCES})

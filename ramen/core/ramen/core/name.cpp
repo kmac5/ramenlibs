@@ -27,8 +27,11 @@ THE SOFTWARE.
 #include<algorithm>
 
 #include<boost/unordered_set.hpp>
-#include<boost/thread/mutex.hpp>
-#include<boost/thread/locks.hpp>
+
+//#include<boost/thread/mutex.hpp>
+//#include<boost/thread/locks.hpp>
+
+#include"tinythread.h"
 
 #ifdef RAMEN_USE_INTERPROCESS_NAMES
     #include<boost/interprocess/detail/intermodule_singleton.hpp>
@@ -47,8 +50,11 @@ struct name_pool_t
     typedef name_set_type::const_iterator	const_iterator;
     typedef name_set_type::iterator			iterator;
 
-    typedef boost::mutex                    mutex_type;
-    typedef boost::lock_guard<mutex_type>   lock_type;
+    //typedef boost::mutex                    mutex_type;
+    //typedef boost::lock_guard<mutex_type>   lock_type;
+
+    typedef tthread::mutex                  mutex_type;
+    typedef tthread::lock_guard<mutex_type> lock_type;
 
     name_pool_t()
     {
