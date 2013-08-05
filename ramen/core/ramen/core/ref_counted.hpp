@@ -25,9 +25,7 @@ THE SOFTWARE.
 
 #include<ramen/core/config.hpp>
 
-#include<boost/noncopyable.hpp>
-
-#include<ramen/core/counter.hpp>
+#include<boost/smart_ptr/detail/atomic_count.hpp>
 
 namespace ramen
 {
@@ -35,7 +33,7 @@ namespace core
 {
 
 
-class RAMEN_CORE_API ref_counted_t : boost::noncopyable
+class RAMEN_CORE_API ref_counted_t
 {
 public:
 
@@ -43,26 +41,33 @@ public:
 
     ref_counted_t();
 
-    inline void add_ref() const { num_refs_.increment();}
+    inline void add_ref() const
+    {
+        ++num_refs_;
+    }
 
     inline void remove_ref() const
     {
-        if( num_refs_.decrement())
+        if( --num_refs_)
             delete this;
     }
 
-    bool unique() const
+    long ref_count() const
     {
-        return num_refs_.is_one();
+        return num_refs_;
     }
 
 protected:
 
     virtual ~ref_counted_t();
 
+    // non-copyable
+    ref_counted_t( const ref_counted_t&);
+    ref_counted_t& operator=( const ref_counted_t&);
+
 private:
 
-    mutable counter_t num_refs_;
+    mutable boost::detail::atomic_count num_refs_;
 };
 
 inline void intrusive_ptr_add_ref( const ref_counted_t *r) { r->add_ref();}

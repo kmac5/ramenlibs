@@ -20,38 +20,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_CORE_ALLOCATOR_INTERFACE_HPP
-#define RAMEN_CORE_ALLOCATOR_INTERFACE_HPP
-
-#include<ramen/core/ref_counted.hpp>
-
-#include<cstddef>
-
-#include<boost/intrusive_ptr.hpp>
+#include<ramen/core/allocator_interface.hpp>
 
 namespace ramen
 {
 namespace core
 {
 
-class RAMEN_CORE_API allocator_interface_t : public ref_counted_t
+allocator_interface_t::allocator_interface_t() : ref_counted_t()
 {
-public:
+}
 
-    virtual ~allocator_interface_t();
-
-    virtual void *allocate( std::size_t size) = 0;
-    virtual void deallocate( void *ptr) = 0;
-
-protected:
-
-    allocator_interface_t();
-
-};
-
-typedef boost::intrusive_ptr<allocator_interface_t> allocator_ptr_t;
+allocator_interface_t::~allocator_interface_t() {}
 
 } // core
 } // ramen
-
-#endif

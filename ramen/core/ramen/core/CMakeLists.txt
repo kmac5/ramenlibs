@@ -30,11 +30,13 @@ INCLUDE_DIRECTORIES(    ../../
 
 # lib
 FILE( GLOB_RECURSE RAMEN_CORE_HEADERS ./*.hpp)
-SET( RAMEN_CORE_SOURCES  empty.cpp
+SET( RAMEN_CORE_SOURCES  allocator_interface.cpp
+                         empty.cpp
                          dictionary.cpp
                          exceptions.cpp
                          name.cpp
                          memory.cpp
+                         ref_counted.cpp
                          regex8.cpp
                          simple_expression_evaluator.cpp
                          string8.cpp
@@ -49,14 +51,7 @@ SET( RAMEN_CORE_SOURCES  empty.cpp
                          ../../../extern/tinythreadpp/tinythread.cpp
                          )
 
-IF( WITH_TBB)
-    SET( RAMEN_CORE_SOURCES ${RAMEN_CORE_SOURCES}
-                            ref_counted.cpp
-                            )
-ENDIF()
-
 SET( RAMEN_CORE_LIBS ${PCRE_LIBRARIES}
-                    #${Boost_LIBRARIES}
                      )
 
 ADD_LIBRARY( ramen_core SHARED ${RAMEN_CORE_HEADERS} ${RAMEN_CORE_SOURCES})

@@ -48,12 +48,12 @@ public:
 TEST( RefCounted, All)
 {
     boost::intrusive_ptr<mock_ref_counted_t> obj( new mock_ref_counted_t());
-    ASSERT_TRUE( obj->unique());
+    ASSERT_EQ( obj->ref_count(), 1);
     {
         boost::intrusive_ptr<mock_ref_counted_t> obj2 = obj;
-        ASSERT_FALSE( obj->unique());
+        ASSERT_NE( obj->ref_count(), 1);
     }
-    ASSERT_TRUE( obj->unique());
+    ASSERT_EQ( obj->ref_count(), 1);
 
     // mock
     {
