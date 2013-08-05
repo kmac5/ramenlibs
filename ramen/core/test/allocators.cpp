@@ -24,8 +24,8 @@ THE SOFTWARE.
 #include<gtest/gtest.h>
 
 #include<ramen/core/allocator_interface.hpp>
-#include<ramen/core/detail/new_allocator.hpp>
-#include<ramen/core/detail/allocator_wrapper.hpp>
+#include<ramen/core/new_allocator.hpp>
+#include<ramen/core/allocator_wrapper.hpp>
 
 #include<boost/shared_ptr.hpp>
 #include<boost/container/vector.hpp>
@@ -34,12 +34,18 @@ THE SOFTWARE.
 
 using namespace ramen::core;
 
+TEST( Allocators, GlobalNewAllocator)
+{
+    allocator_ptr_t alloc( global_new_allocator());
+    allocator_ptr_t alloc2( global_new_allocator());
+    ASSERT_EQ( alloc, alloc2);
+}
+
 TEST( Allocators, All)
 {
-    allocator_ptr_t alloc( new detail::new_allocator_t());
-    detail::allocator_wrapper_t<int> alloc_wrapper( alloc);
-
-    typedef boost::container::vector<int, detail::allocator_wrapper_t<int> > vector_type;
+    allocator_ptr_t alloc( global_new_allocator());
+    allocator_wrapper_t<int> alloc_wrapper( alloc);
+    typedef boost::container::vector<int, allocator_wrapper_t<int> > vector_type;
 
     vector_type vec( alloc_wrapper);
     boost::container::vector<int> vec_no_alloc;
