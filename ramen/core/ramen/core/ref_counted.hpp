@@ -32,14 +32,15 @@ namespace ramen
 namespace core
 {
 
-
+/*!
+\ingroup core
+\brief ref counted base class, for use with boost intrusive_ptr
+*/
 class RAMEN_CORE_API ref_counted_t
 {
 public:
 
     typedef size_t ref_count_type;
-
-    ref_counted_t();
 
     inline void add_ref() const
     {
@@ -48,8 +49,8 @@ public:
 
     inline void remove_ref() const
     {
-        if( --num_refs_)
-            delete this;
+        if( --num_refs_ == 0)
+            release();
     }
 
     long ref_count() const
@@ -59,6 +60,7 @@ public:
 
 protected:
 
+    ref_counted_t();
     virtual ~ref_counted_t();
 
     // non-copyable
@@ -66,6 +68,8 @@ protected:
     ref_counted_t& operator=( const ref_counted_t&);
 
 private:
+
+    virtual void release() const = 0;
 
     mutable boost::detail::atomic_count num_refs_;
 };

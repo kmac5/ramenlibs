@@ -36,7 +36,7 @@ using namespace ramen::core;
 
 TEST( Allocators, All)
 {
-    boost::shared_ptr<allocator_interface_t> alloc( new detail::new_allocator_t());
+    allocator_ptr_t alloc( new detail::new_allocator_t());
     detail::allocator_wrapper_t<int> alloc_wrapper( alloc);
 
     typedef boost::container::vector<int, detail::allocator_wrapper_t<int> > vector_type;

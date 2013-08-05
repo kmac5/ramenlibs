@@ -33,6 +33,7 @@ namespace core
 {
 
 /*!
+\ingroup core
 \brief Empty class.
 */
 struct RAMEN_CORE_API empty_t : private boost::totally_ordered<empty_t>

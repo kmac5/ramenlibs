@@ -22,12 +22,23 @@ THE SOFTWARE.
 
 #include<ramen/core/detail/new_allocator.hpp>
 
+#include"tinythread.h"
+
 namespace ramen
 {
 namespace core
 {
 namespace detail
 {
+namespace
+{
+
+allocator_ptr_t g_new_allocator;
+tthread::mutex g_new_alloc_mutex;
+
+} // unnamed
+
+new_allocator_t::new_allocator_t() {}
 
 void *new_allocator_t::allocate( std::size_t size)
 {
@@ -37,6 +48,27 @@ void *new_allocator_t::allocate( std::size_t size)
 void new_allocator_t::deallocate( void *ptr)
 {
     ::operator delete( ptr);
+}
+
+new_allocator_t *new_allocator_t::create()
+{
+    return new new_allocator_t();
+}
+
+void new_allocator_t::release() const
+{
+    delete this;
+}
+
+allocator_ptr_t global_new_allocator()
+{
+    // TODO: use double checked pattern, to avoid the lock
+    tthread::lock_guard<tthread::mutex> lock( g_new_alloc_mutex);
+
+    if( !g_new_allocator)
+        g_new_allocator.reset( new_allocator_t::create());
+
+    return g_new_allocator;
 }
 
 } // detail

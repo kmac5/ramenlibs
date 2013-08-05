@@ -31,13 +31,16 @@ THE SOFTWARE.
 
 #include<ramen/core/string_fwd.hpp>
 
+#include<ramen/core/allocator_interface.hpp>
+
 namespace ramen
 {
 namespace core
 {
 
 /*!
-\brief A vector of string8_t strings.
+\ingroup core
+\brief A vector of unique string8_t strings.
 */
 class RAMEN_CORE_API string8_vector_t
 {
@@ -49,6 +52,9 @@ public:
     typedef std::size_t     size_type;
 
     string8_vector_t();
+
+    explicit string8_vector_t( const allocator_ptr_t& alloc);
+
     ~string8_vector_t();
 
     // Copy constructor

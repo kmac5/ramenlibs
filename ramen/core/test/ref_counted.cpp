@@ -43,6 +43,10 @@ public:
         destroyed();
     }
 
+    virtual void release() const
+    {
+        delete this;
+    }
 };
 
 TEST( RefCounted, All)

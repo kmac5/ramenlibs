@@ -33,6 +33,7 @@ namespace core
 {
 
 /*!
+\ingroup core
 \brief UTF8 regular expression class.
 */
 class RAMEN_CORE_API regex8_t

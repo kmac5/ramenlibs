@@ -36,6 +36,7 @@ namespace core
 {
 
 /*!
+\ingroup core
 \brief A collection of variant_t indexed by name_t keys.
 */
 class RAMEN_CORE_API dictionary_t
@@ -193,7 +194,7 @@ bool get( const dictionary_t& dic, const dictionary_t::key_type& key, T& val)
 
 template<class T>
 T get_optional( const dictionary_t& dic, const dictionary_t::key_type& key, const T& default_value)
-{    
+{
     if( const dictionary_t::value_type *v = dic.get( key))
     {
         if( const T *x = get<T>( v))

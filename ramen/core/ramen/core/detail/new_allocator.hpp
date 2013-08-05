@@ -34,13 +34,23 @@ namespace core
 namespace detail
 {
 
-class RAMEN_CORE_API new_allocator_t : public allocator_interface_t
+class new_allocator_t : public allocator_interface_t
 {
 public:
 
+    static new_allocator_t *create();
+
     virtual void *allocate( std::size_t size);
     virtual void deallocate( void *ptr);
+
+private:
+
+    new_allocator_t();
+
+    virtual void release() const;
 };
+
+allocator_ptr_t global_new_allocator();
 
 } // detail
 } // core

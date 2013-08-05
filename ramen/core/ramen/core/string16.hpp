@@ -39,6 +39,7 @@ namespace core
 {
 
 /*!
+\ingroup core
 \brief string class with 16 bit characters.
 */
 class RAMEN_CORE_API string16_t
@@ -98,9 +99,9 @@ public:
 
     bool empty() const;
 
-	void reserve( size_type n);
+    void reserve( size_type n);
 
-	void clear();
+    void clear();
 
     const char_type *c_str() const;
 
@@ -114,7 +115,7 @@ public:
 
     // append
     string16_t& operator+=( const char_type *str);
-	string16_t& operator+=( const string16_t& str);
+    string16_t& operator+=( const string16_t& str);
 
     void append( const char_type *str, size_type len);
     void append( const string16_t& str);

@@ -42,6 +42,7 @@ namespace core
 {
 
 /*!
+\ingroup core
 \brief Copy on write holder.
 */
 template <typename T> // T models Regular

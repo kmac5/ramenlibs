@@ -25,8 +25,6 @@ THE SOFTWARE.
 
 #include<ramen/core/config.hpp>
 
-#include<boost/shared_ptr.hpp>
-
 #include<ramen/core/allocator_interface.hpp>
 
 namespace ramen
@@ -55,7 +53,7 @@ public:
         typedef allocator_wrapper_t<Y> other;
     };
 
-    explicit allocator_wrapper_t( boost::shared_ptr<allocator_interface_t> alloc) : alloc_( alloc)
+    explicit allocator_wrapper_t( allocator_ptr_t alloc) : alloc_( alloc)
     {
         assert( alloc_);
     }
@@ -122,7 +120,7 @@ public:
 
  private:
 
-    boost::shared_ptr<allocator_interface_t> alloc_;
+    allocator_ptr_t alloc_;
 };
 
 } // detail

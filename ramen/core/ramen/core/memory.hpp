@@ -79,6 +79,7 @@ struct pointer_traits<T(*)[]>
 };
 
 /*!
+    \ingroup core
     \brief auto_resource_t offers similar functionality to std::auto_ptr for resources for
     which the pointer type is <i>opaque</i> refered to by a non-pointer type.
 */
@@ -144,9 +145,6 @@ public:
 
 private:
 
-    // for unit tests
-    bool was_moved() const { return traits_type::empty_ptr( ptr_);}
-
     void delete_contents()
     {
         if( ptr_)
@@ -166,6 +164,7 @@ inline void swap( auto_resource_t<T>& x, auto_resource_t<T>& y)
 }
 
 /*!
+    \ingroup core
     \brief An improved std::auto_ptr like smart pointer.
 */
 template<class T>

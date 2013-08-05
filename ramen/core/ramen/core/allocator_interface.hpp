@@ -34,19 +34,30 @@ namespace ramen
 namespace core
 {
 
+/*!
+\ingroup core
+\brief base class for polymorphic allocators.
+*/
 class RAMEN_CORE_API allocator_interface_t : public ref_counted_t
 {
 public:
 
     virtual ~allocator_interface_t();
 
+    /// allocates a block of memory of size \param size bytes.
     virtual void *allocate( std::size_t size) = 0;
+
+    /// deallocates a block of memory.
     virtual void deallocate( void *ptr) = 0;
 
 protected:
 
     allocator_interface_t();
 
+private:
+
+    /// delete this object.
+    virtual void release() const = 0;
 };
 
 typedef boost::intrusive_ptr<allocator_interface_t> allocator_ptr_t;

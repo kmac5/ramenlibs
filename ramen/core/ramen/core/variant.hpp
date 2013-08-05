@@ -54,6 +54,7 @@ namespace core
 {
 
 /*!
+\ingroup core
 \brief A discriminated union class.
 */
 class RAMEN_CORE_API variant_t

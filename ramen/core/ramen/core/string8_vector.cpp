@@ -46,6 +46,14 @@ struct string8_vector_t::impl
 
 string8_vector_t::string8_vector_t() : pimpl_( 0) {}
 
+string8_vector_t::string8_vector_t( const allocator_ptr_t& alloc)
+{
+    assert( alloc);
+
+    // TODO: implement this...
+    assert( false);
+}
+
 string8_vector_t::~string8_vector_t()
 {
     delete pimpl_;
