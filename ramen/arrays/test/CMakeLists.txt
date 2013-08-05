@@ -51,6 +51,7 @@ MACRO( ADD_RM_TEST sourcefile)
     ADD_TEST( ${sourcefile} ${CMAKE_CURRENT_BINARY_DIR}/${sourcefile})
 ENDMACRO()
 
+ADD_RM_TEST( allocators)
 ADD_RM_TEST( array)
 ADD_RM_TEST( array_ref)
 ADD_RM_TEST( apply_visitor)
