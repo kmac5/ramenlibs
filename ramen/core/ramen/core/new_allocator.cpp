@@ -20,40 +20,63 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_CORE_DETAIL_NEW_ALLOCATOR_HPP
-#define RAMEN_CORE_DETAIL_NEW_ALLOCATOR_HPP
+#include<ramen/core/new_allocator.hpp>
 
-#include<ramen/core/config.hpp>
-
-#include<ramen/core/allocator_interface.hpp>
+#include"tinythread.h"
 
 namespace ramen
 {
 namespace core
 {
-namespace detail
+namespace
 {
 
-class new_allocator_t : public allocator_interface_t
+tthread::atomic<new_allocator_t*> g_new_allocator_ptr_( 0);
+tthread::mutex g_new_alloc_mutex;
+allocator_ptr_t g_new_allocator;
+
+} // unnamed
+
+new_allocator_t::new_allocator_t() {}
+
+void *new_allocator_t::allocate( std::size_t size)
 {
-public:
+    return ::operator new( size);
+}
 
-    static new_allocator_t *create();
+void new_allocator_t::deallocate( void *ptr)
+{
+    ::operator delete( ptr);
+}
 
-    virtual void *allocate( std::size_t size);
-    virtual void deallocate( void *ptr);
+new_allocator_t *new_allocator_t::create()
+{
+    return new new_allocator_t();
+}
 
-private:
+void new_allocator_t::release() const
+{
+    delete this;
+}
 
-    new_allocator_t();
+allocator_ptr_t global_new_allocator()
+{
+    new_allocator_t *tmp = g_new_allocator_ptr_.load( tthread::memory_order_consume);
+    if( !tmp)
+    {
+        tthread::lock_guard<tthread::mutex> lock( g_new_alloc_mutex);
+        tmp = g_new_allocator_ptr_.load( tthread::memory_order_consume);
 
-    virtual void release() const;
-};
+        if( !tmp)
+        {
+            tmp = new_allocator_t::create();
+            g_new_allocator_ptr_.store( tmp, tthread::memory_order_release);
+            g_new_allocator = allocator_ptr_t( g_new_allocator_ptr_);
+        }
+    }
 
-allocator_ptr_t global_new_allocator();
+    return g_new_allocator;
+}
 
-} // detail
 } // core
 } // ramen
-
-#endif

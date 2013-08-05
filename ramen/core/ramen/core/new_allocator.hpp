@@ -20,58 +20,37 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include<ramen/core/detail/new_allocator.hpp>
+#ifndef RAMEN_CORE_NEW_ALLOCATOR_HPP
+#define RAMEN_CORE_NEW_ALLOCATOR_HPP
 
-#include"tinythread.h"
+#include<ramen/core/config.hpp>
+
+#include<ramen/core/allocator_interface.hpp>
 
 namespace ramen
 {
 namespace core
 {
-namespace detail
+
+class RAMEN_CORE_API new_allocator_t : public allocator_interface_t
 {
-namespace
-{
+public:
 
-allocator_ptr_t g_new_allocator;
-tthread::mutex g_new_alloc_mutex;
+    static new_allocator_t *create();
 
-} // unnamed
+    virtual void *allocate( std::size_t size);
+    virtual void deallocate( void *ptr);
 
-new_allocator_t::new_allocator_t() {}
+private:
 
-void *new_allocator_t::allocate( std::size_t size)
-{
-    return ::operator new( size);
-}
+    new_allocator_t();
 
-void new_allocator_t::deallocate( void *ptr)
-{
-    ::operator delete( ptr);
-}
+    virtual void release() const;
+};
 
-new_allocator_t *new_allocator_t::create()
-{
-    return new new_allocator_t();
-}
+RAMEN_CORE_API allocator_ptr_t global_new_allocator();
 
-void new_allocator_t::release() const
-{
-    delete this;
-}
-
-allocator_ptr_t global_new_allocator()
-{
-    // TODO: use double checked pattern, to avoid the lock
-    tthread::lock_guard<tthread::mutex> lock( g_new_alloc_mutex);
-
-    if( !g_new_allocator)
-        g_new_allocator.reset( new_allocator_t::create());
-
-    return g_new_allocator;
-}
-
-} // detail
 } // core
 } // ramen
 
+#endif

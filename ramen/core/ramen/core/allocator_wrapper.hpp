@@ -20,8 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_CORE_DETAIL_ALLOCATOR_WRAPPER_HPP
-#define RAMEN_CORE_DETAIL_ALLOCATOR_WRAPPER_HPP
+#ifndef RAMEN_CORE_ALLOCATOR_WRAPPER_HPP
+#define RAMEN_CORE_ALLOCATOR_WRAPPER_HPP
 
 #include<ramen/core/config.hpp>
 
@@ -30,8 +30,6 @@ THE SOFTWARE.
 namespace ramen
 {
 namespace core
-{
-namespace detail
 {
 
 template<typename T>
@@ -123,7 +121,6 @@ public:
     allocator_ptr_t alloc_;
 };
 
-} // detail
 } // core
 } // ramen
 

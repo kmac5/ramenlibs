@@ -28,6 +28,8 @@ THE SOFTWARE.
 #include<boost/flyweight.hpp>
 
 #include<ramen/core/exceptions.hpp>
+#include<ramen/core/allocator_wrapper.hpp>
+#include<ramen/core/new_allocator.hpp>
 
 namespace ramen
 {
@@ -36,22 +38,32 @@ namespace core
 
 struct string8_vector_t::impl
 {
+    typedef boost::flyweights::flyweight<core::string8_t> string_type;
+    typedef allocator_wrapper_t<string_type> allocator_type;
+
+    impl() : items( allocator_type( global_new_allocator()))
+    {
+    }
+
+    impl( const allocator_ptr_t& alloc) : items( allocator_type( alloc))
+    {
+    }
+
     bool operator==( const string8_vector_t::impl& other) const
     {
         return items == other.items;
     }
 
-    boost::container::vector<boost::flyweights::flyweight<core::string8_t> > items;
+    boost::container::vector<string_type, allocator_wrapper_t<string_type> >items;
 };
 
 string8_vector_t::string8_vector_t() : pimpl_( 0) {}
 
-string8_vector_t::string8_vector_t( const allocator_ptr_t& alloc)
+string8_vector_t::string8_vector_t( const allocator_ptr_t& alloc) : pimpl_( 0)
 {
     assert( alloc);
 
-    // TODO: implement this...
-    assert( false);
+    pimpl_ = new impl( alloc);
 }
 
 string8_vector_t::~string8_vector_t()

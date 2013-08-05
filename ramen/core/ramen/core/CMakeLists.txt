@@ -35,6 +35,7 @@ SET( RAMEN_CORE_SOURCES  allocator_interface.cpp
                          dictionary.cpp
                          exceptions.cpp
                          name.cpp
+                         new_allocator.cpp
                          memory.cpp
                          ref_counted.cpp
                          regex8.cpp
@@ -44,8 +45,6 @@ SET( RAMEN_CORE_SOURCES  allocator_interface.cpp
                          string16.cpp
                          types.cpp
                          variant.cpp
-
-                         detail/new_allocator.cpp
 
                          ../../../extern/tinythreadpp/tinythread.h
                          ../../../extern/tinythreadpp/tinythread.cpp
