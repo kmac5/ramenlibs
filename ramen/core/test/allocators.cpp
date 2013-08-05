@@ -23,18 +23,18 @@ THE SOFTWARE.
 #include<gmock/gmock.h>
 #include<gtest/gtest.h>
 
-#include<ramen/arrays/allocator_interface.hpp>
-#include<ramen/arrays/detail/new_allocator.hpp>
-#include<ramen/arrays/detail/allocator_wrapper.hpp>
+#include<ramen/core/allocator_interface.hpp>
+#include<ramen/core/detail/new_allocator.hpp>
+#include<ramen/core/detail/allocator_wrapper.hpp>
 
 #include<boost/shared_ptr.hpp>
 #include<boost/container/vector.hpp>
 
 #include<iostream>
 
-using namespace ramen::arrays;
+using namespace ramen::core;
 
-TEST( ArrayAllocators, All)
+TEST( Allocators, All)
 {
     boost::shared_ptr<allocator_interface_t> alloc( new detail::new_allocator_t());
     detail::allocator_wrapper_t<int> alloc_wrapper( alloc);

@@ -20,40 +20,26 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_ARRAYS_ALLOCATOR_INTERFACE_HPP
-#define RAMEN_ARRAYS_ALLOCATOR_INTERFACE_HPP
-
-#include<ramen/arrays/config.hpp>
-
-#include<cstddef>
+#include<ramen/core/detail/new_allocator.hpp>
 
 namespace ramen
 {
-namespace arrays
+namespace core
+{
+namespace detail
 {
 
-class RAMEN_ARRAYS_API allocator_interface_t
+void *new_allocator_t::allocate( std::size_t size)
 {
-public:
+    return ::operator new( size);
+}
 
-    virtual ~allocator_interface_t() {}
+void new_allocator_t::deallocate( void *ptr)
+{
+    ::operator delete( ptr);
+}
 
-    virtual void *allocate( std::size_t size) = 0;
-    virtual void deallocate( void *ptr) = 0;
-
-protected:
-
-    allocator_interface_t() {}
-
-private:
-
-    // non-copyable
-    allocator_interface_t( const allocator_interface_t&);
-    allocator_interface_t& operator=( const allocator_interface_t&);
-};
-
-} // arrays
+} // detail
+} // core
 } // ramen
-
-#endif
 

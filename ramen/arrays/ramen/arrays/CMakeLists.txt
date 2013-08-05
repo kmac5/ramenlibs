@@ -31,7 +31,6 @@ INCLUDE_DIRECTORIES(    ../../
 FILE( GLOB_RECURSE RAMEN_ARRAYS_HEADERS ./*.hpp)
 SET( RAMEN_ARRAYS_SOURCES array.cpp
                           detail/string_array_model.cpp
-                          detail/new_allocator.cpp
 
                           ../../../extern/tinythreadpp/tinythread.h
                           ../../../extern/tinythreadpp/tinythread.cpp

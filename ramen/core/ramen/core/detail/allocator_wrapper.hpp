@@ -20,18 +20,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_ARRAYS_DETAIL_ALLOCATOR_WRAPPER_HPP
-#define RAMEN_ARRAYS_DETAIL_ALLOCATOR_WRAPPER_HPP
+#ifndef RAMEN_CORE_DETAIL_ALLOCATOR_WRAPPER_HPP
+#define RAMEN_CORE_DETAIL_ALLOCATOR_WRAPPER_HPP
 
-#include<ramen/arrays/config.hpp>
+#include<ramen/core/config.hpp>
 
 #include<boost/shared_ptr.hpp>
 
-#include<ramen/arrays/allocator_interface.hpp>
+#include<ramen/core/allocator_interface.hpp>
 
 namespace ramen
 {
-namespace arrays
+namespace core
 {
 namespace detail
 {
@@ -126,8 +126,7 @@ public:
 };
 
 } // detail
-} // arrays
+} // core
 } // ramen
 
 #endif
-

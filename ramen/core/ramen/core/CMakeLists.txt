@@ -43,6 +43,8 @@ SET( RAMEN_CORE_SOURCES  empty.cpp
                          types.cpp
                          variant.cpp
 
+                         detail/new_allocator.cpp
+
                          ../../../extern/tinythreadpp/tinythread.h
                          ../../../extern/tinythreadpp/tinythread.cpp
                          )

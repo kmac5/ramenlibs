@@ -43,6 +43,7 @@ MACRO( ADD_RM_TEST sourcefile)
     ADD_TEST( ${sourcefile} ${CMAKE_CURRENT_BINARY_DIR}/${sourcefile})
 ENDMACRO()
 
+ADD_RM_TEST( allocators)
 ADD_RM_TEST( copy_on_write)
 ADD_RM_TEST( dictionary)
 ADD_RM_TEST( empty)
