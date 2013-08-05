@@ -23,12 +23,17 @@ INCLUDE_DIRECTORIES(    ../../
                         ../../../core
                         ../../../math
                         ../../../color
+
+                        ../../../extern/tinythreadpp
                         )
 
 # lib
 FILE( GLOB_RECURSE RAMEN_ARRAYS_HEADERS ./*.hpp)
 SET( RAMEN_ARRAYS_SOURCES  array.cpp
                           detail/string_array_model.cpp
+
+                         ../../../extern/tinythreadpp/tinythread.h
+                         ../../../extern/tinythreadpp/tinythread.cpp
                           )
 
 SET( RAMEN_ARRAYS_LIBS ramen_core

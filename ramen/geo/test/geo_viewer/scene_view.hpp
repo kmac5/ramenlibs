@@ -29,8 +29,6 @@ THE SOFTWARE.
 
 #include<QtOpenGL/QGLWidget>
 
-#include<boost/filesystem/path.hpp>
-
 class scene_view_t : public QGLWidget
 {
     Q_OBJECT
