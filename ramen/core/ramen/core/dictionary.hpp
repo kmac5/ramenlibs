@@ -27,6 +27,7 @@ THE SOFTWARE.
 
 #include<boost/move/move.hpp>
 
+#include<ramen/core/allocator_interface.hpp>
 #include<ramen/core/name.hpp>
 #include<ramen/core/variant.hpp>
 
@@ -55,6 +56,8 @@ public:
     typedef const pair_type*   const_iterator;
 
     dictionary_t();
+    explicit dictionary_t( const allocator_ptr_t& alloc);
+
     ~dictionary_t();
 
     // Copy constructor

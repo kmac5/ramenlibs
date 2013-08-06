@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 #include<ramen/core/allocator_interface.hpp>
 #include<ramen/core/new_allocator.hpp>
-#include<ramen/core/allocator_wrapper.hpp>
+#include<ramen/core/stl_allocator_adapter.hpp>
 
 #include<boost/shared_ptr.hpp>
 #include<boost/container/vector.hpp>
@@ -44,8 +44,8 @@ TEST( Allocators, GlobalNewAllocator)
 TEST( Allocators, All)
 {
     allocator_ptr_t alloc( global_new_allocator());
-    allocator_wrapper_t<int> alloc_wrapper( alloc);
-    typedef boost::container::vector<int, allocator_wrapper_t<int> > vector_type;
+    stl_allocator_adapter_t<int> alloc_wrapper( alloc);
+    typedef boost::container::vector<int, stl_allocator_adapter_t<int> > vector_type;
 
     vector_type vec( alloc_wrapper);
     boost::container::vector<int> vec_no_alloc;

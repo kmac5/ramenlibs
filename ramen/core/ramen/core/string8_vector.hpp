@@ -52,7 +52,6 @@ public:
     typedef std::size_t     size_type;
 
     string8_vector_t();
-
     explicit string8_vector_t( const allocator_ptr_t& alloc);
 
     ~string8_vector_t();

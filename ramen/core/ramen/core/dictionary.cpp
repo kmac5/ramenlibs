@@ -27,6 +27,8 @@ THE SOFTWARE.
 #include<boost/container/flat_map.hpp>
 
 #include<ramen/core/exceptions.hpp>
+#include<ramen/core/new_allocator.hpp>
+#include<ramen/core/stl_allocator_adapter.hpp>
 
 namespace ramen
 {
@@ -35,14 +37,39 @@ namespace core
 
 struct dictionary_t::impl
 {
-    typedef boost::container::flat_map<key_type, value_type> map_type;
-    typedef map_type::const_iterator    const_iterator;
-    typedef map_type::iterator          iterator;
+    typedef std::pair<key_type, value_type>             pair_type;
+    typedef stl_allocator_adapter_t<pair_type>          allocator_type;
+    typedef std::less<key_type>                         compare_type;
+
+    typedef boost::container::flat_map< key_type,
+                                        value_type,
+                                        std::less<key_type>,
+                                        allocator_type> map_type;
+
+    typedef map_type::const_iterator                    const_iterator;
+    typedef map_type::iterator                          iterator;
+
+    impl() : items( compare_type(), allocator_type( global_new_allocator()))
+    {
+    }
+
+    explicit impl( const allocator_ptr_t& alloc) : items( compare_type(), allocator_type( alloc))
+    {
+    }
 
     map_type items;
 };
 
-dictionary_t::dictionary_t() : pimpl_( 0) {}
+dictionary_t::dictionary_t() : pimpl_( 0)
+{
+}
+
+dictionary_t::dictionary_t( const allocator_ptr_t& alloc) : pimpl_( 0)
+{
+    assert( alloc);
+
+    pimpl_ = new impl( alloc);
+}
 
 dictionary_t::~dictionary_t()
 {

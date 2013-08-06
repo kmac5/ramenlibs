@@ -42,8 +42,6 @@ class RAMEN_CORE_API allocator_interface_t : public ref_counted_t
 {
 public:
 
-    virtual ~allocator_interface_t();
-
     /// allocates a block of memory of size \param size bytes.
     virtual void *allocate( std::size_t size) = 0;
 
@@ -53,6 +51,7 @@ public:
 protected:
 
     allocator_interface_t();
+    virtual ~allocator_interface_t();
 
 private:
 

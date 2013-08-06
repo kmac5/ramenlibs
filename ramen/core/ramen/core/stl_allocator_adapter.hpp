@@ -20,8 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_CORE_ALLOCATOR_WRAPPER_HPP
-#define RAMEN_CORE_ALLOCATOR_WRAPPER_HPP
+#ifndef RAMEN_CORE_STL_ALLOCATOR_ADAPTER_HPP
+#define RAMEN_CORE_STL_ALLOCATOR_ADAPTER_HPP
 
 #include<ramen/core/config.hpp>
 
@@ -33,7 +33,7 @@ namespace core
 {
 
 template<typename T>
-class allocator_wrapper_t
+class stl_allocator_adapter_t
 {
 public:
 
@@ -48,28 +48,12 @@ public:
     template<typename Y>
     struct rebind
     {
-        typedef allocator_wrapper_t<Y> other;
+        typedef stl_allocator_adapter_t<Y> other;
     };
 
-    explicit allocator_wrapper_t( allocator_ptr_t alloc) : alloc_( alloc)
+    explicit stl_allocator_adapter_t( allocator_ptr_t alloc) : alloc_( alloc)
     {
         assert( alloc_);
-    }
-
-    allocator_wrapper_t( const allocator_wrapper_t& other) : alloc_( other.alloc_)
-    {
-        std::cout << "Allocator copied" << std::endl;
-    }
-
-    ~allocator_wrapper_t()
-    {
-        std::cout << "Allocator deleted" << std::endl;
-    }
-
-    allocator_wrapper_t& operator=( const allocator_wrapper_t& other)
-    {
-        alloc_ = other.alloc_;
-        std::cout << "Allocator assigned" << std::endl;
     }
 
     const_pointer address( const_reference x) const { return &x;}
@@ -79,39 +63,35 @@ public:
     {
         assert( n <= this->max_size());
 
-        std::cout << "**Allocate called, size = " << n * sizeof( T) << std::endl;
         return reinterpret_cast<T*>( alloc_->allocate( n * sizeof( T)));
     }
 
     void deallocate( pointer p, size_type)
     {
-        std::cout << "**Dellocate called" << std::endl;
         alloc_->deallocate( reinterpret_cast<void*>( p));
     }
 
-    size_type max_size() const _GLIBCXX_USE_NOEXCEPT
+    size_type max_size() const
     {
         return size_type( -1) / sizeof( T);
     }
 
     void construct( pointer p, const T& val)
     {
-        //std::cout << "****Construct called" << std::endl;
         ::new(( void *) p) T( val);
     }
 
     void destroy(pointer p)
     {
-        //std::cout << "****Destruct called" << std::endl;
         p->~T();
     }
 
-    bool operator==( const allocator_wrapper_t& other) const
+    bool operator==( const stl_allocator_adapter_t& other) const
     {
         return alloc_ == other.alloc_;
     }
 
-    bool operator!=( const allocator_wrapper_t& other) const
+    bool operator!=( const stl_allocator_adapter_t& other) const
     {
         return !( *this == other);
     }
