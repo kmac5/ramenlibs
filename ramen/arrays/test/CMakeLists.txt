@@ -52,6 +52,7 @@ MACRO( ADD_RM_TEST sourcefile)
 ENDMACRO()
 
 ADD_RM_TEST( array)
+ADD_RM_TEST( array_allocators)
 ADD_RM_TEST( array_ref)
 ADD_RM_TEST( apply_visitor)
 ADD_RM_TEST( string_array)
