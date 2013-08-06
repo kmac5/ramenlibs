@@ -28,6 +28,7 @@ THE SOFTWARE.
 #include<algorithm>
 
 #include<ramen/core/Concepts/RegularConcept.hpp>
+#include<ramen/core/allocator_interface.hpp>
 #include<ramen/core/string8_vector.hpp>
 
 #include<ramen/arrays/Concepts/ArrayModelConcept.hpp>
@@ -45,7 +46,7 @@ public:
 
     typedef core::string8_t value_type;
 
-    string_array_model_t();
+    explicit string_array_model_t( const core::allocator_ptr_t& alloc);
 
     virtual string_array_model_t *copy() const;
 

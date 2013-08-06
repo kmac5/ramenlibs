@@ -27,6 +27,8 @@ THE SOFTWARE.
 #include"tinythread.h"
 
 #include<ramen/core/exceptions.hpp>
+#include<ramen/core/stl_allocator_adapter.hpp>
+#include<ramen/core/new_allocator.hpp>
 
 #include<ramen/arrays/detail/array_models.hpp>
 #include<ramen/arrays/detail/string_array_model.hpp>
@@ -35,27 +37,38 @@ namespace ramen
 {
 namespace arrays
 {
-
-array_t::array_t() : model_( 0)
+namespace
 {
-    init( core::float_k, 0);
+
+core::allocator_ptr_t g_array_allocator;
+
+core::allocator_ptr_t default_array_allocator()
+{
+    if( g_array_allocator)
+        return g_array_allocator;
+
+    return core::global_new_allocator();
 }
 
-array_t::array_t( core::type_t type) : model_( 0)
+} // unnamed
+
+void set_default_array_allocator( const core::allocator_ptr_t& alloc)
 {
-    init( type, 0);
+    g_array_allocator = alloc;
 }
 
 array_t::array_t( core::type_t type, size_type n) : model_( 0)
 {
-    init( type, n);
+    init( type, n, default_array_allocator());
 }
 
-void array_t::init( core::type_t type, size_type n)
+void array_t::init( core::type_t type, size_type n, const core::allocator_ptr_t& alloc)
 {
+    assert( alloc);
+
     #define RAMEN_ARRAYS_ARRAY_INIT_CASE( type_enum_k, type_name)\
         case type_enum_k:\
-            do_init<type_name>();\
+            do_init<type_name>( alloc);\
         break;
 
     switch( type)
@@ -93,7 +106,7 @@ void array_t::init( core::type_t type, size_type n)
 
         // special case for strings
         case core::string8_k:
-            do_init_with_string();
+            do_init_with_string( alloc);
         break;
 
         default:
@@ -107,14 +120,15 @@ void array_t::init( core::type_t type, size_type n)
 }
 
 template<class T>
-void array_t::do_init()
+void array_t::do_init( const core::allocator_ptr_t& alloc)
 {
-    model_ = new detail::array_model_t<boost::container::vector<T> >();
+    typedef core::stl_allocator_adapter_t<T> allocator_type;
+    model_ = new detail::array_model_t<boost::container::vector<T, allocator_type> >( alloc);
 }
 
-void array_t::do_init_with_string()
+void array_t::do_init_with_string( const core::allocator_ptr_t& alloc)
 {
-    model_ = new detail::string_array_model_t();
+    model_ = new detail::string_array_model_t( alloc);
 }
 
 array_t::~array_t() { delete model_;}

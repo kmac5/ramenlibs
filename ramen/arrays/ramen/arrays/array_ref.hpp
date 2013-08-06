@@ -31,6 +31,7 @@ THE SOFTWARE.
 #include<boost/range.hpp>
 
 #include<ramen/core/exceptions.hpp>
+#include<ramen/core/stl_allocator_adapter.hpp>
 #include<ramen/core/string8_vector.hpp>
 
 #include<ramen/arrays/array.hpp>
@@ -45,7 +46,8 @@ namespace arrays
 template<class T>
 struct array_ref_traits
 {
-    typedef detail::array_model_t<boost::container::vector<T> > model_type;
+    typedef core::stl_allocator_adapter_t<T> allocator_type;
+    typedef detail::array_model_t<boost::container::vector<T, allocator_type> > model_type;
 
     typedef const T&    const_reference;
     typedef T&          reference;

@@ -29,7 +29,9 @@ namespace arrays
 namespace detail
 {
 
-string_array_model_t::string_array_model_t() {}
+string_array_model_t::string_array_model_t( const core::allocator_ptr_t& alloc) : items_( alloc)
+{
+}
 
 string_array_model_t *string_array_model_t::copy() const
 {

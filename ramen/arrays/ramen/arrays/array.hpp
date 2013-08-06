@@ -31,6 +31,7 @@ THE SOFTWARE.
 #include<boost/move/move.hpp>
 
 #include<ramen/core/types.hpp>
+#include<ramen/core/allocator_interface.hpp>
 
 #include<ramen/arrays/detail/array_interface_fwd.hpp>
 
@@ -50,10 +51,7 @@ public:
 
     typedef std::size_t size_type;
 
-    array_t();
-    explicit array_t( core::type_t type);
-    array_t( core::type_t type, size_type n);
-
+    array_t( core::type_t type = core::float_k, size_type n = 0);
     ~array_t();
 
     // Copy constructor
@@ -115,12 +113,12 @@ private:
     template<class>
     friend class array_ref_t;
 
-    void init( core::type_t type, size_type n);
+    void init( core::type_t type, size_type n, const core::allocator_ptr_t& alloc);
 
     template<class T>
-    void do_init();
+    void do_init( const core::allocator_ptr_t& alloc);
 
-    void do_init_with_string();
+    void do_init_with_string( const core::allocator_ptr_t& alloc);
 
     // used by array_refs
     const detail::array_interface_t *model() const;
@@ -136,6 +134,9 @@ inline void swap( array_t& x, array_t& y)
 {
     x.swap( y);
 }
+
+/// Sets the default array allocator. Warning: not thread safe.
+RAMEN_ARRAYS_API void set_default_array_allocator( const core::allocator_ptr_t& alloc);
 
 } // arrays
 } // ramen

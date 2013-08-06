@@ -27,7 +27,13 @@ THE SOFTWARE.
 
 #include<algorithm>
 
+#include<boost/static_assert.hpp>
+#include<boost/type_traits/is_same.hpp>
+
 #include<ramen/core/Concepts/RegularConcept.hpp>
+#include<ramen/core/allocator_interface.hpp>
+#include<ramen/core/stl_allocator_adapter.hpp>
+
 #include<ramen/arrays/Concepts/ArrayModelConcept.hpp>
 
 namespace ramen
@@ -37,17 +43,20 @@ namespace arrays
 namespace detail
 {
 
-template<class T> // T is boost::container::vector<>
+template<class T> // T is boost::container::vector<X>
 class array_model_t : public array_interface_t
 {
     BOOST_CONCEPT_ASSERT(( ArrayModelConcept<T>));
     BOOST_CONCEPT_ASSERT(( core::RegularConcept<typename T::value_type>));
 
+    typedef core::stl_allocator_adapter_t<typename T::value_type> allocator_type;
+    BOOST_STATIC_ASSERT(( boost::is_same<allocator_type, typename T::allocator_type>::value));
+
 public:
 
     typedef typename T::value_type value_type;
 
-    array_model_t() {}
+    explicit array_model_t( const core::allocator_ptr_t& alloc) : items_( allocator_type( alloc)) {}
 
     virtual array_model_t<T> *copy() const
     {
