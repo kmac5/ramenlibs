@@ -81,7 +81,7 @@ bool is_valid_c_identifier( const Range& str)
 
 inline bool is_valid_c_identifier( const char *str)
 {
-    return is_valid_c_identifier( str, str + strlen( str) + 1);
+    return is_valid_c_identifier( str, str + strlen( str));
 }
 
 } // string_algo

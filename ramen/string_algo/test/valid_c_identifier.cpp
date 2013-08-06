@@ -37,6 +37,7 @@ TEST( ValidCIdentifier, All)
     EXPECT_TRUE( is_valid_c_identifier( string8_t( "valid_id")));
     EXPECT_FALSE( is_valid_c_identifier( std::string( "invalid id")));
     EXPECT_FALSE( is_valid_c_identifier( "77 invalid"));
+    EXPECT_FALSE( is_valid_c_identifier( "almost_valid "));
 }
 
 int main(int argc, char **argv)
