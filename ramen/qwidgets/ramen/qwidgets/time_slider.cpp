@@ -33,10 +33,10 @@ time_slider_t::time_slider_t( QWidget *parent) : QWidget( parent)
     scale_->setRange(1, 100);
     scale_->setValue( 1);
 
-    connect( start_	 , SIGNAL( valueChanged(double)), this, SLOT( set_start_frame(double)));
-    connect( end_	 , SIGNAL( valueChanged(double)), this, SLOT( set_end_frame(double)));
-    connect( current_, SIGNAL( valueChanged(double)), this, SLOT( set_frame(double)));
-    connect( scale_	 , SIGNAL( valueChanged(double)), this, SLOT( set_frame(double)));
+    connect( start_	 , SIGNAL( valueChanged( int)), this, SLOT( set_start_frame( int)));
+    connect( end_	 , SIGNAL( valueChanged( int)), this, SLOT( set_end_frame( int)));
+    connect( current_, SIGNAL( valueChanged( int)), this, SLOT( set_frame( int)));
+    connect( scale_	 , SIGNAL( valueChanged( int)), this, SLOT( set_frame( int)));
 
     QHBoxLayout *layout = new QHBoxLayout;
     layout->addWidget( start_);
@@ -66,7 +66,7 @@ void time_slider_t::update( int start, int frame, int end)
     block_all_signals( false);
 }
 
-void time_slider_t::set_start_frame( double t)
+void time_slider_t::set_start_frame( int t)
 {
     block_all_signals( true);
 
@@ -83,7 +83,7 @@ void time_slider_t::set_start_frame( double t)
     adjust_frame( cur_frame);
 }
 
-void time_slider_t::set_end_frame( double t)
+void time_slider_t::set_end_frame( int t)
 {
     block_all_signals( true);
 
@@ -100,7 +100,7 @@ void time_slider_t::set_end_frame( double t)
     adjust_frame( cur_frame);
 }
 
-void time_slider_t::set_frame( double t)
+void time_slider_t::set_frame( int t)
 {
     block_all_signals( true);
     scale_->setValue( t);

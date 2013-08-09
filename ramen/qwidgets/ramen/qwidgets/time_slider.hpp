@@ -47,9 +47,9 @@ public:
 
 public Q_SLOTS:
 
-    void set_start_frame( double t);
-    void set_end_frame( double t);
-    void set_frame( double t);
+    void set_start_frame( int t);
+    void set_end_frame( int t);
+    void set_frame( int t);
 
 Q_SIGNALS:
 

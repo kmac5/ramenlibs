@@ -27,9 +27,6 @@ THE SOFTWARE.
 
 #include<QWidget>
 
-class QDoubleSpinBox;
-class QSlider;
-
 namespace ramen
 {
 namespace qwidgets
@@ -58,7 +55,7 @@ protected:
 
 Q_SIGNALS:
 
-    void valueChanged( double value);
+    void valueChanged( int value);
 
 private:
 
