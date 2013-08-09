@@ -20,52 +20,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_QWIDGETS_TIME_SLIDER_HPP
-#define	RAMEN_QWIDGETS_TIME_SLIDER_HPP
+#ifndef RAMEN_QWIDGETS_TIME_SLIDER_FWD_HPP
+#define	RAMEN_QWIDGETS_TIME_SLIDER_FWD_HPP
 
-#include<ramen/qwidgets/time_slider_fwd.hpp>
-
-#include<ramen/qwidgets/time_scale.hpp>
-
-class QSpinBox;
-class QSlider;
+#include<ramen/qwidgets/config.hpp>
 
 namespace ramen
 {
 namespace qwidgets
 {
 
-class RAMEN_QWIDGETS_API time_slider_t : public QWidget
-{
-    Q_OBJECT
-
-public:
-
-    time_slider_t( QWidget *parent = 0);
-
-    void update( int start, int frame, int end);
-
-public Q_SLOTS:
-
-    void set_start_frame( double t);
-    void set_end_frame( double t);
-    void set_frame( double t);
-
-Q_SIGNALS:
-
-    void start_frame_changed( int t);
-    void end_frame_changed( int t);
-    void time_changed( int t);
-
-private:
-
-    void block_all_signals( bool b);
-    void adjust_frame( int frame);
-
-    QSpinBox *start_, *end_, *current_;
-    QSlider *slider_;
-    time_scale_t *scale_;
-};
+class time_slider_t;
 
 } // qwidgets
 } // ramen

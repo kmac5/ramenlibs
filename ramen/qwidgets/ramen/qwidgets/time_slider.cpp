@@ -2,10 +2,10 @@
 // Licensed under the terms of the CDDL License.
 // See CDDL_LICENSE.txt for a copy of the license.
 
-#include<ramen/ui/widgets/time_slider.hpp>
+#include<ramen/qwidgets/time_slider.hpp>
 
 #include<QHBoxLayout>
-#include<QDoubleSpinBox>
+#include<QSpinBox>
 
 namespace ramen
 {
@@ -14,20 +14,17 @@ namespace qwidgets
 
 time_slider_t::time_slider_t( QWidget *parent) : QWidget( parent)
 {
-    start_ = new QDoubleSpinBox();
-    //start_->setTrackMouse( false);
+    start_ = new QSpinBox();
     start_->setRange( -32768, 32768);
     start_->setValue( 1);
     start_->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    end_ = new QDoubleSpinBox();
-    //end_->setTrackMouse( false);
+    end_ = new QSpinBox();
     end_->setRange( -32768, 32768);
     end_->setValue( 100);
     end_->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    current_ = new QDoubleSpinBox();
-    //current_->setTrackMouse( false);
+    current_ = new QSpinBox();
     current_->setRange(1, 100);
     current_->setValue( 1);
     current_->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed);

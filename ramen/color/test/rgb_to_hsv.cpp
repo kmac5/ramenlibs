@@ -20,54 +20,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_QWIDGETS_TIME_SLIDER_HPP
-#define	RAMEN_QWIDGETS_TIME_SLIDER_HPP
+#include<gtest/gtest.h>
 
-#include<ramen/qwidgets/time_slider_fwd.hpp>
+#include<ramen/color/rgb_to_hsv.hpp>
 
-#include<ramen/qwidgets/time_scale.hpp>
+using namespace ramen::color;
 
-class QSpinBox;
-class QSlider;
-
-namespace ramen
+TEST( Rgb2Hsv, All)
 {
-namespace qwidgets
+}
+
+int main( int argc, char **argv)
 {
-
-class RAMEN_QWIDGETS_API time_slider_t : public QWidget
-{
-    Q_OBJECT
-
-public:
-
-    time_slider_t( QWidget *parent = 0);
-
-    void update( int start, int frame, int end);
-
-public Q_SLOTS:
-
-    void set_start_frame( double t);
-    void set_end_frame( double t);
-    void set_frame( double t);
-
-Q_SIGNALS:
-
-    void start_frame_changed( int t);
-    void end_frame_changed( int t);
-    void time_changed( int t);
-
-private:
-
-    void block_all_signals( bool b);
-    void adjust_frame( int frame);
-
-    QSpinBox *start_, *end_, *current_;
-    QSlider *slider_;
-    time_scale_t *scale_;
-};
-
-} // qwidgets
-} // ramen
-
-#endif
+    ::testing::InitGoogleTest( &argc, argv);
+    return RUN_ALL_TESTS();
+}

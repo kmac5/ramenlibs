@@ -39,6 +39,8 @@ THE SOFTWARE.
     #include<ramen/core/half.hpp>
 #endif
 
+#include<ramen/math/cmath.hpp>
+
 namespace ramen
 {
 namespace color
@@ -154,6 +156,14 @@ template<class T>
 T luminance( const color3_t<T, rgb_t>& c)
 {
     return 0.2126f * c.x + 0.7152f * c.y + 0.0722f * c.z;
+}
+
+template<class T>
+color3_t<T,rgb_t> apply_gamma( const color3_t<T, rgb_t>& c, T g)
+{
+    return color3_t<T,rgb_t>( math::cmath<T>::pow( c.x, g),
+                              math::cmath<T>::pow( c.y, g),
+                              math::cmath<T>::pow( c.z, g));
 }
 
 template<class T, class Colorspace>
