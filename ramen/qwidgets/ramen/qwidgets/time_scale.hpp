@@ -44,7 +44,7 @@ public:
     void setMinimum( int m);
     void setMaximum( int m);
 
-    void setValue( int v);
+    void setValue( double v);
 
 protected:
 
@@ -55,7 +55,7 @@ protected:
 
 Q_SIGNALS:
 
-    void valueChanged( int value);
+    void valueChanged( double value);
 
 private:
 
@@ -64,7 +64,7 @@ private:
 
     int min_value_;
     int max_value_;
-    int value_;
+    double value_;
 
     int last_x_;
     bool drag_;

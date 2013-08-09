@@ -6,6 +6,7 @@
 
 #include<QHBoxLayout>
 #include<QSpinBox>
+#include<QDoubleSpinBox>
 
 namespace ramen
 {
@@ -24,9 +25,10 @@ time_slider_t::time_slider_t( QWidget *parent) : QWidget( parent)
     end_->setValue( 100);
     end_->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    current_ = new QSpinBox();
+    current_ = new QDoubleSpinBox();
     current_->setRange(1, 100);
     current_->setValue( 1);
+    current_->setDecimals( 0);
     current_->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     scale_ = new time_scale_t();
@@ -35,8 +37,8 @@ time_slider_t::time_slider_t( QWidget *parent) : QWidget( parent)
 
     connect( start_	 , SIGNAL( valueChanged( int)), this, SLOT( set_start_frame( int)));
     connect( end_	 , SIGNAL( valueChanged( int)), this, SLOT( set_end_frame( int)));
-    connect( current_, SIGNAL( valueChanged( int)), this, SLOT( set_frame( int)));
-    connect( scale_	 , SIGNAL( valueChanged( int)), this, SLOT( set_frame( int)));
+    connect( scale_	 , SIGNAL( valueChanged( double)), this, SLOT( set_frame( double)));
+    connect( current_, SIGNAL( valueChanged( double)), this, SLOT( set_frame( double)));
 
     QHBoxLayout *layout = new QHBoxLayout;
     layout->addWidget( start_);
@@ -48,7 +50,7 @@ time_slider_t::time_slider_t( QWidget *parent) : QWidget( parent)
     setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Fixed);
 }
 
-void time_slider_t::update( int start, int frame, int end)
+void time_slider_t::update( int start, double frame, int end)
 {
     block_all_signals( true);
 
@@ -70,7 +72,7 @@ void time_slider_t::set_start_frame( int t)
 {
     block_all_signals( true);
 
-    int cur_frame = current_->value();
+    double cur_frame = current_->value();
     int new_start = std::min( t, end_->value());
     start_->setValue( new_start);
 
@@ -87,7 +89,7 @@ void time_slider_t::set_end_frame( int t)
 {
     block_all_signals( true);
 
-    int cur_frame = current_->value();
+    double cur_frame = current_->value();
     int new_end = std::max( t, start_->value());
     end_->setValue( new_end);
 
@@ -100,13 +102,13 @@ void time_slider_t::set_end_frame( int t)
     adjust_frame( cur_frame);
 }
 
-void time_slider_t::set_frame( int t)
+void time_slider_t::set_frame( double t)
 {
     block_all_signals( true);
     scale_->setValue( t);
     current_->setValue( t);
     block_all_signals( false);
-    time_changed( t);
+    frame_changed( t);
 }
 
 void time_slider_t::block_all_signals( bool b)
@@ -117,9 +119,9 @@ void time_slider_t::block_all_signals( bool b)
     scale_->blockSignals( b);
 }
 
-void time_slider_t::adjust_frame( int frame)
+void time_slider_t::adjust_frame( double frame)
 {
-    int new_value = frame;
+    double new_value = frame;
     if( new_value < start_->value())
         new_value = start_->value();
 
@@ -132,7 +134,7 @@ void time_slider_t::adjust_frame( int frame)
         current_->setValue( new_value);
         scale_->setValue( new_value);
         block_all_signals( false);
-        time_changed( new_value);
+        frame_changed( new_value);
     }
 }
 

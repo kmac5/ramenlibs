@@ -29,6 +29,7 @@ THE SOFTWARE.
 
 class QSpinBox;
 class QSlider;
+class QDoubleSpinBox;
 
 namespace ramen
 {
@@ -43,26 +44,28 @@ public:
 
     time_slider_t( QWidget *parent = 0);
 
-    void update( int start, int frame, int end);
+    void update( int start, double frame, int end);
 
 public Q_SLOTS:
 
     void set_start_frame( int t);
     void set_end_frame( int t);
-    void set_frame( int t);
+
+    void set_frame( double f);
 
 Q_SIGNALS:
 
     void start_frame_changed( int t);
     void end_frame_changed( int t);
-    void time_changed( int t);
+    void frame_changed( double t);
 
 private:
 
     void block_all_signals( bool b);
-    void adjust_frame( int frame);
+    void adjust_frame( double frame);
 
-    QSpinBox *start_, *end_, *current_;
+    QSpinBox *start_, *end_;
+    QDoubleSpinBox *current_;
     QSlider *slider_;
     time_scale_t *scale_;
 };

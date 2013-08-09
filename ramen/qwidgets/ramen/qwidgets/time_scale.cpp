@@ -63,9 +63,9 @@ void time_scale_t::setMaximum( int m)
     update();
 }
 
-void time_scale_t::setValue( int v)
+void time_scale_t::setValue( double v)
 {
-    int new_val = clamp( v, min_value_, max_value_);
+    double new_val = clamp( v, (double) min_value_, (double) max_value_);
 
     if( value_ != new_val)
     {
