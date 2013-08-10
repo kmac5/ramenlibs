@@ -41,6 +41,8 @@ public:
     ocio_combo_t( QWidget *parent = 0);
     ~ocio_combo_t();
 
+    static void ocio_config_changed();
+
 protected:
 
     int index_for_string( const QString& s) const;

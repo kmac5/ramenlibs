@@ -22,17 +22,38 @@ THE SOFTWARE.
 
 #include<ramen/qwidgets/ocio_combo.hpp>
 
+#include<cassert>
+#include<vector>
+#include<algorithm>
+
 namespace ramen
 {
 namespace qwidgets
 {
+namespace
+{
+
+std::vector<ocio_combo_t*> g_ocio_combos_;
+
+} // unnamed
 
 ocio_combo_t::ocio_combo_t( QWidget *parent) : QComboBox( parent)
 {
+    g_ocio_combos_.push_back( this);
 }
 
 ocio_combo_t::~ocio_combo_t()
 {
+    g_ocio_combos_.erase( std::remove( g_ocio_combos_.begin(), g_ocio_combos_.end(), this), g_ocio_combos_.end());
+}
+
+void ocio_combo_t::ocio_config_changed()
+{
+    // TODO: implement this...
+    assert( false);
+
+    // for each ocio_combo_t created
+    // update combo
 }
 
 int ocio_combo_t::index_for_string( const QString& s) const
