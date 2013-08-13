@@ -104,6 +104,9 @@ public:
 
 private:
 
+    // disable this
+    void push_back( std::auto_ptr<T> x);
+
     const_iterator find_pointer( const T *x) const
     {
         for( const_iterator it( this->begin()), e( this->end()); it != e; ++it)
