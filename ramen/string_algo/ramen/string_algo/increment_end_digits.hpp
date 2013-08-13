@@ -31,8 +31,6 @@ namespace ramen
 {
 namespace string_algo
 {
-namespace detail
-{
 
 template<class String>
 String get_end_digits( const String& str)
@@ -61,13 +59,11 @@ String get_end_digits( const String& str)
     return String( str, n + 1, str.length());
 }
 
-} // detail
-
 template<class String>
 String increment_end_digits( const String& s)
 {
     String str = s;
-    String num_str = detail::get_end_digits( str);
+    String num_str = get_end_digits( str);
 
     if( num_str.empty())
         str.append( "_2");
