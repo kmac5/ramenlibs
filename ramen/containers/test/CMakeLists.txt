@@ -25,9 +25,13 @@ INCLUDE_DIRECTORIES(  ../
                       ../../../google_testing_libs/google/gtest
                       ../../../google_testing_libs/google/gmock
                       ../../core
+                      ../../math
+                      ../../color
                       )
 
-SET( RAMEN_TEST_TARGET_LIBS  gmock
+SET( RAMEN_TEST_TARGET_LIBS ramen_containers
+                            ${RAMEN_CONTAINERS_LIBS}
+                            gmock
                             ${RAMEN_TEST_SYSTEM_LIBS}
                             )
 
@@ -39,4 +43,6 @@ MACRO( ADD_RM_TEST sourcefile)
     ADD_TEST( ${sourcefile} ${CMAKE_CURRENT_BINARY_DIR}/${sourcefile})
 ENDMACRO()
 
+ADD_RM_TEST( dictionary)
 ADD_RM_TEST( ptr_vector)
+ADD_RM_TEST( variant)

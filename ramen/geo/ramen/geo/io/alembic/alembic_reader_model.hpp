@@ -46,7 +46,7 @@ class alembic_reader_model_t : public reader_interface_t
 {
 public:
 
-    alembic_reader_model_t( const char *filename, const core::dictionary_t& options);
+    alembic_reader_model_t( const char *filename, const containers::dictionary_t& options);
 
     virtual void release();
 

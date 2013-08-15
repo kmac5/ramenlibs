@@ -20,33 +20,22 @@
 
 INCLUDE_DIRECTORIES(    ../../
                         ${Boost_INCLUDE_DIR}
+                        ${PCRE_INCLUDE_DIRS}
                         ../../../core
                         ../../../math
                         ../../../color
-
-                        ../../../extern/tinythreadpp
                         )
 
 # lib
-FILE( GLOB_RECURSE RAMEN_ARRAYS_HEADERS ./*.hpp)
-SET( RAMEN_ARRAYS_SOURCES array.cpp
-                          detail/string_array_model.cpp
+FILE( GLOB_RECURSE RAMEN_CONTAINERS_HEADERS ./*.hpp)
+SET( RAMEN_CONTAINERS_SOURCES dictionary.cpp
+                              exceptions.cpp
+                              variant.cpp
+                              )
 
-                          ../../../extern/tinythreadpp/tinythread.h
-                          ../../../extern/tinythreadpp/tinythread.cpp
-                          )
+SET( RAMEN_CONTAINERS_LIBS ramen_core
+                           ${RAMEN_CORE_LIBS}
+                           )
 
-SET( RAMEN_ARRAYS_LIBS ramen_core
-                       ${RAMEN_CORE_LIBS}
-                       )
-
-IF( RAMEN_WITH_HALF)
-    SET( RAMEN_ARRAYS_LIBS ${RAMEN_ARRAYS_LIBS} ${HALF_LIBRARIES})
-ENDIF()
-
-IF( RAMEN_WITH_TBB)
-    SET( RAMEN_ARRAYS_LIBS ${RAMEN_ARRAYS_LIBS} ${TBB_LIBRARIES})
-ENDIF()
-
-ADD_LIBRARY( ramen_arrays SHARED ${RAMEN_ARRAYS_HEADERS} ${RAMEN_ARRAYS_SOURCES})
-TARGET_LINK_LIBRARIES( ramen_arrays ${RAMEN_ARRAYS_LIBS})
+ADD_LIBRARY( ramen_containers SHARED ${RAMEN_CONTAINERS_HEADERS} ${RAMEN_CONTAINERS_SOURCES})
+TARGET_LINK_LIBRARIES( ramen_containers ${RAMEN_CONTAINERS_LIBS})

@@ -23,6 +23,7 @@ ENABLE_TESTING()
 INCLUDE_DIRECTORIES(	../
                         ../../core
                         ../../arrays
+                        ../../containers
                         ../../math
                         ../../color
                         ../../../google_testing_libs/google

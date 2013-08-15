@@ -29,7 +29,7 @@ INCLUDE_DIRECTORIES(	../
                         ../../color
                         )
 
-SET( RAMEN_TEST_TARGET_LIBS   ramen_arrays
+SET( RAMEN_TEST_TARGET_LIBS  ramen_arrays
                              ${RAMEN_ARRAYS_LIBS}
                              gmock
                              ${RAMEN_TEST_SYSTEM_LIBS}

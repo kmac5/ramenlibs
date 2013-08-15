@@ -51,7 +51,7 @@ bool alembic_format_t::check_extension( const char *ext) const
 }
 
 reader_interface_t *alembic_format_t::create_reader( const char *filename,
-                                                     const core::dictionary_t &options) const
+                                                     const containers::dictionary_t &options) const
 {
     return new alembic_reader_model_t( filename, options);
 }

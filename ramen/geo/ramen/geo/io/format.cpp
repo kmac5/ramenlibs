@@ -36,7 +36,7 @@ format_t::format_t() : flags_( 0) {}
 format_t::~format_t() {}
 
 reader_interface_t *format_t::create_reader( const char *filename,
-                                             const core::dictionary_t &options) const
+                                             const containers::dictionary_t &options) const
 {
     return 0;
 }

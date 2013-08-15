@@ -20,17 +20,35 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_CORE_DICTIONARY_FWD_HPP
-#define RAMEN_CORE_DICTIONARY_FWD_HPP
+#ifndef RAMEN_CONTAINERS_EXCEPTIONS_HPP
+#define RAMEN_CONTAINERS_EXCEPTIONS_HPP
 
-#include<ramen/core/config.hpp>
+#include<ramen/containers/config.hpp>
+
+#include<ramen/core/exceptions.hpp>
 
 namespace ramen
 {
-namespace core
+namespace containers
 {
 
-class dictionary_t;
+/*!
+\ingroup core
+\brief Exception class.
+*/
+class RAMEN_CONTAINERS_API key_not_found : public core::exception
+{
+public:
+
+    explicit key_not_found( const core::name_t& name);
+    explicit key_not_found( core::string8_t message);
+
+    virtual const char *what() const;
+
+private:
+
+    core::string8_t message_;
+};
 
 } // core
 } // ramen

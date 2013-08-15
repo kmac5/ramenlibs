@@ -56,9 +56,9 @@ struct convert
 } // unnamed
 
 alembic_reader_model_t::alembic_reader_model_t( const char *filename,
-                                                const core::dictionary_t& options) : reader_interface_t( filename, options)
+                                                const containers::dictionary_t& options) : reader_interface_t( filename, options)
 {
-    use_paths_as_names_ = core::get_optional( options, core::name_t( "paths_as_names"), false);
+    use_paths_as_names_ = containers::get_optional( options, core::name_t( "paths_as_names"), false);
 
     start_time_ = std::numeric_limits<float>::max();
     end_time_ = -start_time_;
@@ -67,8 +67,8 @@ alembic_reader_model_t::alembic_reader_model_t( const char *filename,
     get_archive_info( archive.getTop());
 
     time_ = get_optional( options, g_time_name, start_time_);
-    apply_transforms_ = core::get_optional( options, core::name_t( "apply_transforms"), true);
-    read_arbitrary_ = core::get_optional( options, core::name_t( "read_arbitrary"), true);
+    apply_transforms_ = containers::get_optional( options, core::name_t( "apply_transforms"), true);
+    read_arbitrary_   = containers::get_optional( options, core::name_t( "read_arbitrary"), true);
 }
 
 void alembic_reader_model_t::release() { delete this;}

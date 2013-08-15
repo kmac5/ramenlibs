@@ -26,7 +26,8 @@ THE SOFTWARE.
 #include<ramen/geo/config.hpp>
 
 #include<ramen/core/memory.hpp>
-#include<ramen/core/dictionary.hpp>
+
+#include<ramen/containers/dictionary.hpp>
 
 #include<ramen/geo/io/exceptions.hpp>
 #include<ramen/geo/io/scene.hpp>
@@ -52,7 +53,7 @@ public:
     virtual void release() = 0;
 
     const core::string8_t& filename() const       { return filename_;}
-    const core::dictionary_t& options() const     { return options_;}
+    const containers::dictionary_t& options() const     { return options_;}
 
     float start_time() const;
     float end_time() const;
@@ -63,11 +64,11 @@ public:
 
 protected:
 
-    reader_interface_t( const char *filename, const core::dictionary_t& options);
+    reader_interface_t( const char *filename, const containers::dictionary_t& options);
     virtual ~reader_interface_t();
 
     core::string8_t filename_;
-    const core::dictionary_t& options_;
+    const containers::dictionary_t& options_;
 
     float start_time_;
     float end_time_;

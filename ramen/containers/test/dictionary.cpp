@@ -24,14 +24,15 @@ THE SOFTWARE.
 
 #include<map>
 
-#include<ramen/core/dictionary.hpp>
+#include<ramen/containers/dictionary.hpp>
 
 #include<boost/foreach.hpp>
 
 #include<ramen/core/string8.hpp>
 
-using namespace ramen::core;
+using namespace ramen::containers;
 using namespace ramen::math;
+using namespace ramen::core;
 
 TEST( Dictionary, Construct)
 {

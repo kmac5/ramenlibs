@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include<ramen/core/dictionary.hpp>
+#include<ramen/containers/dictionary.hpp>
 
 #include<algorithm>
 
@@ -32,13 +32,13 @@ THE SOFTWARE.
 
 namespace ramen
 {
-namespace core
+namespace containers
 {
 
 struct dictionary_t::impl
 {
     typedef std::pair<key_type, value_type>             pair_type;
-    typedef stl_allocator_adapter_t<pair_type>          allocator_type;
+    typedef core::stl_allocator_adapter_t<pair_type>    allocator_type;
     typedef std::less<key_type>                         compare_type;
 
     typedef boost::container::flat_map< key_type,
@@ -49,11 +49,11 @@ struct dictionary_t::impl
     typedef map_type::const_iterator                    const_iterator;
     typedef map_type::iterator                          iterator;
 
-    impl() : items( compare_type(), allocator_type( global_new_allocator()))
+    impl() : items( compare_type(), allocator_type( core::global_new_allocator()))
     {
     }
 
-    explicit impl( const allocator_ptr_t& alloc) : items( compare_type(), allocator_type( alloc))
+    explicit impl( const core::allocator_ptr_t& alloc) : items( compare_type(), allocator_type( alloc))
     {
     }
 
@@ -64,7 +64,7 @@ dictionary_t::dictionary_t() : pimpl_( 0)
 {
 }
 
-dictionary_t::dictionary_t( const allocator_ptr_t& alloc) : pimpl_( 0)
+dictionary_t::dictionary_t( const core::allocator_ptr_t& alloc) : pimpl_( 0)
 {
     assert( alloc);
 
@@ -134,7 +134,8 @@ dictionary_t::value_type& dictionary_t::operator[]( const dictionary_t::key_type
         return it->second;
     else
     {
-        std::pair<impl::iterator, bool> new_it( pimpl_->items.insert( std::make_pair( key, dictionary_t::value_type())));
+        std::pair<impl::iterator, bool> new_it( pimpl_->items.insert( std::make_pair( key,
+                                                                                      dictionary_t::value_type())));
         return new_it.first->second;
     }
 }
@@ -213,5 +214,5 @@ dictionary_t::value_type *dictionary_t::get( const dictionary_t::key_type& key)
     return 0;
 }
 
-} // core
+} // containers
 } // ramen

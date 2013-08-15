@@ -145,7 +145,7 @@ void register_io_format( core::auto_ptr_t<format_t>& format)
     formats_factory_t::instance().register_format( format.release());
 }
 
-reader_t reader_for_file( const char *filename, const core::dictionary_t& options)
+reader_t reader_for_file( const char *filename, const containers::dictionary_t& options)
 {
     assert( filename);
 

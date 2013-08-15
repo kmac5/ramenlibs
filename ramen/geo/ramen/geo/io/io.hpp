@@ -52,7 +52,7 @@ RAMEN_GEO_IO_API void register_io_format( core::auto_ptr_t<format_t>& format);
  */
 
 RAMEN_GEO_IO_API reader_t reader_for_file( const char *filename,
-                                          const core::dictionary_t& options);
+                                          const containers::dictionary_t& options);
 
 } // io
 } // geo

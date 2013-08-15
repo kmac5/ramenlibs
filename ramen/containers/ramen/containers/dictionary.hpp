@@ -20,25 +20,27 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_CORE_DICTIONARY_HPP
-#define RAMEN_CORE_DICTIONARY_HPP
+#ifndef RAMEN_CONTAINERS_DICTIONARY_HPP
+#define RAMEN_CONTAINERS_DICTIONARY_HPP
 
-#include<ramen/core/dictionary_fwd.hpp>
+#include<ramen/containers/dictionary_fwd.hpp>
 
 #include<boost/move/move.hpp>
 
 #include<ramen/core/allocator_interface.hpp>
 #include<ramen/core/name.hpp>
-#include<ramen/core/variant.hpp>
+
+#include<ramen/containers/variant.hpp>
+#include<ramen/containers/exceptions.hpp>
 
 namespace ramen
 {
-namespace core
+namespace containers
 {
 
 /*!
 \ingroup core
-\brief A collection of variant_t indexed by name_t keys.
+\brief A collection of variant_t indexed by core::name_t keys.
 */
 class RAMEN_CORE_API dictionary_t
 {
@@ -46,8 +48,8 @@ class RAMEN_CORE_API dictionary_t
 
 public:
 
-    typedef name_t      key_type;
-    typedef variant_t   value_type;
+    typedef core::name_t    key_type;
+    typedef variant_t       value_type;
 
     typedef std::pair<key_type, value_type>   pair_type;
     typedef std::size_t                       size_type;
@@ -56,7 +58,7 @@ public:
     typedef const pair_type*   const_iterator;
 
     dictionary_t();
-    explicit dictionary_t( const allocator_ptr_t& alloc);
+    explicit dictionary_t( const core::allocator_ptr_t& alloc);
 
     ~dictionary_t();
 
@@ -101,7 +103,8 @@ public:
     {
         dict_inserter( dictionary_t& d) : d_( d) {}
 
-        const dict_inserter& operator()( const dictionary_t::key_type& key, const value_type& val) const
+        const dict_inserter& operator()( const dictionary_t::key_type& key,
+                                         const value_type& val) const
         {
             d_[key] = val;
             return *this;
@@ -207,7 +210,7 @@ T get_optional( const dictionary_t& dic, const dictionary_t::key_type& key, cons
     return default_value;
 }
 
-} // core
+} // containers
 } // ramen
 
 #endif

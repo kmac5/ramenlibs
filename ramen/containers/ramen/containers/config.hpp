@@ -25,4 +25,10 @@ THE SOFTWARE.
 
 #include<ramen/config/config.hpp>
 
+#ifdef ramen_containers_EXPORTS // <-- #defined by CMake automagically
+    #define RAMEN_CONTAINERS_API RAMEN_CONFIG_EXPORT
+#else
+    #define RAMEN_CONTAINERS_API RAMEN_CONFIG_IMPORT
+#endif
+
 #endif

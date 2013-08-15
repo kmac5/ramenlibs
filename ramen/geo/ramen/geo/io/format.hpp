@@ -52,7 +52,7 @@ public:
     virtual bool check_extension( const char *ext) const = 0;
 
     virtual reader_interface_t *create_reader( const char *filename,
-                                               const core::dictionary_t& options) const;
+                                               const containers::dictionary_t& options) const;
 protected:
 
     format_t();

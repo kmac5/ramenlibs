@@ -94,24 +94,24 @@ void transform_attribute_table( attribute_table_t& table,
 }
 
 template<class T>
-void transform_dictionary( core::dictionary_t& dict,
+void transform_dictionary( containers::dictionary_t& dict,
                            const math::transform44_t<T>& m)
 {
-    for( core::dictionary_t::iterator it( dict.begin()), e( dict.end()); it != e; ++it)
+    for( containers::dictionary_t::iterator it( dict.begin()), e( dict.end()); it != e; ++it)
     {
         switch( it->second.type())
         {
             case core::point3f_k:
             {
-                math::point3f_t *p = core::get<math::point3f_t>( &it->second);
-                it->second = core::variant_t( m.transform( *p));
+                math::point3f_t *p = containers::get<math::point3f_t>( &it->second);
+                it->second = containers::variant_t( m.transform( *p));
             }
             break;
 
             case core::hpoint3f_k:
             {
-                math::hpoint3f_t *p = core::get<math::hpoint3f_t>( &it->second);
-                it->second = core::variant_t( m.transform( *p));
+                math::hpoint3f_t *p = containers::get<math::hpoint3f_t>( &it->second);
+                it->second = containers::variant_t( m.transform( *p));
             }
             break;
 

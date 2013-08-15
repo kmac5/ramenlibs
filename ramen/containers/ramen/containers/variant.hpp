@@ -20,10 +20,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_CORE_VARIANT_HPP
-#define RAMEN_CORE_VARIANT_HPP
+#ifndef RAMEN_CONTAINERS_VARIANT_HPP
+#define RAMEN_CONTAINERS_VARIANT_HPP
 
-#include<ramen/core/config.hpp>
+#include<ramen/containers/config.hpp>
 
 #include<iostream>
 
@@ -50,14 +50,14 @@ THE SOFTWARE.
 
 namespace ramen
 {
-namespace core
+namespace containers
 {
 
 /*!
 \ingroup core
 \brief A discriminated union class.
 */
-class RAMEN_CORE_API variant_t
+class RAMEN_CONTAINERS_API variant_t
 {
 public:
 
@@ -71,7 +71,7 @@ public:
     explicit variant_t( const math::point2f_t& x);
     explicit variant_t( const math::point3f_t& x);
     explicit variant_t( const math::hpoint3f_t& x);
-    explicit variant_t( const string8_t& x);
+    explicit variant_t( const core::string8_t& x);
     explicit variant_t( const char *x);
     explicit variant_t( char *x);
     explicit variant_t( const math::box2i_t& x);
@@ -90,7 +90,7 @@ public:
 
     variant_t& operator=( const variant_t& other);
 
-    type_t type() const;
+    core::type_t type() const;
 
     bool operator==( const variant_t& other) const;
     bool operator!=( const variant_t& other) const;
@@ -171,7 +171,7 @@ private:
                                 math::point2f_t,
                                 math::point3f_t,
                                 math::hpoint3f_t,
-                                string8_t,
+                                core::string8_t,
                                 math::box2i_t> type_list_t;
 
     // find the biggest element
@@ -186,7 +186,7 @@ private:
 
     struct vtable
     {
-        type_t (*type)();
+        core::type_t (*type)();
         void (*destroy)( const variant_t&);
         void (*clone)( const variant_t&, variant_t&);
         bool (*equals)( const variant_t&, const variant_t&);
@@ -201,8 +201,8 @@ private:
 template<class T>
 const T& get( const variant_t& v)
 {
-    if( v.type() != type_traits<T>::type())
-        throw bad_type_cast( v.type(), type_traits<T>::type());
+    if( v.type() != core::type_traits<T>::type())
+        throw core::bad_type_cast( v.type(), core::type_traits<T>::type());
 
     return *reinterpret_cast<const T*>( v.storage());
 }
@@ -210,8 +210,8 @@ const T& get( const variant_t& v)
 template<class T>
 T& get( variant_t& v)
 {
-    if( v.type() != type_traits<T>::type())
-        throw bad_type_cast( v.type(), type_traits<T>::type());
+    if( v.type() != core::type_traits<T>::type())
+        throw core::bad_type_cast( v.type(), core::type_traits<T>::type());
 
     return *reinterpret_cast<T*>( v.storage());
 }
@@ -219,7 +219,7 @@ T& get( variant_t& v)
 template<class T>
 const T *get( const variant_t *v)
 {
-    if( v->type() != type_traits<T>::type())
+    if( v->type() != core::type_traits<T>::type())
         return 0;
 
     return reinterpret_cast<const T*>( v->storage());
@@ -228,7 +228,7 @@ const T *get( const variant_t *v)
 template<class T>
 T *get( variant_t *v)
 {
-    if( v->type() != type_traits<T>::type())
+    if( v->type() != core::type_traits<T>::type())
         return 0;
 
     return reinterpret_cast<T*>( v->storage());
@@ -238,7 +238,7 @@ T *get( variant_t *v)
 template<class T>
 bool operator==( const variant_t& a, const T& b)
 {
-    if( type_traits<T>::type() != a.type())
+    if( core::type_traits<T>::type() != a.type())
         return false;
 
     return get<T>( a) == b;
@@ -247,7 +247,7 @@ bool operator==( const variant_t& a, const T& b)
 template<class T>
 bool operator==( const variant_t& a, const char *b)
 {
-    if( string8_k != a.type())
+    if( a.type() != core::string8_k)
         return false;
 
     return get<T>( a) == b;
@@ -262,7 +262,7 @@ bool operator!=( const variant_t& a, const T& b) { return !( a == b);}
 template<class T>
 bool operator!=( const T& a, const variant_t& b) { return !( b == a);}
 
-RAMEN_CORE_API std::ostream& operator<<( std::ostream& os, const variant_t& x);
+RAMEN_CONTAINERS_API std::ostream& operator<<( std::ostream& os, const variant_t& x);
 
 } // core
 } // ramen

@@ -23,6 +23,7 @@ INCLUDE_DIRECTORIES(    ../../
                         ../../../arrays
                         ../../../math
                         ../../../color
+                        ../../../containers
                         ${Boost_INCLUDE_DIR}
                         )
 
@@ -54,6 +55,8 @@ SET( RAMEN_GEO_SOURCES  attribute_ref.cpp
 
 SET( RAMEN_GEO_LIBS  ramen_arrays
                      ${RAMEN_ARRAYS_LIBS}
+                     ramen_containers
+                     ${RAMEN_CONTAINERS_LIBS}
                      )
 
 ADD_LIBRARY( ramen_geo SHARED ${RAMEN_GEO_HEADERS} ${RAMEN_GEO_SOURCES})

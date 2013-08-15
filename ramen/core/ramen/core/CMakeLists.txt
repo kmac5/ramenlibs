@@ -32,7 +32,6 @@ INCLUDE_DIRECTORIES(    ../../
 FILE( GLOB_RECURSE RAMEN_CORE_HEADERS ./*.hpp)
 SET( RAMEN_CORE_SOURCES  allocator_interface.cpp
                          empty.cpp
-                         dictionary.cpp
                          exceptions.cpp
                          name.cpp
                          new_allocator.cpp
@@ -44,7 +43,6 @@ SET( RAMEN_CORE_SOURCES  allocator_interface.cpp
                          string8_vector.cpp
                          string16.cpp
                          types.cpp
-                         variant.cpp
 
                          ../../../extern/tinythreadpp/tinythread.h
                          ../../../extern/tinythreadpp/tinythread.cpp

@@ -114,7 +114,7 @@ void geo_info( const char *filename)
 {
     std::cout << "Reading file " << filename << " ..." << std::endl;
 
-    geo::io::reader_t r( geo::io::reader_for_file( filename, core::dictionary_t()));
+    geo::io::reader_t r( geo::io::reader_for_file( filename, containers::dictionary_t()));
     std::cout << "time range = [ " << r.start_time() << " ... " << r.end_time() << "]" << std::endl;
 
     std::cout << "shape list:" << std::endl;

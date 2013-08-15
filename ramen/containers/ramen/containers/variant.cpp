@@ -20,19 +20,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include<ramen/core/variant.hpp>
+#include<ramen/containers/variant.hpp>
 
 namespace ramen
 {
-namespace core
+namespace containers
 {
 
 template<class T>
 struct variant_t::vtable_impl
 {
-    static type_t type()
+    static core::type_t type()
     {
-        return type_traits<T>::type();
+        return core::type_traits<T>::type();
     }
 
     static void destroy( const variant_t& v)
@@ -55,18 +55,18 @@ struct variant_t::vtable_impl
     }
 };
 
-// Needs special handling, as string8_t copy constructor can throw.
+// Needs special handling, as core::string8_t copy constructor can throw.
 template<>
-struct variant_t::vtable_impl<string8_t>
+struct variant_t::vtable_impl<core::string8_t>
 {
-    static type_t type()
+    static core::type_t type()
     {
-        return type_traits<string8_t>::type();
+        return core::type_traits<core::string8_t>::type();
     }
 
     static void destroy(const variant_t& v)
     {
-        const string8_t& data = *reinterpret_cast<const string8_t*>( v.storage());
+        const core::string8_t& data = *reinterpret_cast<const core::string8_t*>( v.storage());
         data.~string8_t();
     }
 
@@ -75,11 +75,11 @@ struct variant_t::vtable_impl<string8_t>
         try
         {
             // this can throw, leave dst untouched if it does.
-            string8_t tmp( *reinterpret_cast<const string8_t*>( src.storage()));
+            core::string8_t tmp( *reinterpret_cast<const core::string8_t*>( src.storage()));
 
             // From here, nothing can throw.
-            new( dst.storage()) string8_t();
-            string8_t& dst_str( *reinterpret_cast<string8_t*>( dst.storage()));
+            new( dst.storage()) core::string8_t();
+            core::string8_t& dst_str( *reinterpret_cast<core::string8_t*>( dst.storage()));
             dst_str = boost::move( tmp);
             dst.vptr_ = src.vptr_;
         }
@@ -91,8 +91,8 @@ struct variant_t::vtable_impl<string8_t>
 
     static bool equals( const variant_t& a, const variant_t& b)
     {
-        const string8_t& a_data = *reinterpret_cast<const string8_t*>( a.storage());
-        const string8_t& b_data = *reinterpret_cast<const string8_t*>( b.storage());
+        const core::string8_t& a_data = *reinterpret_cast<const core::string8_t*>( a.storage());
+        const core::string8_t& b_data = *reinterpret_cast<const core::string8_t*>( b.storage());
         return a_data == b_data;
     }
 };
@@ -106,9 +106,9 @@ variant_t::variant_t( const math::point2i_t& x)     { init<math::point2i_t>( x);
 variant_t::variant_t( const math::point2f_t& x)     { init<math::point2f_t>( x);}
 variant_t::variant_t( const math::point3f_t& x)     { init<math::point3f_t>( x);}
 variant_t::variant_t( const math::hpoint3f_t& x)    { init<math::hpoint3f_t>( x);}
-variant_t::variant_t( const string8_t& x)           { init<string8_t>( x);}
-variant_t::variant_t( const char *x)                { init<string8_t>( x);}
-variant_t::variant_t( char *x)                      { init<string8_t>( x);}
+variant_t::variant_t( const core::string8_t& x)     { init<core::string8_t>( x);}
+variant_t::variant_t( const char *x)                { init<core::string8_t>( x);}
+variant_t::variant_t( char *x)                      { init<core::string8_t>( x);}
 variant_t::variant_t( const math::box2i_t& x)       { init<math::box2i_t>( x);}
 
 variant_t::variant_t( const variant_t& other)
@@ -128,7 +128,7 @@ variant_t& variant_t::operator=( const variant_t& other)
     return *this;
 }
 
-type_t variant_t::type() const
+core::type_t variant_t::type() const
 {
     return vptr_->type();
 }
@@ -173,24 +173,24 @@ std::ostream& operator<<( std::ostream& os, const variant_t& x)
 {
     switch( x.type())
     {
-        case bool_k:
+        case core::bool_k:
             os << get<bool>( x);
         break;
 
-        case int32_k:
+        case core::int32_k:
             os << get<boost::int32_t>( x);
         break;
 
-        case uint32_k:
+        case core::uint32_k:
             os << get<boost::uint32_t>( x);
         break;
 
-        case float_k:
+        case core::float_k:
             os << get<float>( x);
         break;
 
-        case string8_k:
-            os << get<string8_t>( x);
+        case core::string8_k:
+            os << get<core::string8_t>( x);
         break;
 
         //case point3f_k:

@@ -67,12 +67,12 @@ attribute_table_t& shape_attributes_t::primitive()
     return primitive_attrs_;
 }
 
-const core::dictionary_t& shape_attributes_t::constant() const
+const containers::dictionary_t& shape_attributes_t::constant() const
 {
     return constant_attrs_;
 }
 
-core::dictionary_t& shape_attributes_t::constant()
+containers::dictionary_t& shape_attributes_t::constant()
 {
     return constant_attrs_;
 }

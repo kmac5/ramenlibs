@@ -30,8 +30,8 @@ namespace io
 {
 
 reader_interface_t::reader_interface_t( const char *filename,
-                                        const core::dictionary_t &options) : filename_( filename),
-                                                                             options_( options)
+                                        const containers::dictionary_t &options) : filename_( filename),
+                                                                                   options_( options)
 {
     start_time_ = end_time_ = 0;
 }

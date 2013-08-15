@@ -20,56 +20,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_GEO_SHAPE_ATTRIBUTES_HPP
-#define RAMEN_GEO_SHAPE_ATTRIBUTES_HPP
-
-#include<ramen/geo/config.hpp>
-
-#include<ramen/geo/shape_attributes_fwd.hpp>
-
-#include<ramen/containers/dictionary.hpp>
-
-#include<ramen/geo/attribute_table.hpp>
+#include<ramen/containers/exceptions.hpp>
 
 namespace ramen
 {
-namespace geo
+namespace containers
 {
 
-class RAMEN_GEO_API shape_attributes_t
+key_not_found::key_not_found( const core::name_t& name) : message_( name.c_str()) {}
+key_not_found::key_not_found( core::string8_t message) : message_( boost::move( message)) {}
+
+const char *key_not_found::what() const
 {
-public:
+    return message_.c_str();
+}
 
-    shape_attributes_t();
-
-    void swap( shape_attributes_t& other);
-
-    const attribute_table_t& point() const;
-    attribute_table_t& point();
-
-    const attribute_table_t& vertex() const;
-    attribute_table_t& vertex();
-
-    const attribute_table_t& primitive() const;
-    attribute_table_t& primitive();
-
-    const containers::dictionary_t& constant() const;
-    containers::dictionary_t& constant();
-
-    bool operator==( const shape_attributes_t& other) const;
-    bool operator!=( const shape_attributes_t& other) const;
-
-    bool check_consistency() const;
-
-private:
-
-    attribute_table_t point_attrs_;
-    attribute_table_t vertex_attrs_;
-    attribute_table_t primitive_attrs_;
-    containers::dictionary_t constant_attrs_;
-};
-
-} // geo
+} // containers
 } // ramen
-
-#endif

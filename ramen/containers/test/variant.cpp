@@ -22,8 +22,9 @@ THE SOFTWARE.
 
 #include<gtest/gtest.h>
 
-#include<ramen/core/variant.hpp>
+#include<ramen/containers/variant.hpp>
 
+using namespace ramen::containers;
 using namespace ramen::core;
 
 TEST( Variant, Construct)
