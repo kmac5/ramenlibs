@@ -69,18 +69,6 @@ inline void check_error()
     #endif
 }
 
-inline void clear_color( GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha)
-{
-    glClearColor( red, green, blue, alpha);
-    check_error();
-}
-
-inline void clear( GLbitfield mask)
-{
-    glClear( mask);
-    check_error();
-}
-
 } // gl
 } // ramen
 

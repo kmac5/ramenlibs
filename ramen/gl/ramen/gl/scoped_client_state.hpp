@@ -20,12 +20,37 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include<ramen/gl/glu.hpp>
+#ifndef RAMEN_GL_SCOPED_CLIENT_STATE_HPP
+#define	RAMEN_GL_SCOPED_CLIENT_STATE_HPP
+
+#include<ramen/gl/gl.hpp>
 
 namespace ramen
 {
-namespace glu
+namespace gl
 {
 
-} // glu
+class RAMEN_GL_API scoped_client_state_t
+{
+public:
+
+    explicit scoped_client_state_t( GLenum array) : array_( array)
+    {
+        glEnableClientState( array_);
+        check_error();
+    }
+
+    ~scoped_client_state_t()
+    {
+        glDisableClientState( array_);
+    }
+
+private:
+
+    GLenum array_;
+};
+
+} // gl
 } // ramen
+
+#endif

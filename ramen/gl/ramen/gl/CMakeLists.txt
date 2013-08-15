@@ -30,7 +30,7 @@ INCLUDE_DIRECTORIES(    ../../
 # lib
 FILE( GLOB_RECURSE RAMEN_GL_HEADERS ./*.hpp)
 SET( RAMEN_GL_SOURCES   gl.cpp
-                        glu.cpp
+                        vertex_buffer_obj.cpp
                         )
 
 SET( RAMEN_GL_LIBS  ramen_core

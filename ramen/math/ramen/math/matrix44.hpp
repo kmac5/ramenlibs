@@ -168,6 +168,7 @@ public:
                               0  , 0  , 0  , 1);
     }
 
+    // Adapted from ILM's Imath library.
     static matrix44_t<T> axis_angle_rotation_matrix( vector3_t<T> axis, T angle_in_deg)
     {
         vector3_t<T> unit( axis.normalized());
@@ -213,6 +214,7 @@ public:
         return axis_angle_rotation_matrix( vector3_t<T>( 0, 0, 1), angle_in_deg);
     }
 
+    // Adapted from ILM's Imath library.
     static matrix44_t<T> align_z_axis_with_target_dir_matrix( vector3_t<T> target_dir,
                                                               vector3_t<T> up_dir)
     {
@@ -274,16 +276,17 @@ public:
         return result;
     }
 
+    // Adapted from ILM's Imath library.
     static matrix44_t<T> rotation_with_up_dir_matrix( const vector3_t<T>& from_dir,
                                                       const vector3_t<T>& to_dir,
                                                       const vector3_t<T>& up_dir)
     {
         //
         // The goal is to obtain a rotation matrix that takes
-        // "fromDir" to "toDir".  We do this in two steps and
+        // "from_dir" to "to_dir".  We do this in two steps and
         // compose the resulting rotation matrices;
-        //    (a) rotate "fromDir" into the z-axis
-        //    (b) rotate the z-axis into "toDir"
+        //    (a) rotate "from_dir" into the z-axis
+        //    (b) rotate the z-axis into "to_dir"
         //
 
         // The from direction must be non-zero; but we allow zero to and up dirs.
@@ -373,6 +376,7 @@ matrix44_t<T> transpose( const matrix44_t<T>& m)
     return x;
 }
 
+// Adapted from ILM's Imath library.
 template<class T>
 boost::optional<matrix44_t<T> > invert_gauss_jordan( const matrix44_t<T>& m)
 {
@@ -463,6 +467,7 @@ boost::optional<matrix44_t<T> > invert_gauss_jordan( const matrix44_t<T>& m)
     return s;
 }
 
+// Adapted from ILM's Imath library.
 template<class T>
 boost::optional<matrix44_t<T> > invert( const matrix44_t<T>& m)
 {

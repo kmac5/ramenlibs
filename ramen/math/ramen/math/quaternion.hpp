@@ -40,7 +40,11 @@ namespace math
 \brief Quaternion class.
 */
 template<class T>
-class quaternion_t : boost::multipliable<quaternion_t<T> >
+class quaternion_t : boost::addable<quaternion_t<T>,
+                     boost::subtractable<quaternion_t<T>,
+                     boost::multipliable<quaternion_t<T>,
+                     boost::multipliable2<quaternion_t<T>, T,
+                     boost::dividable2<quaternion_t<T>, T > > > > >
 {
 public:
 
@@ -55,6 +59,24 @@ public:
     }
 
     // operators
+    quaternion_t<T>& operator+=( const quaternion_t<T>& q)
+    {
+        s += q.s;
+        x += q.x;
+        y += q.y;
+        z += q.z;
+        return *this;
+    }
+
+    quaternion_t<T>& operator-=( const quaternion_t<T>& q)
+    {
+        s -= q.s;
+        x -= q.x;
+        y -= q.y;
+        z -= q.z;
+        return *this;
+    }
+
     quaternion_t<T>& operator*=( const quaternion_t<T>& q)
     {
         T ss = s;
@@ -68,9 +90,39 @@ public:
         return *this;
     }
 
+    quaternion_t<T>& operator*=( T f)
+    {
+        s *= f;
+        x *= f;
+        y *= f;
+        z *= f;
+        return *this;
+    }
+
+    quaternion_t<T>& operator/=( T f)
+    {
+        assert( f > T(0));
+
+        s /= f;
+        x /= f;
+        y /= f;
+        z /= f;
+        return *this;
+    }
+
+    T squared_norm() const
+    {
+        return s * s + x * x + y * y + z * z;
+    }
+
+    T norm() const
+    {
+        return cmath<T>::sqrt( squared_norm());
+    }
+
     void normalize()
     {
-        T l = cmath<T>::sqrt( s * s + x * x + y * y + z * z);
+        T l = norm();
         assert( l > T(0));
 
         s /= l;
@@ -84,6 +136,12 @@ public:
         x = -x;
         y = -y;
         z = -z;
+    }
+
+    void inverse()
+    {
+        conjugate();
+        *this /= squared_norm();
     }
 
     matrix44_t<T> to_matrix() const
@@ -127,6 +185,14 @@ quaternion_t<T> conjugate( const quaternion_t<T>& q)
 {
     quaternion_t<T> x( q);
     x.conjugate();
+    return x;
+}
+
+template<class T>
+quaternion_t<T> inverse( const quaternion_t<T>& q)
+{
+    quaternion_t<T> x( q);
+    x.inverse();
     return x;
 }
 

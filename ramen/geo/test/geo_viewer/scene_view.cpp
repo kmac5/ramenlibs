@@ -42,7 +42,7 @@ void scene_view_t::initializeGL()
 
     gl::clear_errors();
 
-    gl::clear_color( 0.35, 0.35, 0.35, 0.0);
+    glClearColor( 0.35, 0.35, 0.35, 0.0);
 }
 
 void scene_view_t::resizeGL( int w, int h)
@@ -51,7 +51,7 @@ void scene_view_t::resizeGL( int w, int h)
 
 void scene_view_t::paintGL()
 {
-    gl::clear( GL_COLOR_BUFFER_BIT);
+    glClear( GL_COLOR_BUFFER_BIT);
 }
 
 void scene_view_t::draw_grid() const
