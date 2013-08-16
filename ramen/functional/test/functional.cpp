@@ -22,29 +22,33 @@ THE SOFTWARE.
 
 #include<gtest/gtest.h>
 
-#include<ramen/math/hpoint2.hpp>
-#include<ramen/math/hpoint3.hpp>
+#include<ramen/functional/functional.hpp>
 
-using namespace ramen::math;
+using namespace ramen;
 
-TEST( Point, Construct)
+TEST( Functional, Basic)
 {
-    point3f_t p( 7.3f, 1.1f, 4.2f);
-    ASSERT_EQ( p(0), 7.3f);
-    ASSERT_EQ( p(1), 1.1f);
-    ASSERT_EQ( p(2), 4.2f);
+    functional::plus<int> fplus;
+    EXPECT_EQ( fplus( 7, 4), 11);
 
-    hpoint3f_t q( 7.3f, 1.1f, 4.2f);
-    ASSERT_EQ( q(0), 7.3f);
-    ASSERT_EQ( q(1), 1.1f);
-    ASSERT_EQ( q(2), 4.2f);
-    ASSERT_EQ( q(3), 1.0f);
+    functional::minus<int> fminus;
+    EXPECT_EQ( fminus( 7, 4), 3);
 }
 
-TEST( HPoint, Construct)
+TEST( Functional, MultPlus)
 {
-    hpoint3f_t p( 7.3f, 1.1f, 4.2f);
-    hpoint3f_t q( 0.53f, 7.1f, 2.0f);
+    functional::multiply_plus<int,int> fmplus;
+    EXPECT_EQ( fmplus( 7, 4, 3), 19);
+}
+
+TEST( Functional, OpAssign)
+{
+    int x = 0;
+    functional::plus_assign<int> fplus;
+    fplus( x, 4);
+    EXPECT_EQ( x, 4);
+    fplus( x, 7);
+    EXPECT_EQ( x, 11);
 }
 
 int main(int argc, char **argv)

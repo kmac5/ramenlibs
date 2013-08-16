@@ -21,6 +21,7 @@
 INCLUDE_DIRECTORIES(    ../../
                         ${Boost_INCLUDE_DIR}
                         ../../../core
+                        ../../../functional
                         )
 
 # lib

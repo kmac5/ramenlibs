@@ -20,35 +20,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include<gtest/gtest.h>
+#ifndef RAMEN_FUNCTIONAL_CONFIG_HPP
+#define RAMEN_FUNCTIONAL_CONFIG_HPP
 
-#include<ramen/math/hpoint2.hpp>
-#include<ramen/math/hpoint3.hpp>
+#include<ramen/config/config.hpp>
 
-using namespace ramen::math;
-
-TEST( Point, Construct)
-{
-    point3f_t p( 7.3f, 1.1f, 4.2f);
-    ASSERT_EQ( p(0), 7.3f);
-    ASSERT_EQ( p(1), 1.1f);
-    ASSERT_EQ( p(2), 4.2f);
-
-    hpoint3f_t q( 7.3f, 1.1f, 4.2f);
-    ASSERT_EQ( q(0), 7.3f);
-    ASSERT_EQ( q(1), 1.1f);
-    ASSERT_EQ( q(2), 4.2f);
-    ASSERT_EQ( q(3), 1.0f);
-}
-
-TEST( HPoint, Construct)
-{
-    hpoint3f_t p( 7.3f, 1.1f, 4.2f);
-    hpoint3f_t q( 0.53f, 7.1f, 2.0f);
-}
-
-int main(int argc, char **argv)
-{
-    ::testing::InitGoogleTest( &argc, argv);
-    return RUN_ALL_TESTS();
-}
+#endif

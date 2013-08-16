@@ -18,38 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-ENABLE_TESTING()
-
-INCLUDE_DIRECTORIES(	../
-                        ../../../google_testing_libs/google
-                        ../../../google_testing_libs/google/gtest
-                        ../../../google_testing_libs/google/gmock
-                        ../../core
-                        ../../functional
-                        )
-
-SET( RAMEN_TEST_TARGET_LIBS ${RAMEN_MATH_LIBS}
-                            gmock
-                            ${RAMEN_TEST_SYSTEM_LIBS}
-                            )
-
-# tests
-
-MACRO( ADD_RM_TEST sourcefile)
-    ADD_EXECUTABLE( ${sourcefile} ${sourcefile}.cpp)
-    TARGET_LINK_LIBRARIES( ${sourcefile} ${RAMEN_TEST_TARGET_LIBS})
-    ADD_TEST( ${sourcefile} ${CMAKE_CURRENT_BINARY_DIR}/${sourcefile})
-ENDMACRO()
-
-ADD_RM_TEST( box)
-ADD_RM_TEST( cmath)
-ADD_RM_TEST( fast_float)
-ADD_RM_TEST( lerp)
-ADD_RM_TEST( matrix)
-ADD_RM_TEST( normal)
-ADD_RM_TEST( points)
-ADD_RM_TEST( quaternion)
-ADD_RM_TEST( ray)
-ADD_RM_TEST( transform)
-ADD_RM_TEST( transform_stack)
-ADD_RM_TEST( vectors)
+IF( RAMEN_BUILD_TESTS)
+        ADD_SUBDIRECTORY( test)
+        ENABLE_TESTING()
+ENDIF()
