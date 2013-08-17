@@ -25,6 +25,9 @@ THE SOFTWARE.
 #include<ramen/math/hpoint2.hpp>
 #include<ramen/math/hpoint3.hpp>
 
+#include<ramen/math/functional/point2.hpp>
+#include<ramen/math/functional/point3.hpp>
+
 using namespace ramen::math;
 
 TEST( Point, Construct)

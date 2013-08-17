@@ -74,7 +74,7 @@ struct minus : public std::binary_function<T,T,T>
 template<class T, class S = T>
 struct multiply : public std::binary_function<T,S,T>
 {
-    T operator()( const T& x, const T& y) const
+    T operator()( const T& x, const S& y) const
     {
         return x * y;
     }
@@ -83,7 +83,7 @@ struct multiply : public std::binary_function<T,S,T>
 template<class T, class S = T>
 struct divide : public std::binary_function<T,S,T>
 {
-    T operator()( const T& x, const T& y) const
+    T operator()( const T& x, const S& y) const
     {
         return x / y;
     }
