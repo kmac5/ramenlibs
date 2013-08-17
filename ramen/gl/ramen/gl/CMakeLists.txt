@@ -33,6 +33,8 @@ SET( RAMEN_GL_SOURCES buffer_obj.cpp
                       framebuffer_obj.cpp
                       gl.cpp
                       renderbuffer_obj.cpp
+                      program.cpp
+                      shader.cpp
                       texture2d.hpp
                       texture2d.cpp
                       )

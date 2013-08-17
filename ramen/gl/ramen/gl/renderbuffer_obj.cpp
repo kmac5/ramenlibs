@@ -29,30 +29,33 @@ namespace gl
 
 renderbuffer_obj_t::renderbuffer_obj_t() : id_( 0)
 {
-    glGenRenderbuffers( 1, &id_);
+    if( !GLEW_EXT_framebuffer_object)
+        throw unsupported( "EXT_framebuffer_object");
+
+    glGenRenderbuffersEXT( 1, &id_);
     check_error();
 }
 
 renderbuffer_obj_t::~renderbuffer_obj_t()
 {
     if( id_)
-        glDeleteRenderbuffers( 1, &id_);
+        glDeleteRenderbuffersEXT( 1, &id_);
 }
 
 void renderbuffer_obj_t::bind( GLenum target)
 {
-    glBindRenderbuffer( target, id_);
+    glBindRenderbufferEXT( target, id_);
     check_error();
 }
 
 void renderbuffer_obj_t::unbind( GLenum target)
 {
-    glBindRenderbuffer( target, 0);
+    glBindRenderbufferEXT( target, 0);
 }
 
 void renderbuffer_obj_t::alloc_storage( GLenum format, GLsizei width, GLsizei height)
 {
-    glRenderbufferStorage( GL_RENDERBUFFER, format, width, height);
+    glRenderbufferStorageEXT( GL_RENDERBUFFER, format, width, height);
     check_error();
 }
 

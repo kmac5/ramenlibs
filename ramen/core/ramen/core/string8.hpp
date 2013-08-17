@@ -109,10 +109,6 @@ public:
     void assign( Iter first, Iter last)
     {
         clear();
-        // TODO: check if this works ok with boost tokenizer.
-        //std::size_t n = std::distance( first, last);
-        //reserve( size() + n);
-
         while( first != last)
             push_back( *first++);
     }
@@ -188,7 +184,8 @@ RAMEN_CORE_API bool operator<( const string8_t& a, const string8_t& b);
 RAMEN_CORE_API bool operator<( const string8_t& a, const char *b);
 RAMEN_CORE_API bool operator<( const char *a, const string8_t& b);
 
-RAMEN_CORE_API const string8_t make_string( const char *a, const char *b, const char *c = 0, const char *d = 0);
+RAMEN_CORE_API const string8_t make_string( const char *a, const char *b,
+                                            const char *c = 0, const char *d = 0);
 
 inline std::ostream& operator<<( std::ostream& os, const string8_t& str)
 {

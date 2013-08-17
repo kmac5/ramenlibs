@@ -20,50 +20,62 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_GL_TEXTURE2D_HPP
-#define	RAMEN_GL_TEXTURE2D_HPP
+#ifndef RAMEN_GL_PROGRAM_HPP
+#define	RAMEN_GL_PROGRAM_HPP
 
-#include<ramen/gl/gl.hpp>
-
-#include<boost/swap.hpp>
-#include<boost/move/move.hpp>
+#include<ramen/gl/shader.hpp>
 
 namespace ramen
 {
 namespace gl
 {
 
-class RAMEN_GL_API texture2d_t
+class RAMEN_GL_API link_error : public exception
 {
-    BOOST_MOVABLE_BUT_NOT_COPYABLE( texture2d_t)
+public:
+
+    link_error();
+
+    virtual const char *what() const;
+};
+
+class RAMEN_GL_API program_t
+{
+    BOOST_MOVABLE_BUT_NOT_COPYABLE( program_t)
 
 public:
 
-    texture2d_t();
-    ~texture2d_t();
+    program_t();
+    program_t( const shader_t& vertex, const shader_t& fragment);
+    ~program_t();
 
     // move constructor
-    texture2d_t( BOOST_RV_REF( texture2d_t) other) : id_( 0)
+    program_t( BOOST_RV_REF( program_t) other) : id_( 0)
     {
         swap( other);
     }
 
     // move assignment
-    texture2d_t& operator=( BOOST_RV_REF( texture2d_t) other)
+    program_t& operator=( BOOST_RV_REF( program_t) other)
     {
         swap( other);
         return *this;
     }
 
-    void swap( texture2d_t& other)
+    void swap( program_t& other)
     {
         boost::swap( id_, other.id_);
     }
 
     GLuint id() const { return id_;}
 
-    void bind();
-    void unbind();
+    void attach( const shader_t& shader);
+    void detach( const shader_t& shader);
+
+    void link();
+
+    void use();
+    void unuse();
 
 private:
 
@@ -71,7 +83,7 @@ private:
 };
 
 template<class T>
-inline void swap( texture2d_t& x, texture2d_t& y)
+inline void swap( program_t& x, program_t& y)
 {
     x.swap( y);
 }

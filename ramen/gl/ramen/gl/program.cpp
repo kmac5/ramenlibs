@@ -20,63 +20,76 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_GL_TEXTURE2D_HPP
-#define	RAMEN_GL_TEXTURE2D_HPP
-
-#include<ramen/gl/gl.hpp>
-
-#include<boost/swap.hpp>
-#include<boost/move/move.hpp>
+#include<ramen/gl/program.hpp>
 
 namespace ramen
 {
 namespace gl
 {
 
-class RAMEN_GL_API texture2d_t
+link_error::link_error() : exception()
 {
-    BOOST_MOVABLE_BUT_NOT_COPYABLE( texture2d_t)
+}
 
-public:
-
-    texture2d_t();
-    ~texture2d_t();
-
-    // move constructor
-    texture2d_t( BOOST_RV_REF( texture2d_t) other) : id_( 0)
-    {
-        swap( other);
-    }
-
-    // move assignment
-    texture2d_t& operator=( BOOST_RV_REF( texture2d_t) other)
-    {
-        swap( other);
-        return *this;
-    }
-
-    void swap( texture2d_t& other)
-    {
-        boost::swap( id_, other.id_);
-    }
-
-    GLuint id() const { return id_;}
-
-    void bind();
-    void unbind();
-
-private:
-
-    GLuint id_;
-};
-
-template<class T>
-inline void swap( texture2d_t& x, texture2d_t& y)
+const char *link_error::what() const
 {
-    x.swap( y);
+    return "link error";
+}
+
+program_t::program_t() : id_( 0)
+{
+    id_ = glCreateProgram();
+    check_error();
+}
+
+program_t::program_t( const shader_t& vertex, const shader_t& fragment) : id_( 0)
+{
+    id_ = glCreateProgram();
+    check_error();
+
+    attach( vertex);
+    attach( fragment);
+}
+
+program_t::~program_t()
+{
+    if( id_)
+        glDeleteProgram( id_);
+}
+
+void program_t::attach( const shader_t& shader)
+{
+    glAttachShader( id_, shader.id());
+    check_error();
+}
+
+void program_t::detach( const shader_t& shader)
+{
+    glDetachShader( id_, shader.id());
+    check_error();
+}
+
+void program_t::link()
+{
+    glLinkProgram( id_);
+    check_error();
+
+    GLint link_ok;
+    glGetProgramiv( id_, GL_LINK_STATUS, &link_ok);
+    if( !link_ok)
+        throw link_error();
+}
+
+void program_t::use()
+{
+    glUseProgram( id_);
+    check_error();
+}
+
+void program_t::unuse()
+{
+    glUseProgram( 0);
 }
 
 } // gl
 } // ramen
-
-#endif

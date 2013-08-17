@@ -29,14 +29,19 @@ namespace gl
 
 buffer_obj_t::buffer_obj_t() : id_( 0)
 {
-    glGenBuffers( 1, &id_);
-    check_error();
+    init();
 }
 
 buffer_obj_t::~buffer_obj_t()
 {
     if( id_)
         glDeleteBuffers( 1, &id_);
+}
+
+void buffer_obj_t::init()
+{
+    glGenBuffers( 1, &id_);
+    check_error();
 }
 
 void buffer_obj_t::bind( GLenum target)

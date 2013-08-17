@@ -40,6 +40,14 @@ class RAMEN_GL_API buffer_obj_t
 public:
 
     buffer_obj_t();
+
+    template<class T>
+    buffer_obj_t( GLenum target, GLsizei size, T *data, GLenum usage) : id_( 0)
+    {
+        init();
+        copy_from( target, size, data, usage);
+    }
+
     ~buffer_obj_t();
 
     // move constructor
@@ -90,6 +98,8 @@ public:
     void unmap_buffer( GLenum target);
 
 private:
+
+    void init();
 
     void do_copy_from( GLenum target, GLsizei size, void *data, GLenum usage);
     void do_update( GLenum target, GLint offset, GLsizei size, void *data);

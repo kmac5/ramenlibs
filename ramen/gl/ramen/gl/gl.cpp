@@ -27,14 +27,24 @@ namespace ramen
 namespace gl
 {
 
-exception::exception( GLint err) : error_( err)
+gl_error::gl_error( GLint err) : exception(), error_( err)
 {
     assert( error_ != GL_NO_ERROR);
 }
 
-const char *exception::what() const
+const char *gl_error::what() const
 {
     return reinterpret_cast<const char*>( gluErrorString( error_));
+}
+
+unsupported::unsupported( const char *extension) : exception()
+{
+    message_ = core::make_string( "extension ", extension, " not supported");
+}
+
+const char *unsupported::what() const
+{
+    return message_.c_str();
 }
 
 void clear_errors()

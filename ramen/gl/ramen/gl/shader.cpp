@@ -20,63 +20,54 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_GL_TEXTURE2D_HPP
-#define	RAMEN_GL_TEXTURE2D_HPP
-
-#include<ramen/gl/gl.hpp>
-
-#include<boost/swap.hpp>
-#include<boost/move/move.hpp>
+#include<ramen/gl/shader.hpp>
 
 namespace ramen
 {
 namespace gl
 {
 
-class RAMEN_GL_API texture2d_t
+compile_error::compile_error() : exception()
 {
-    BOOST_MOVABLE_BUT_NOT_COPYABLE( texture2d_t)
+}
 
-public:
-
-    texture2d_t();
-    ~texture2d_t();
-
-    // move constructor
-    texture2d_t( BOOST_RV_REF( texture2d_t) other) : id_( 0)
-    {
-        swap( other);
-    }
-
-    // move assignment
-    texture2d_t& operator=( BOOST_RV_REF( texture2d_t) other)
-    {
-        swap( other);
-        return *this;
-    }
-
-    void swap( texture2d_t& other)
-    {
-        boost::swap( id_, other.id_);
-    }
-
-    GLuint id() const { return id_;}
-
-    void bind();
-    void unbind();
-
-private:
-
-    GLuint id_;
-};
-
-template<class T>
-inline void swap( texture2d_t& x, texture2d_t& y)
+const char *compile_error::what() const
 {
-    x.swap( y);
+    return "compile error";
+}
+
+shader_t::shader_t( GLenum type, const char *src, std::size_t size)
+{
+    init( type, src, size);
+}
+
+shader_t::shader_t( GLenum type, const core::string8_t& src) : id_( 0)
+{
+    init( type, src.c_str(), src.size());
+}
+
+shader_t::~shader_t()
+{
+    if( id_)
+        glDeleteShader( id_);
+}
+
+void shader_t::init( GLenum type, const char *src, std::size_t size)
+{
+    id_ = glCreateShader( type);
+    check_error();
+
+    GLint length = size;
+    glShaderSource( id_, 1, reinterpret_cast<const GLchar**>( &src), &length);
+    check_error();
+
+    glCompileShader( id_);
+
+    GLint compile_ok;
+    glGetShaderiv( id_, GL_COMPILE_STATUS, &compile_ok);
+    if( !compile_ok)
+        throw compile_error();
 }
 
 } // gl
 } // ramen
-
-#endif

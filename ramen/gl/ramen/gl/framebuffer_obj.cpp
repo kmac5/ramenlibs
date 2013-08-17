@@ -29,43 +29,46 @@ namespace gl
 
 framebuffer_obj_t::framebuffer_obj_t() : id_( 0)
 {
-    glGenFramebuffers( 1, &id_);
+    if( !GLEW_EXT_framebuffer_object)
+        throw unsupported( "EXT_framebuffer_object");
+
+    glGenFramebuffersEXT( 1, &id_);
     check_error();
 }
 
 framebuffer_obj_t::~framebuffer_obj_t()
 {
     if( id_)
-        glDeleteFramebuffers( 1, &id_);
+        glDeleteFramebuffersEXT( 1, &id_);
 }
 
 void framebuffer_obj_t::bind( GLenum target)
 {
-    glBindFramebuffer( target, id_);
+    glBindFramebufferEXT( target, id_);
     check_error();
 }
 
 void framebuffer_obj_t::unbind( GLenum target)
 {
-    glBindFramebuffer( target, 0);
+    glBindFramebufferEXT( target, 0);
 }
 
 void framebuffer_obj_t::attach_renderbuffer( const renderbuffer_obj_t& obj,
                                              GLenum attachment_point)
 {
-    glFramebufferRenderbuffer( GL_FRAMEBUFFER,
-                               attachment_point,
-                               GL_RENDERBUFFER,
-                               obj.id());
+    glFramebufferRenderbufferEXT( GL_FRAMEBUFFER,
+                                  attachment_point,
+                                  GL_RENDERBUFFER,
+                                  obj.id());
     check_error();
 }
 
 void framebuffer_obj_t::detach_renderbuffer(GLenum attachment_point)
 {
-    glFramebufferRenderbuffer( GL_FRAMEBUFFER,
-                               attachment_point,
-                               GL_RENDERBUFFER,
-                               0);
+    glFramebufferRenderbufferEXT( GL_FRAMEBUFFER,
+                                  attachment_point,
+                                  GL_RENDERBUFFER,
+                                  0);
     check_error();
 }
 
@@ -73,27 +76,26 @@ void framebuffer_obj_t::attach_texture( const texture2d_t& tx,
                                         GLenum attachment_point,
                                         int level)
 {
-    glFramebufferTexture2D( GL_FRAMEBUFFER,
-                            attachment_point,
-                            GL_TEXTURE_2D,
-                            tx.id(),
-                            level);
+    glFramebufferTexture2DEXT( GL_FRAMEBUFFER,
+                               attachment_point,
+                               GL_TEXTURE_2D,
+                               tx.id(),
+                               level);
     check_error();
 }
 
 void framebuffer_obj_t::detach_texture( GLenum attachment_point)
 {
-    glFramebufferTexture2D( GL_FRAMEBUFFER,
-                            attachment_point,
-                            GL_TEXTURE_2D,
-                            0,
-                            0);
+    glFramebufferTexture2DEXT( GL_FRAMEBUFFER,
+                               attachment_point,
+                               GL_TEXTURE_2D,
+                               0, 0);
     check_error();
 }
 
 GLenum framebuffer_obj_t::status() const
 {
-    return glCheckFramebufferStatus( GL_FRAMEBUFFER);
+    return glCheckFramebufferStatusEXT( GL_FRAMEBUFFER);
 }
 
 } // gl

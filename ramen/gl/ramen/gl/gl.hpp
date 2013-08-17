@@ -46,7 +46,16 @@ class RAMEN_GL_API exception : public core::exception
 {
 public:
 
-    explicit exception( GLint err);
+    exception() {}
+
+    virtual const char *what() const = 0;
+};
+
+class RAMEN_GL_API gl_error : public core::exception
+{
+public:
+
+    explicit gl_error( GLint err);
 
     virtual const char *what() const;
 
@@ -57,6 +66,19 @@ private:
     GLint error_;
 };
 
+class RAMEN_GL_API unsupported : public exception
+{
+public:
+
+    explicit unsupported( const char *extension);
+
+    virtual const char *what() const;
+
+private:
+
+    core::string8_t message_;
+};
+
 RAMEN_GL_API void clear_errors();
 
 inline void check_error()
@@ -65,7 +87,7 @@ inline void check_error()
         GLint err = glGetError();
 
         if( err != GL_NO_ERROR)
-            throw exception( err);
+            throw gl_error( err);
     #endif
 }
 

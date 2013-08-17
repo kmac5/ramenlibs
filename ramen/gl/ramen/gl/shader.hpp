@@ -20,58 +20,87 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_GL_TEXTURE2D_HPP
-#define	RAMEN_GL_TEXTURE2D_HPP
+#ifndef RAMEN_GL_SHADER_HPP
+#define	RAMEN_GL_SHADER_HPP
 
 #include<ramen/gl/gl.hpp>
 
+#include<istream>
+#include<streambuf>
+
 #include<boost/swap.hpp>
 #include<boost/move/move.hpp>
+
+#include<ramen/core/string8.hpp>
 
 namespace ramen
 {
 namespace gl
 {
 
-class RAMEN_GL_API texture2d_t
+class RAMEN_GL_API compile_error : public exception
 {
-    BOOST_MOVABLE_BUT_NOT_COPYABLE( texture2d_t)
+public:
+
+    compile_error();
+
+    virtual const char *what() const;
+};
+
+class RAMEN_GL_API shader_t
+{
+    BOOST_MOVABLE_BUT_NOT_COPYABLE( shader_t)
 
 public:
 
-    texture2d_t();
-    ~texture2d_t();
+    shader_t( GLenum type, const char *src, std::size_t size);
+    shader_t( GLenum type, const core::string8_t& src);
+
+    shader_t( GLenum type, std::istream& is)
+    {
+        core::string8_t src;
+
+        is.seekg( 0, std::ios::end);
+        std::size_t size = is.tellg();
+        src.reserve( size + 1);
+        is.seekg( 0, std::ios::beg);
+        src.assign(( std::istreambuf_iterator<char>( is)),
+                     std::istreambuf_iterator<char>());
+
+        init( type, src.c_str(), src.size());
+    }
+
+    ~shader_t();
 
     // move constructor
-    texture2d_t( BOOST_RV_REF( texture2d_t) other) : id_( 0)
+    shader_t( BOOST_RV_REF( shader_t) other) : id_( 0)
     {
         swap( other);
     }
 
     // move assignment
-    texture2d_t& operator=( BOOST_RV_REF( texture2d_t) other)
+    shader_t& operator=( BOOST_RV_REF( shader_t) other)
     {
         swap( other);
         return *this;
     }
 
-    void swap( texture2d_t& other)
+    void swap( shader_t& other)
     {
         boost::swap( id_, other.id_);
     }
 
     GLuint id() const { return id_;}
 
-    void bind();
-    void unbind();
-
 private:
+
+    void init( GLenum type, const char *src, std::size_t size);
 
     GLuint id_;
 };
 
 template<class T>
-inline void swap( texture2d_t& x, texture2d_t& y)
+inline void swap( shader_t& x, shader_t& y)
 {
     x.swap( y);
 }

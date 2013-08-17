@@ -39,5 +39,17 @@ texture2d_t::~texture2d_t()
         glDeleteTextures( 1, &id_);
 }
 
+void texture2d_t::bind()
+{
+    glBindTexture( GL_TEXTURE_2D, id_);
+    check_error();
+}
+
+void texture2d_t::unbind()
+{
+    glBindTexture( GL_TEXTURE_2D, 0);
+    check_error();
+}
+
 } // gl
 } // ramen
