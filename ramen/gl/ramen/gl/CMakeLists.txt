@@ -29,9 +29,13 @@ INCLUDE_DIRECTORIES(    ../../
 
 # lib
 FILE( GLOB_RECURSE RAMEN_GL_HEADERS ./*.hpp)
-SET( RAMEN_GL_SOURCES   gl.cpp
-                        vertex_buffer_obj.cpp
-                        )
+SET( RAMEN_GL_SOURCES buffer_obj.cpp
+                      framebuffer_obj.cpp
+                      gl.cpp
+                      renderbuffer_obj.cpp
+                      texture2d.hpp
+                      texture2d.cpp
+                      )
 
 SET( RAMEN_GL_LIBS  ramen_core
                     ${RAMEN_CORE_LIBRARIES}

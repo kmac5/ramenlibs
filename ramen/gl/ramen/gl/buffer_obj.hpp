@@ -20,8 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_GL_VERTEX_BUFFER_OBJ_HPP
-#define	RAMEN_GL_VERTEX_BUFFER_OBJ_HPP
+#ifndef RAMEN_GL_BUFFER_OBJ_HPP
+#define	RAMEN_GL_BUFFER_OBJ_HPP
 
 #include<ramen/gl/gl.hpp>
 
@@ -33,32 +33,34 @@ namespace ramen
 namespace gl
 {
 
-class RAMEN_GL_API vertex_buffer_obj_t
+class RAMEN_GL_API buffer_obj_t
 {
-    BOOST_MOVABLE_BUT_NOT_COPYABLE( vertex_buffer_obj_t)
+    BOOST_MOVABLE_BUT_NOT_COPYABLE( buffer_obj_t)
 
 public:
 
-    vertex_buffer_obj_t();
-    ~vertex_buffer_obj_t();
+    buffer_obj_t();
+    ~buffer_obj_t();
 
     // move constructor
-    vertex_buffer_obj_t( BOOST_RV_REF( vertex_buffer_obj_t) other) : id_( 0)
+    buffer_obj_t( BOOST_RV_REF( buffer_obj_t) other) : id_( 0)
     {
         swap( other);
     }
 
     // move assignment
-    vertex_buffer_obj_t& operator=( BOOST_RV_REF( vertex_buffer_obj_t) other)
+    buffer_obj_t& operator=( BOOST_RV_REF( buffer_obj_t) other)
     {
         swap( other);
         return *this;
     }
 
-    void swap( vertex_buffer_obj_t& other)
+    void swap( buffer_obj_t& other)
     {
         boost::swap( id_, other.id_);
     }
+
+    GLuint id() const { return id_;}
 
     void bind( GLenum target);
     void unbind();
@@ -80,9 +82,6 @@ public:
     template<class T>
     T *map_buffer( GLenum target, GLenum access)
     {
-        assert( bound_);
-        assert( !mapped_);
-
         void *ptr = glMapBuffer( target, access);
         check_error();
         return reinterpret_cast<T*>( ptr);
@@ -96,12 +95,10 @@ private:
     void do_update( GLenum target, GLint offset, GLsizei size, void *data);
 
     GLuint id_;
-    bool bound_;
-    bool mapped_;
 };
 
 template<class T>
-inline void swap( vertex_buffer_obj_t& x, vertex_buffer_obj_t& y)
+inline void swap( buffer_obj_t& x, buffer_obj_t& y)
 {
     x.swap( y);
 }
