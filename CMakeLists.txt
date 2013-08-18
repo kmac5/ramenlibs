@@ -50,8 +50,9 @@ SET( RAMEN_USE_INTERPROCESS_NAMES   OFF CACHE BOOL "Use interprocess singleton f
 SET( RAMEN_WITH_ARRAYS  ON CACHE BOOL "Build arrays lib")
 SET( RAMEN_WITH_GEO     ON CACHE BOOL "Build geo lib")
 SET( RAMEN_WITH_GEO_IO  ON CACHE BOOL "Build geo io lib")
-SET( RAMEN_WITH_OS      ON CACHE BOOL "Buils os lib")
-SET( RAMEN_WITH_GL      ON CACHE BOOL "Buils gl lib")
+SET( RAMEN_WITH_OS      ON CACHE BOOL "Build os lib")
+SET( RAMEN_WITH_GL      ON CACHE BOOL "Build gl lib")
+SET( RAMEN_WITH_CUDA    ON CACHE BOOL "Build cuda lib and support")
 
 ######################################################
 # platform specific
@@ -104,6 +105,9 @@ ENDIF()
 IF( RAMEN_WITH_GL)
     FIND_PACKAGE( OpenGL REQUIRED)
     FIND_PACKAGE( GLEW REQUIRED)
+ENDIF()
+
+IF( RAMEN_WITH_CUDA)
 ENDIF()
 
 ######################################################
@@ -161,6 +165,5 @@ IF( RAMEN_BUILD_TESTS)
     ADD_LIBRARY( gmock STATIC   google_testing_libs/google/gtest/src/gtest-all.cc
                                 google_testing_libs/google/gmock/src/gmock-all.cc
                                 )
-
     ENABLE_TESTING()
 ENDIF()
