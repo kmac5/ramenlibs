@@ -22,29 +22,45 @@ THE SOFTWARE.
 
 #include<gtest/gtest.h>
 
-#include<ramen/math/hpoint2.hpp>
-#include<ramen/math/hpoint3.hpp>
+#include<ramen/math/point2.hpp>
+
+#include<ramen/math/functional/point2.hpp>
+#include<ramen/math/functional/point3.hpp>
 
 using namespace ramen::math;
+using namespace ramen::functional;
 
-TEST( Point, Construct)
+TEST( Points, Plus)
 {
-    point3f_t p( 7.3f, 1.1f, 4.2f);
-    ASSERT_EQ( p(0), 7.3f);
-    ASSERT_EQ( p(1), 1.1f);
-    ASSERT_EQ( p(2), 4.2f);
+    point2i_t p2( 1, 3);
+    point2i_t q2( 7, 4);
+    ASSERT_EQ( plus<point2i_t>()( p2, q2), point2i_t( 8, 7));
 
-    hpoint3f_t q( 7.3f, 1.1f, 4.2f);
-    ASSERT_EQ( q(0), 7.3f);
-    ASSERT_EQ( q(1), 1.1f);
-    ASSERT_EQ( q(2), 4.2f);
-    ASSERT_EQ( q(3), 1.0f);
+    point3i_t p3( 1, 3, 2);
+    point3i_t q3( 7, 4, 5);
+    ASSERT_EQ( plus<point3i_t>()( p3, q3), point3i_t( 8, 7, 7));
 }
 
-TEST( HPoint, Construct)
+TEST( Points, Minus)
 {
-    hpoint3f_t p( 7.3f, 1.1f, 4.2f);
-    hpoint3f_t q( 0.53f, 7.1f, 2.0f);
+    point2i_t p2( 1, 3);
+    point2i_t q2( 7, 4);
+    ASSERT_EQ( minus<point2i_t>()( p2, q2), point2i_t( -6, -1));
+
+    point3i_t p3( 1, 3, 2);
+    point3i_t q3( 7, 4, 5);
+    ASSERT_EQ( minus<point3i_t>()( p3, q3), point3i_t( -6, -1, -3));
+}
+
+TEST( Points, Multiply)
+{
+    point2i_t p2( 2, 5);
+    multiply<point2i_t,int> op2;
+    ASSERT_EQ( op2( p2, 3), point2i_t( 6, 15));
+
+    point3i_t p3( 2, 5, 6);
+    multiply<point3i_t,int> op3;
+    ASSERT_EQ( op3( p3, 3), point3i_t( 6, 15, 18));
 }
 
 int main(int argc, char **argv)

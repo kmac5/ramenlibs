@@ -23,9 +23,9 @@ THE SOFTWARE.
 #ifndef RAMEN_MATH_FUNCTIONAL_POINT2_HPP
 #define RAMEN_MATH_FUNCTIONAL_POINT2_HPP
 
-#include<ramen/functional/functional.hpp>
-
 #include<ramen/math/point2.hpp>
+
+#include<ramen/functional/functional.hpp>
 
 namespace ramen
 {
@@ -54,35 +54,35 @@ struct minus<math::point2_t<T> > : public std::binary_function<math::point2_t<T>
     }
 };
 
-template<class T>
-struct multiply<math::point2_t<T>, T> : public std::binary_function<math::point2_t<T>,
-                                                                    T,
+template<class T, class S>
+struct multiply<math::point2_t<T>, S> : public std::binary_function<math::point2_t<T>,
+                                                                    S,
                                                                     math::point2_t<T> >
 {
-    T operator()( const math::point2_t<T>& a, const T& b) const
+    math::point2_t<T> operator()( const math::point2_t<T>& a, const S& b) const
     {
         return math::point2_t<T>( a.x * b, a.y * b);
     }
 };
 
-template<class T>
-struct divide<math::point2_t<T>, T> : public std::binary_function<math::point2_t<T>,
-                                                                  T,
+template<class T, class S>
+struct divide<math::point2_t<T>, S> : public std::binary_function<math::point2_t<T>,
+                                                                  S,
                                                                   math::point2_t<T> >
 {
-    T operator()( const math::point2_t<T>& a, const T& b) const
+    math::point2_t<T> operator()( const math::point2_t<T>& a, const S& b) const
     {
         return math::point2_t<T>( a.x / b, a.y / b);
     }
 };
 
-template<class T>
-struct multiply_plus<math::point2_t<T>, T> : public ternary_function<math::point2_t<T>,
+template<class T, class S>
+struct multiply_plus<math::point2_t<T>, S> : public ternary_function<math::point2_t<T>,
                                                                      math::point2_t<T>,
-                                                                     T,
+                                                                     S,
                                                                      math::point2_t<T> >
 {
-    T operator()( const math::point2_t<T>& a, const math::point2_t<T>& b, const T& s) const
+    math::point2_t<T> operator()( const math::point2_t<T>& a, const math::point2_t<T>& b, const S& s) const
     {
         return math::point2_t<T>( a.x + s * b.x,
                                   a.y + s * b.y);
@@ -113,37 +113,37 @@ struct minus_assign<math::point2_t<T> > : public std::binary_function<math::poin
     }
 };
 
-template<class T>
-struct multiply_assign<math::point2_t<T> > : public std::binary_function<math::point2_t<T>,
-                                                                         T,
-                                                                         void>
+template<class T, class S>
+struct multiply_assign<math::point2_t<T>, S> : public std::binary_function<math::point2_t<T>,
+                                                                           S,
+                                                                           void>
 {
-    void operator()( math::point2_t<T>& a, const T& b) const
+    void operator()( math::point2_t<T>& a, const S& b) const
     {
         a.x *= b;
         a.y *= b;
     }
 };
 
-template<class T>
-struct divide_assign<math::point2_t<T> > : public std::binary_function<math::point2_t<T>,
-                                                                       math::point2_t<T>,
-                                                                       void>
+template<class T, class S>
+struct divide_assign<math::point2_t<T>, S> : public std::binary_function<math::point2_t<T>,
+                                                                         S,
+                                                                         void>
 {
-    void operator()( math::point2_t<T>& a, const T& b) const
+    void operator()( math::point2_t<T>& a, const S& b) const
     {
         a.x /= b;
         a.y /= b;
     }
 };
 
-template<class T>
-struct multiply_plus_assign<math::point2_t<T> > : public ternary_function<math::point2_t<T>,
-                                                                          math::point2_t<T>,
-                                                                          T,
-                                                                          math::point2_t<T> >
+template<class T, class S>
+struct multiply_plus_assign<math::point2_t<T>, S> : public ternary_function<math::point2_t<T>,
+                                                                            math::point2_t<T>,
+                                                                            S,
+                                                                            math::point2_t<T> >
 {
-    void operator()( math::point2_t<T>& a, const math::point2_t<T>& b, const T& s) const
+    void operator()( math::point2_t<T>& a, const math::point2_t<T>& b, const S& s) const
     {
         a.x += s * b.x;
         a.y += s * b.y;

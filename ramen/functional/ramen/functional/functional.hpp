@@ -71,7 +71,7 @@ struct minus : public std::binary_function<T,T,T>
     }
 };
 
-template<class T, class S = T>
+template<class T, class S>
 struct multiply : public std::binary_function<T,S,T>
 {
     T operator()( const T& x, const S& y) const
@@ -80,7 +80,7 @@ struct multiply : public std::binary_function<T,S,T>
     }
 };
 
-template<class T, class S = T>
+template<class T, class S>
 struct divide : public std::binary_function<T,S,T>
 {
     T operator()( const T& x, const S& y) const
@@ -89,7 +89,7 @@ struct divide : public std::binary_function<T,S,T>
     }
 };
 
-template<class T, class S = T>
+template<class T, class S>
 struct multiply_plus : public ternary_function<T,T,S,T>
 {
     T operator()( const T& x, const T& y, const S& s) const
@@ -116,7 +116,7 @@ struct minus_assign : public std::binary_function<T,T,void>
     }
 };
 
-template<class T, class S = T>
+template<class T, class S>
 struct multiply_assign : public std::binary_function<T,S,void>
 {
     void operator()( T& x, const S& y) const
@@ -125,7 +125,7 @@ struct multiply_assign : public std::binary_function<T,S,void>
     }
 };
 
-template<class T, class S = T>
+template<class T, class S>
 struct divide_assign : public std::binary_function<T,T,void>
 {
     void operator()( T& x, const S& y) const
@@ -134,7 +134,7 @@ struct divide_assign : public std::binary_function<T,T,void>
     }
 };
 
-template<class T, class S = T>
+template<class T, class S>
 struct multiply_plus_assign : public ternary_function<T,T,S,T>
 {
     void operator()( T& x, const T& y, const S& s) const
