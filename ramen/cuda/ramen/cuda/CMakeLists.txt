@@ -17,3 +17,25 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
+
+INCLUDE_DIRECTORIES(    ../../
+                        ${Boost_INCLUDE_DIR}
+                        ${CUDA_INCLUDE_DIRS}
+                        ../../../core
+                        ../../../math
+                        ../../../color
+                        )
+
+# lib
+FILE( GLOB_RECURSE RAMEN_CUDA_HEADERS ./*.hpp)
+SET( RAMEN_CUDA_SOURCES cudart.cpp
+                        exceptions.cpp
+                        )
+
+SET( RAMEN_CUDA_LIBS ${CUDA_CUDART_LIBRARY}
+                     ramen_core
+                     ${RAMEN_CORE_LIBS}
+                     )
+
+ADD_LIBRARY( ramen_cuda SHARED ${RAMEN_CUDA_HEADERS} ${RAMEN_CUDA_SOURCES})
+TARGET_LINK_LIBRARIES( ramen_cuda ${RAMEN_CUDA_LIBS})

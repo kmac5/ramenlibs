@@ -112,10 +112,7 @@ IF( RAMEN_WITH_CUDA)
     FIND_PACKAGE( Thrust REQUIRED)
 
     # Remove libcuda from CUDA_LIBRARIES ( as it's part of the nvidia driver.)
-    # SET( CUDA_LIBRARIES ${CUDA_CUDART_LIBRARIES})
-
-    #${CUDA_INCLUDE_DIRS}
-    #${CUDA_CUDART_LIBRARY}
+    SET( CUDA_LIBRARIES ${CUDA_CUDART_LIBRARIES})
 ENDIF()
 
 ######################################################
