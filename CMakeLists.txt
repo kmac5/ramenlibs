@@ -47,12 +47,12 @@ SET( RAMEN_BUILD_TESTS              ON  CACHE BOOL "Build tests")
 SET( RAMEN_USE_INTERPROCESS_NAMES   OFF CACHE BOOL "Use interprocess singleton for names")
 
 # libs compile control
-SET( RAMEN_WITH_ARRAYS  ON CACHE BOOL "Build arrays lib")
-SET( RAMEN_WITH_GEO     ON CACHE BOOL "Build geo lib")
-SET( RAMEN_WITH_GEO_IO  ON CACHE BOOL "Build geo io lib")
-SET( RAMEN_WITH_OS      ON CACHE BOOL "Build os lib")
-SET( RAMEN_WITH_GL      ON CACHE BOOL "Build gl lib")
-SET( RAMEN_WITH_CUDA    ON CACHE BOOL "Build cuda lib and support")
+SET( RAMEN_WITH_ARRAYS  ON  CACHE BOOL "Build arrays lib")
+SET( RAMEN_WITH_GEO     ON  CACHE BOOL "Build geo lib")
+SET( RAMEN_WITH_GEO_IO  ON  CACHE BOOL "Build geo io lib")
+SET( RAMEN_WITH_OS      ON  CACHE BOOL "Build os lib")
+SET( RAMEN_WITH_GL      ON  CACHE BOOL "Build gl lib")
+SET( RAMEN_WITH_CUDA    ON  CACHE BOOL "Build cuda lib")
 
 ######################################################
 # platform specific
@@ -108,6 +108,14 @@ IF( RAMEN_WITH_GL)
 ENDIF()
 
 IF( RAMEN_WITH_CUDA)
+    FIND_PACKAGE( CUDA REQUIRED)
+    FIND_PACKAGE( Thrust REQUIRED)
+
+    # Remove libcuda from CUDA_LIBRARIES ( as it's part of the nvidia driver.)
+    # SET( CUDA_LIBRARIES ${CUDA_CUDART_LIBRARIES})
+
+    #${CUDA_INCLUDE_DIRS}
+    #${CUDA_CUDART_LIBRARY}
 ENDIF()
 
 ######################################################
@@ -150,6 +158,10 @@ ENDIF()
 
 IF( RAMEN_WITH_GL)
     ADD_SUBDIRECTORY( ramen/gl)
+ENDIF()
+
+IF( RAMEN_WITH_CUDA)
+    ADD_SUBDIRECTORY( ramen/cuda)
 ENDIF()
 
 ######################################################
