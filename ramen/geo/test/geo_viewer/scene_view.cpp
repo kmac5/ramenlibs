@@ -48,7 +48,7 @@ public:
         u_   = math::vector3f_t( 1, 0, 0);
         v_   = math::vector3f_t( 0, 1, 0);
         n_   = math::vector3f_t( 0, 0, 1);
-        fov_ = 45.0f * math::constants<float>::deg2rad();
+        fov_ = 45.0f;
         near_clip_ = 0.01f;
         far_clip_ = 10000.0f;
     }
@@ -127,8 +127,8 @@ struct maya_like_camera_controller_t
         {
             case track_k:
             {
-                math::vector2f_t d( 0.001f * ( pos.x - last_pos_.x),
-                                    0.001f * ( pos.y - last_pos_.y));
+                math::vector2f_t d( 0.01f * ( pos.x - last_pos_.x),
+                                    0.01f * ( pos.y - last_pos_.y));
                 camera_->track( d);
             }
             break;
@@ -196,22 +196,12 @@ void scene_view_t::paintGL()
 
     draw_grid();
     draw_world_axes();
-
-    /*
-    glLineWidth( 1.0f);
-    glColor3f( 1.0f, 1.0f, 1.0f);
-    glBegin( GL_LINE_LOOP);
-        glVertex3f( -3,  3, 1000);
-        glVertex3f(  3,  3, 1000);
-        glVertex3f( -3, -3, 1000);
-        glVertex3f(  3, -3, 1000);
-    glEnd();
-    */
 }
 
 void scene_view_t::draw_grid() const
 {
-    glColor3f( .8f, .8f, .8f);
+    glLineWidth( 1.0f);
+    glColor3f( .6f, .6f, .6f);
     glBegin( GL_LINES);
         for( int i = 0; i < 40; ++i)
         {
@@ -248,7 +238,7 @@ void scene_view_t::draw_grid() const
 
 void scene_view_t::draw_world_axes() const
 {
-    const int axis_lenght = 100;
+    const int axis_lenght = 10;
     glLineWidth( 4.0f);
     glColor3f( 1.0, 0.0f, 0.0f);
     glBegin( GL_LINE);
