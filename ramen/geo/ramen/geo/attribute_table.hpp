@@ -98,7 +98,7 @@ public:
     arrays::array_t& array( const core::name_t& name);
 
     // iterators
-    struct const_iterator
+    struct RAMEN_GEO_API const_iterator
     {
         const_iterator();
 
@@ -126,7 +126,7 @@ public:
     const_iterator begin() const;
     const_iterator end() const;
 
-    struct iterator
+    struct RAMEN_GEO_API iterator
     {
         iterator();
 

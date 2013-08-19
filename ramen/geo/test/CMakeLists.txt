@@ -52,9 +52,9 @@ ADD_RM_TEST( exceptions)
 ADD_RM_TEST( shape_attributes)
 ADD_RM_TEST( shape_transform)
 
-FIND_PACKAGE( Boost COMPONENTS ${BOOST_NEEDED_LIBRARIES} program_options REQUIRED)
+IF( RAMEN_WITH_REGEX AND RAMEN_WITH_GEO_IO)
+    FIND_PACKAGE( Boost COMPONENTS ${BOOST_NEEDED_LIBRARIES} program_options REQUIRED)
 
-IF( RAMEN_WITH_GEO_IO)
     ADD_EXECUTABLE( geo_info geo_info.cpp)
     TARGET_LINK_LIBRARIES( geo_info ramen_geo_io
                                     ${RAMEN_GEO_IO_LIBS}

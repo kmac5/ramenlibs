@@ -37,8 +37,7 @@ SET( RAMEN_CORE_SOURCES  allocator_interface.cpp
                          new_allocator.cpp
                          memory.cpp
                          ref_counted.cpp
-                         regex8.cpp
-                         simple_expression_evaluator.cpp
+                         #simple_expression_evaluator.cpp
                          string8.cpp
                          string8_vector.cpp
                          string16.cpp
@@ -48,8 +47,15 @@ SET( RAMEN_CORE_SOURCES  allocator_interface.cpp
                          ../../../extern/tinythreadpp/tinythread.cpp
                          )
 
-SET( RAMEN_CORE_LIBS ${PCRE_LIBRARIES}
-                     )
+SET( RAMEN_CORE_LIBS)
+
+IF( RAMEN_WITH_REGEX)
+    SET( RAMEN_CORE_SOURCES ${RAMEN_CORE_SOURCES}
+                            regex8.cpp
+                            )
+
+    SET( RAMEN_CORE_LIBS ${RAMEN_CORE_LIBS} ${PCRE_LIBRARIES})
+ENDIF()
 
 ADD_LIBRARY( ramen_core SHARED ${RAMEN_CORE_HEADERS} ${RAMEN_CORE_SOURCES})
 TARGET_LINK_LIBRARIES( ramen_core ${RAMEN_CORE_LIBS})

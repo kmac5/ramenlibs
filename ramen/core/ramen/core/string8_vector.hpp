@@ -102,7 +102,7 @@ public:
 
     const string8_t& operator[]( std::size_t n) const;
 
-    class const_iterator
+    class RAMEN_CORE_API const_iterator
     {
     public:
 
@@ -144,7 +144,7 @@ public:
     const_iterator begin() const;
     const_iterator end() const;
 
-    class string_proxy
+    class RAMEN_CORE_API string_proxy
     {
     public:
 
@@ -164,7 +164,7 @@ public:
 
     string_proxy operator[]( std::size_t n);
 
-    class iterator
+    class RAMEN_CORE_API iterator
     {
     public:
 

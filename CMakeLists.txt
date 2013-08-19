@@ -43,8 +43,9 @@ ENDIF()
 # options
 
 SET( RAMEN_WITH_HALF                ON  CACHE BOOL "Build EXR Half support")
-SET( RAMEN_BUILD_TESTS              ON  CACHE BOOL "Build tests")
+SET( RAMEN_WITH_REGEX               ON  CACHE BOOL "Build regex support")
 SET( RAMEN_USE_INTERPROCESS_NAMES   OFF CACHE BOOL "Use interprocess singleton for names")
+SET( RAMEN_BUILD_TESTS              ON  CACHE BOOL "Build tests")
 
 # libs compile control
 SET( RAMEN_WITH_ARRAYS  ON  CACHE BOOL "Build arrays lib")
@@ -91,7 +92,9 @@ FIND_PACKAGE( Boost COMPONENTS ${BOOST_NEEDED_LIBRARIES} REQUIRED)
 ADD_DEFINITIONS( -DBOOST_FILESYSTEM_VERSION=3)
 ADD_DEFINITIONS( -DBOOST_FILESYSTEM_NO_DEPRECATED)
 
-FIND_PACKAGE( PCRE REQUIRED)
+IF( RAMEN_WITH_REGEX)
+    FIND_PACKAGE( PCRE REQUIRED)
+ENDIF()
 
 ######################################################
 # optional dependencies
