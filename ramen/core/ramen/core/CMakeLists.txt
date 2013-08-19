@@ -37,7 +37,7 @@ SET( RAMEN_CORE_SOURCES  allocator_interface.cpp
                          new_allocator.cpp
                          memory.cpp
                          ref_counted.cpp
-                         #simple_expression_evaluator.cpp
+                         simple_expression_evaluator.cpp
                          string8.cpp
                          string8_vector.cpp
                          string16.cpp
