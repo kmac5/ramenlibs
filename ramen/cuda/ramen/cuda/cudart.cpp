@@ -33,6 +33,11 @@ void check_cuda_error( cudaError_t err)
         throw runtime_error( err);
 }
 
+void cuda_check_last_error()
+{
+    check_cuda_error( cudaPeekAtLastError());
+}
+
 int cuda_get_device_count()
 {
     int count;
@@ -53,6 +58,11 @@ void cuda_choose_device( int *device, const struct cudaDeviceProp *prop)
 void cuda_set_device( int device)
 {
     check_cuda_error( cudaSetDevice( device));
+}
+
+void cuda_device_synchronize()
+{
+    check_cuda_error( cudaDeviceSynchronize());
 }
 
 void cuda_event_create( cudaEvent_t *event)

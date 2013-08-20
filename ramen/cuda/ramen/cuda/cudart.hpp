@@ -32,12 +32,14 @@ namespace cuda
 
 // error handling
 RAMEN_CUDA_API void check_cuda_error( cudaError_t err);
+RAMEN_CUDA_API void cuda_check_last_error();
 
 // forwarding funs
 RAMEN_CUDA_API int cuda_get_device_count();
 RAMEN_CUDA_API void cuda_get_device_properties( struct cudaDeviceProp *prop, int device);
 RAMEN_CUDA_API void cuda_choose_device( int *device, const struct cudaDeviceProp *prop);
 RAMEN_CUDA_API void cuda_set_device( int device);
+RAMEN_CUDA_API void cuda_device_synchronize();
 
 template<class T>
 T *cuda_malloc( std::size_t size)

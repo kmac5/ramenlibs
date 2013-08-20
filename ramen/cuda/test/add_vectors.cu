@@ -74,6 +74,11 @@ int main(int argc, char **argv)
                                         gpu_src1.get_device_ptr(),
                                         gpu_src2.get_device_ptr(),
                                         gpu_dst.get_device_ptr());
+        cuda_check_last_error();
+
+        #ifndef NDEBUG
+            cuda_device_synchronize();
+        #endif
 
         // get back the result on the host.
         boost::scoped_array<float> dst( new float[vector_size]);
