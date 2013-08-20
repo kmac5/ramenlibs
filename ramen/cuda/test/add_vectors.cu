@@ -56,26 +56,32 @@ int main(int argc, char **argv)
         for( int i = 0; i < vector_size; ++i)
             src[i] = i;
 
+        // we start GPU code here. create a start event.
         event_t start;
 
         // alloc device mem and copy the host array.
         auto_ptr_t<float,device_ptr_policy> gpu_src1( cuda_malloc<float>( vector_size));
-        cuda_memcpy( gpu_src1.get(), src.get(), vector_size, cudaMemcpyHostToDevice);
+        cuda_memcpy( gpu_src1.get_device_ptr(), src.get(), vector_size, cudaMemcpyHostToDevice);
 
         // alloc device mem and copy the host array.
         auto_ptr_t<float,device_ptr_policy> gpu_src2( cuda_malloc<float>( vector_size));
-        cuda_memcpy( gpu_src2.get(), src.get(), vector_size, cudaMemcpyHostToDevice);
+        cuda_memcpy( gpu_src2.get_device_ptr(), src.get(), vector_size, cudaMemcpyHostToDevice);
 
         // allocate a device mem that will contain the result.
         auto_ptr_t<float,device_ptr_policy> gpu_dst( cuda_malloc<float>( vector_size));
 
-        add_vectors<<<vector_size,1>>>( vector_size, gpu_src1.get(), gpu_src2.get(), gpu_dst.get());
+        add_vectors<<<vector_size,1>>>( vector_size,
+                                        gpu_src1.get_device_ptr(),
+                                        gpu_src2.get_device_ptr(),
+                                        gpu_dst.get_device_ptr());
 
         // get back the result on the host.
         boost::scoped_array<float> dst( new float[vector_size]);
-        cuda_memcpy( dst.get(), gpu_dst.get(), vector_size, cudaMemcpyDeviceToHost);
+        cuda_memcpy( dst.get(), gpu_dst.get_device_ptr(), vector_size, cudaMemcpyDeviceToHost);
 
-        event_t stop( true); // create event and synchronize.
+        // gpu code ends here. Create stop event and synchronize it.
+        event_t stop( true);
+
         std::cout << "Finished. Elapsed time = " << elapsed_time( start, stop) << " ms" << std::endl;
 
         // check everything was ok.
@@ -90,7 +96,7 @@ int main(int argc, char **argv)
     }
     catch( ramen::core::exception& e)
     {
-        std::cout << "exception caught, " << e.what() << std::endl;
+        std::cout << "Exception caught, " << e.what() << std::endl;
         std::cout << "test failed" << std::endl;
         return boost::exit_failure;
     }
