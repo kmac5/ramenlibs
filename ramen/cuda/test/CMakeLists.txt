@@ -52,4 +52,4 @@ ADD_RM_TEST( auto_ptr)
 
 CUDA_ADD_EXECUTABLE( add_vectors add_vectors.cu)
 TARGET_LINK_LIBRARIES( add_vectors ${RAMEN_TEST_TARGET_LIBS})
-#ADD_TEST( ${sourcefile} ${CMAKE_CURRENT_BINARY_DIR}/${sourcefile})
+ADD_TEST( add_vectors ${CMAKE_CURRENT_BINARY_DIR}/add_vectors)

@@ -41,42 +41,49 @@ int main(int argc, char **argv)
 {
     try
     {
-        int devices = cuda_get_device_count();
-
-        if( !devices)
+        if( cuda_get_device_count() == 0)
         {
-            std::cerr << "No CUDA devices found. Exiting" << std::endl;
+            std::cout << "No CUDA devices found. Exiting" << std::endl;
+            std::cout << "test failed" << std::endl;
             return boost::exit_failure;
         }
 
+        // allocate and fill an array on the host.
         boost::scoped_array<float> src( new float[10]);
         for( int i = 0; i < 10; ++i)
             src[i] = i;
 
+        // alloc device mem and copy the host array.
         auto_ptr_t<float,device_ptr_policy> gpu_src1( cuda_malloc<float>( 10));
         cuda_memcpy( gpu_src1.get(), src.get(), 10, cudaMemcpyHostToDevice);
 
+        // alloc device mem and copy the host array.
         auto_ptr_t<float,device_ptr_policy> gpu_src2( cuda_malloc<float>( 10));
         cuda_memcpy( gpu_src2.get(), src.get(), 10, cudaMemcpyHostToDevice);
 
+        // allocate a device mem that will contain the result.
         auto_ptr_t<float,device_ptr_policy> gpu_dst( cuda_malloc<float>( 10));
 
         add_vectors<<<10,1>>>( 10, gpu_src1.get(), gpu_src2.get(), gpu_dst.get());
 
+        // get back the result on the host.
         boost::scoped_array<float> dst( new float[10]);
         cuda_memcpy( dst.get(), gpu_dst.get(), 10, cudaMemcpyDeviceToHost);
 
+        // check everything was ok.
         for( int i = 0; i < 10; ++i)
         {
             if( dst[i] != ( i + i))
                 return boost::exit_failure;
         }
 
+        std::cout << "test ok" << std::endl;
         return boost::exit_success;
     }
     catch( ramen::core::exception& e)
     {
-        std::cerr << "exception caught, " << e.what() << std::endl;
+        std::cout << "exception caught, " << e.what() << std::endl;
+        std::cout << "test failed" << std::endl;
         return boost::exit_failure;
     }
 }
