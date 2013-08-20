@@ -40,7 +40,7 @@ RAMEN_CUDA_API void cuda_choose_device( int *device, const struct cudaDeviceProp
 RAMEN_CUDA_API void cuda_set_device( int device);
 
 template<class T>
-T *cuda_malloc( size_t size)
+T *cuda_malloc( std::size_t size)
 {
     void *ptr = 0;
     check_cuda_error( cudaMalloc( &ptr, size * sizeof( T)));
@@ -56,7 +56,7 @@ void cuda_free( T *ptr)
 }
 
 template<class T>
-T *cuda_host_alloc( size_t size, unsigned int flags = cudaHostAllocDefault)
+T *cuda_host_alloc( std::size_t size, unsigned int flags = cudaHostAllocDefault)
 {
     void *ptr = 0;
     check_cuda_error( cudaHostAlloc( &ptr, size * sizeof( T), flags));

@@ -65,7 +65,7 @@ struct host_ptr_policy
     template<class T>
     static void get_device_ptr( T *x, unsigned int flags)
     {
-        assert( ptr);
+        assert( x);
 
         return cuda_host_get_device_ptr( x, flags);
     }
