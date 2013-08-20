@@ -30,6 +30,7 @@ INCLUDE_DIRECTORIES(    ../../
 FILE( GLOB_RECURSE RAMEN_CUDA_HEADERS ./*.hpp)
 SET( RAMEN_CUDA_SOURCES cudart.cpp
                         exceptions.cpp
+                        event.cpp
                         )
 
 SET( RAMEN_CUDA_LIBS ${CUDA_CUDART_LIBRARY}

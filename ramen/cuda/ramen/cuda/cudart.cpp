@@ -55,22 +55,35 @@ void cuda_set_device( int device)
     check_cuda_error( cudaSetDevice( device));
 }
 
-void *cuda_malloc( size_t size)
+void cuda_event_create( cudaEvent_t *event)
 {
-    void *ptr = 0;
-    check_cuda_error( cudaMalloc( &ptr, size));
-    return ptr;
+    assert( event);
+
+    check_cuda_error( cudaEventCreate( event));
 }
 
-void cuda_free( void *ptr)
+void cuda_event_destroy( cudaEvent_t event)
 {
-    check_cuda_error( cudaFree( ptr));
+    // assuming this will be used mostly in destructors,
+    // don't check the result, and specially, don't throw.
+    cudaEventDestroy( event);
 }
 
-void cuda_memcpy( void *dst, const void *src, size_t count, enum cudaMemcpyKind kind)
+void cuda_event_record( cudaEvent_t event, cudaStream_t stream)
 {
-    check_cuda_error( cudaMemcpy( dst, src, count, kind));
+    check_cuda_error( cudaEventRecord( event, stream));
 }
 
+void cuda_event_synchronize( cudaEvent_t event)
+{
+    check_cuda_error( cudaEventSynchronize( event));
+}
+
+float cuda_event_elapsed_time( cudaEvent_t start, cudaEvent_t end)
+{
+    float ms;
+    check_cuda_error( cudaEventElapsedTime( &ms, start, end));
+    return ms;
+}
 } // cuda
 } // ramen

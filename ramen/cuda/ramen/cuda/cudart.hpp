@@ -39,9 +39,60 @@ RAMEN_CUDA_API void cuda_get_device_properties( struct cudaDeviceProp *prop, int
 RAMEN_CUDA_API void cuda_choose_device( int *device, const struct cudaDeviceProp *prop);
 RAMEN_CUDA_API void cuda_set_device( int device);
 
-RAMEN_CUDA_API void *cuda_malloc( size_t size);
-RAMEN_CUDA_API void cuda_free( void *ptr);
-RAMEN_CUDA_API void cuda_memcpy( void *dst, const void *src, size_t count, enum cudaMemcpyKind kind);
+template<class T>
+T *cuda_malloc( size_t size)
+{
+    void *ptr = 0;
+    check_cuda_error( cudaMalloc( &ptr, size * sizeof( T)));
+    return reinterpret_cast<T*>( ptr);
+}
+
+template<class T>
+void cuda_free( T *ptr)
+{
+    // assuming this will be used mostly in destructors,
+    // don't check the result, and specially, don't throw.
+    cudaFree( reinterpret_cast<void*>( ptr));
+}
+
+template<class T>
+T *cuda_host_alloc( size_t size, unsigned int flags = cudaHostAllocDefault)
+{
+    void *ptr = 0;
+    check_cuda_error( cudaHostAlloc( &ptr, size * sizeof( T), flags));
+    return reinterpret_cast<T*>( ptr);
+}
+
+template<class T>
+void cuda_free_host( T *ptr)
+{
+    // assuming this will be used mostly in destructors,
+    // don't check the result, and specially, don't throw.
+    cudaFreeHost( reinterpret_cast<void*>( ptr));
+}
+
+template<class T>
+T *cuda_host_get_device_ptr( T *ptr, unsigned int flags = 0)
+{
+    void *tmp;
+    check_cuda_error( cudaHostGetDevicePointer( &tmp, ptr, flags));
+    return reinterpret_cast<T*>( tmp);
+}
+
+template<class T>
+void cuda_memcpy( T *dst, const T *src, size_t count, enum cudaMemcpyKind kind)
+{
+    check_cuda_error( cudaMemcpy( reinterpret_cast<void*>( dst),
+                                  reinterpret_cast<const void*>( src),
+                                  count * sizeof( T), kind));
+}
+
+// events
+RAMEN_CUDA_API void cuda_event_create( cudaEvent_t *event);
+RAMEN_CUDA_API void cuda_event_destroy( cudaEvent_t event);
+RAMEN_CUDA_API void cuda_event_record( cudaEvent_t event, cudaStream_t stream);
+RAMEN_CUDA_API void cuda_event_synchronize( cudaEvent_t event);
+RAMEN_CUDA_API float cuda_event_elapsed_time( cudaEvent_t start, cudaEvent_t end);
 
 } // cuda
 } // ramen

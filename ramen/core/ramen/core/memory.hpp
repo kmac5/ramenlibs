@@ -112,7 +112,7 @@ public:
 
     auto_resource_t& operator=( BOOST_RV_REF( auto_resource_t) other)
     {
-        ptr_ = other.release();
+        swap( other);
         return *this;
     }
 

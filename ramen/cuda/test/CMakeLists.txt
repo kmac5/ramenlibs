@@ -17,3 +17,33 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
+
+ENABLE_TESTING()
+
+INCLUDE_DIRECTORIES(	../
+                        ../../../google_testing_libs/google
+                        ../../../google_testing_libs/google/gtest
+                        ../../../google_testing_libs/google/gmock
+                        ${Boost_INCLUDE_DIR}
+                        ${CUDA_INCLUDE_DIRS}
+                        ../../color
+                        ../../core
+                        ../../cuda
+                        ../../math
+                        )
+
+SET( RAMEN_TEST_TARGET_LIBS  ramen_cuda
+                             ${RAMEN_CUDA_LIBS}
+                             gmock
+                             ${RAMEN_TEST_SYSTEM_LIBS}
+                             )
+
+# tests
+
+MACRO( ADD_RM_TEST sourcefile)
+    ADD_EXECUTABLE( ${sourcefile} ${sourcefile}.cpp)
+    TARGET_LINK_LIBRARIES( ${sourcefile} ${RAMEN_TEST_TARGET_LIBS})
+    ADD_TEST( ${sourcefile} ${CMAKE_CURRENT_BINARY_DIR}/${sourcefile})
+ENDMACRO()
+
+ADD_RM_TEST( auto_ptr)
