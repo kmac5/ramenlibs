@@ -22,6 +22,8 @@ THE SOFTWARE.
 
 #include<gtest/gtest.h>
 
+#include<boost/scoped_array.hpp>
+
 #include<ramen/algorithm/for_each_position.hpp>
 
 using namespace ramen::algorithm;
@@ -47,13 +49,11 @@ private:
 TEST( ForEachPosition, All)
 {
     int float_lenght = 20;
-    float *float_array = new float[float_lenght];
+    boost::scoped_array<float> float_array( new float[float_lenght]);
     for_each_pos_test1_fun f;
-    for_each_position( float_array, float_array + float_lenght, f);
+    for_each_position( float_array.get(), float_array.get() + float_lenght, f);
     for( int i = 0; i < float_lenght; ++i)
         EXPECT_EQ( float_array[i], i);
-
-    delete [] float_array;
 }
 
 int main(int argc, char **argv)

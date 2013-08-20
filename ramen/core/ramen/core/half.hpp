@@ -36,7 +36,6 @@ THE SOFTWARE.
 namespace boost
 {
 
-//* is a type T a floating-point type described in the standard (3.9.1p8)
 BOOST_TT_AUX_BOOL_TRAIT_CV_SPEC1( is_float,half,true)
 BOOST_TT_AUX_BOOL_TRAIT_CV_SPEC1( is_floating_point,half,true)
 

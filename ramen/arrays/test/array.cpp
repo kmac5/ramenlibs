@@ -45,6 +45,24 @@ TEST( Array, Construct)
 
 TEST( Array, CopyAssign)
 {
+    array_t x( float_k);
+    array_ref_t<float> xref( x);
+    xref.push_back( 1.0f);
+    xref.push_back( 5.0f);
+    xref.push_back( 7.0f);
+    xref.push_back( 11.0f);
+
+    array_t y( x);
+    ASSERT_TRUE( x == y);
+    array_ref_t<float> yref( y);
+    yref.push_back( 11.0f);
+    yref.push_back( 15.0f);
+    yref.push_back( 17.0f);
+    yref.push_back( 111.0f);
+
+    array_t z( int8_k);
+    z = y;
+    ASSERT_TRUE( z == y);
 }
 
 TEST( Array, MoveAssign)

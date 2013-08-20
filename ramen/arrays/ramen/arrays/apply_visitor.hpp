@@ -85,7 +85,7 @@ void apply_visitor( Visitor& v, array_t& array)
         RAMEN_ARRAYS_APPLY_VISITOR_CASE( core::box2i_k, math::box2i_t)
         RAMEN_ARRAYS_APPLY_VISITOR_CASE( core::color3f_k, color::color3f_t)
 
-        #if RAMEN_WITH_HALF
+        #ifdef RAMEN_WITH_HALF
             RAMEN_ARRAYS_APPLY_VISITOR_CASE( core::half_k, half)
             RAMEN_ARRAYS_APPLY_VISITOR_CASE( core::point2h_k, math::point2h_t)
             RAMEN_ARRAYS_APPLY_VISITOR_CASE( core::point3h_k, math::point3h_t)
@@ -129,7 +129,7 @@ void apply_visitor( Visitor& v, const array_t& array)
         RAMEN_ARRAYS_APPLY_VISITOR_CASE( core::box2i_k, math::box2i_t)
         RAMEN_ARRAYS_APPLY_VISITOR_CASE( core::color3f_k, color::color3f_t)
 
-        #if RAMEN_WITH_HALF
+        #ifdef RAMEN_WITH_HALF
             RAMEN_ARRAYS_APPLY_VISITOR_CASE( core::half_k, half)
             RAMEN_ARRAYS_APPLY_VISITOR_CASE( core::point2h_k, math::point2h_t)
             RAMEN_ARRAYS_APPLY_VISITOR_CASE( core::point3h_k, math::point3h_t)

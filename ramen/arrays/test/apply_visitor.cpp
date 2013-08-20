@@ -22,13 +22,55 @@ THE SOFTWARE.
 
 #include<gtest/gtest.h>
 
+#include<boost/assign.hpp>
+
 #include<ramen/arrays/apply_visitor.hpp>
 
 using namespace ramen::core;
 using namespace ramen::arrays;
 
+class double_visitor
+{
+public:
+
+    void operator()( array_ref_t<float>& array)
+    {
+        for( int i = 0, e = array.size(); i < e; ++i)
+            array[i] *= 2.0f;
+    }
+
+    void operator()( array_ref_t<boost::uint32_t>& array)
+    {
+        for( int i = 0, e = array.size(); i < e; ++i)
+            array[i] *= 2;
+    }
+
+    template<class T>
+    void operator()( array_ref_t<T>& array)
+    {
+        assert( false);
+    }
+};
+
 TEST( ApplyVisitor, All)
 {
+    double_visitor v;
+
+    array_t x( float_k);
+    array_ref_t<float> xref( x);
+    boost::assign::push_back( xref) = 1.0f, 1.0f, 3.0f, 7.0f, 8.0f, 11.0f;
+    apply_visitor( v, x);
+    EXPECT_EQ( xref[0], 2.0f);
+    EXPECT_EQ( xref[2], 6.0f);
+    EXPECT_EQ( xref[4], 16.0f);
+
+    array_t y( uint32_k);
+    array_ref_t<boost::uint32_t> yref( y);
+    boost::assign::push_back( yref) = 1, 1, 3, 7, 8, 11;
+    apply_visitor( v, y);
+    EXPECT_EQ( yref[0], 2);
+    EXPECT_EQ( yref[2], 6);
+    EXPECT_EQ( yref[4], 16);
 }
 
 int main(int argc, char **argv)

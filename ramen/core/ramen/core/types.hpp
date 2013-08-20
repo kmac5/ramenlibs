@@ -38,7 +38,7 @@ THE SOFTWARE.
 
 #include<ramen/core/string8.hpp>
 
-#if RAMEN_WITH_HALF
+#ifdef RAMEN_WITH_HALF
     #include<ramen/core/half.hpp>
 #endif
 
@@ -75,7 +75,7 @@ enum type_t
 
     color3f_k,
 
-    #if RAMEN_WITH_HALF
+    #ifdef RAMEN_WITH_HALF
         half_k,
         point2h_k,
         point3h_k,
@@ -128,7 +128,7 @@ struct type_traits<math::box2i_t>
     static math::box2i_t default_value() { return math::box2i_t();}
 };
 
-#if RAMEN_WITH_HALF
+#ifdef RAMEN_WITH_HALF
     RAMEN_ARRAY_TYPE_TRAITS_SPECIALIZATION( half, half_k);
     RAMEN_ARRAY_TYPE_TRAITS_SPECIALIZATION( math::point2h_t, point2h_k);
     RAMEN_ARRAY_TYPE_TRAITS_SPECIALIZATION( math::point3h_t, point3h_k);
@@ -140,7 +140,7 @@ struct type_traits<math::box2i_t>
 // special case for strings
 template<>
 struct type_traits<string8_t>
-{    
+{
     static type_t type() { return string8_k;}
     static string8_t default_value() { return string8_t();}
 };

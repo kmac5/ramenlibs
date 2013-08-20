@@ -58,7 +58,7 @@ const char *type_to_string( type_t t)
         RAMEN_ARRAYS_TYPE2STRING_CASE( box2i_k, "box2i_t")
         RAMEN_ARRAYS_TYPE2STRING_CASE( color3f_k, "color3f_t")
 
-        #if RAMEN_WITH_HALF
+        #ifdef RAMEN_WITH_HALF
             RAMEN_ARRAYS_TYPE2STRING_CASE( half_k ,"half")
             RAMEN_ARRAYS_TYPE2STRING_CASE( point2h_k, "point2h_t")
             RAMEN_ARRAYS_TYPE2STRING_CASE( point3h_k, "point3h_t")
