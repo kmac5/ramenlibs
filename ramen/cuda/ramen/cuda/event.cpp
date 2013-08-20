@@ -29,20 +29,23 @@ namespace ramen
 namespace cuda
 {
 
-event_t::event_t()
+event_t::event_t( bool sync)
 {
-    init( 0);
+    init( 0, sync);
 }
 
-event_t::event_t( const stream_t& stream)
+event_t::event_t( const stream_t& stream, bool sync)
 {
-    init( stream.stream());
+    init( stream.stream(), sync);
 }
 
-void event_t::init( cudaStream_t stream)
+void event_t::init( cudaStream_t stream, bool sync)
 {
     cuda_event_create( &event_);
     record( stream);
+
+    if( sync)
+        synchronize();
 }
 
 event_t::~event_t()

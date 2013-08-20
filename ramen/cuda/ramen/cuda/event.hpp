@@ -34,8 +34,8 @@ class RAMEN_CUDA_API event_t
 {
 public:
 
-    event_t();
-    explicit event_t( const stream_t& stream);
+    event_t( bool sync = false);
+    event_t( const stream_t& stream, bool sync = false);
 
     ~event_t();
 
@@ -52,7 +52,7 @@ private:
     event_t( const event_t&);
     event_t& operator=( const event_t&);
 
-    void init( cudaStream_t stream);
+    void init( cudaStream_t stream, bool sync);
 
     void record( cudaStream_t stream);
 

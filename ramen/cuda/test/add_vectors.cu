@@ -27,6 +27,7 @@ THE SOFTWARE.
 
 #include<ramen/cuda/cudart.hpp>
 #include<ramen/cuda/auto_ptr.hpp>
+#include<ramen/cuda/event.hpp>
 
 using namespace ramen::cuda;
 
@@ -39,6 +40,8 @@ __global__ void add_vectors( int n, float *a, float *b, float *c)
 
 int main(int argc, char **argv)
 {
+    const int vector_size = 10;
+
     try
     {
         if( cuda_get_device_count() == 0)
@@ -49,29 +52,34 @@ int main(int argc, char **argv)
         }
 
         // allocate and fill an array on the host.
-        boost::scoped_array<float> src( new float[10]);
-        for( int i = 0; i < 10; ++i)
+        boost::scoped_array<float> src( new float[vector_size]);
+        for( int i = 0; i < vector_size; ++i)
             src[i] = i;
 
-        // alloc device mem and copy the host array.
-        auto_ptr_t<float,device_ptr_policy> gpu_src1( cuda_malloc<float>( 10));
-        cuda_memcpy( gpu_src1.get(), src.get(), 10, cudaMemcpyHostToDevice);
+        event_t start;
 
         // alloc device mem and copy the host array.
-        auto_ptr_t<float,device_ptr_policy> gpu_src2( cuda_malloc<float>( 10));
-        cuda_memcpy( gpu_src2.get(), src.get(), 10, cudaMemcpyHostToDevice);
+        auto_ptr_t<float,device_ptr_policy> gpu_src1( cuda_malloc<float>( vector_size));
+        cuda_memcpy( gpu_src1.get(), src.get(), vector_size, cudaMemcpyHostToDevice);
+
+        // alloc device mem and copy the host array.
+        auto_ptr_t<float,device_ptr_policy> gpu_src2( cuda_malloc<float>( vector_size));
+        cuda_memcpy( gpu_src2.get(), src.get(), vector_size, cudaMemcpyHostToDevice);
 
         // allocate a device mem that will contain the result.
-        auto_ptr_t<float,device_ptr_policy> gpu_dst( cuda_malloc<float>( 10));
+        auto_ptr_t<float,device_ptr_policy> gpu_dst( cuda_malloc<float>( vector_size));
 
-        add_vectors<<<10,1>>>( 10, gpu_src1.get(), gpu_src2.get(), gpu_dst.get());
+        add_vectors<<<vector_size,1>>>( vector_size, gpu_src1.get(), gpu_src2.get(), gpu_dst.get());
 
         // get back the result on the host.
-        boost::scoped_array<float> dst( new float[10]);
-        cuda_memcpy( dst.get(), gpu_dst.get(), 10, cudaMemcpyDeviceToHost);
+        boost::scoped_array<float> dst( new float[vector_size]);
+        cuda_memcpy( dst.get(), gpu_dst.get(), vector_size, cudaMemcpyDeviceToHost);
+
+        event_t stop( true); // create event and synchronize.
+        std::cout << "Finished. Elapsed time = " << elapsed_time( start, stop) << " ms" << std::endl;
 
         // check everything was ok.
-        for( int i = 0; i < 10; ++i)
+        for( int i = 0; i < vector_size; ++i)
         {
             if( dst[i] != ( i + i))
                 return boost::exit_failure;

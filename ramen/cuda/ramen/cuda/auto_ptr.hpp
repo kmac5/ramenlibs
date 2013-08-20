@@ -48,6 +48,7 @@ struct device_ptr_policy
     template<class T>
     static T *get_device_ptr( T *x, unsigned int flags)
     {
+        // x is already a device pointer.
         return x;
     }
 };
@@ -71,7 +72,7 @@ struct host_ptr_policy
     }
 };
 
-template<class T, class P>
+template<class T, class Policy>
 class auto_ptr_t
 {
     BOOST_MOVABLE_BUT_NOT_COPYABLE( auto_ptr_t)
@@ -84,7 +85,7 @@ public:
     typedef T        element_type;
     typedef T*       pointer_type;
     typedef const T* const_pointer_type;
-    typedef P        policy_type;
+    typedef Policy   policy_type;
 
     explicit auto_ptr_t( T *ptr = 0) : ptr_( ptr) {}
 
@@ -108,7 +109,7 @@ public:
         return ptr_;
     }
 
-    pointer_type device_ptr( unsigned int flags = 0)
+    pointer_type get_device_ptr( unsigned int flags = 0)
     {
         assert( ptr_);
 
@@ -131,7 +132,7 @@ public:
         }
     }
 
-    void swap( auto_ptr_t<T,P>& other)
+    void swap( auto_ptr_t<T,Policy>& other)
     {
         boost::swap( ptr_, other.ptr_);
     }
@@ -153,8 +154,8 @@ private:
     pointer_type ptr_;
 };
 
-template<class T, class P>
-inline void swap( auto_ptr_t<T,P>& x, auto_ptr_t<T,P>& y)
+template<class T, class Policy>
+inline void swap( auto_ptr_t<T,Policy>& x, auto_ptr_t<T,Policy>& y)
 {
     x.swap( y);
 }
