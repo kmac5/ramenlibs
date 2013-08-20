@@ -20,50 +20,46 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include<ramen/cuda/event.hpp>
+#ifndef RAMEN_CUDA_STREAM_HPP
+#define RAMEN_CUDA_STREAM_HPP
 
-#include<ramen/cuda/cudart.hpp>
+#include<ramen/cuda/exceptions.hpp>
 
 namespace ramen
 {
 namespace cuda
 {
 
-event_t::event_t()
+class RAMEN_CUDA_API stream_t
 {
-    init( 0);
-}
+public:
 
-event_t::event_t( const stream_t& stream)
-{
-    init( stream.stream());
-}
+    stream_t();
+    ~stream_t();
 
-void event_t::init( cudaStream_t stream)
-{
-    cuda_event_create( &event_);
-    record( stream);
-}
+    cudaStream_t stream() const
+    {
+        return stream_;
+    }
 
-event_t::~event_t()
-{
-    cuda_event_destroy( event());
-}
+    void synchronize();
 
-void event_t::record( cudaStream_t stream)
-{
-    cuda_event_record( event(), stream);
-}
+    template<class T>
+    void memcpy_async( T *dst, const T *src, std::size_t count, enum cudaMemcpyKind kind)
+    {
+        cuda_memcpy_async( dst, src, count, kind, stream());
+    }
 
-void event_t::synchronize()
-{
-    cuda_event_synchronize( event());
-}
+private:
 
-float elapsed_time( const event_t& start, const event_t& end)
-{
-    return cuda_event_elapsed_time( start.event(), end.event());
-}
+    // non-copyable
+    stream_t( const stream_t&);
+    stream_t& operator=( const stream_t&);
+
+    cudaStream_t stream_;
+};
 
 } // cuda
 } // ramen
+
+#endif

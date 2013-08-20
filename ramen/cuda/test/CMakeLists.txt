@@ -20,6 +20,8 @@
 
 ENABLE_TESTING()
 
+INCLUDE( FindCUDA)
+
 INCLUDE_DIRECTORIES(	../
                         ../../../google_testing_libs/google
                         ../../../google_testing_libs/google/gtest
@@ -47,3 +49,7 @@ MACRO( ADD_RM_TEST sourcefile)
 ENDMACRO()
 
 ADD_RM_TEST( auto_ptr)
+
+CUDA_ADD_EXECUTABLE( add_vectors add_vectors.cu)
+TARGET_LINK_LIBRARIES( add_vectors ${RAMEN_TEST_TARGET_LIBS})
+#ADD_TEST( ${sourcefile} ${CMAKE_CURRENT_BINARY_DIR}/${sourcefile})

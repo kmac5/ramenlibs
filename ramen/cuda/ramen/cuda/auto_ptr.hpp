@@ -46,7 +46,7 @@ struct device_ptr_policy
     }
 
     template<class T>
-    static void get_device_ptr( T *x, unsigned int flags)
+    static T *get_device_ptr( T *x, unsigned int flags)
     {
         return x;
     }
@@ -63,7 +63,7 @@ struct host_ptr_policy
     }
 
     template<class T>
-    static void get_device_ptr( T *x, unsigned int flags)
+    static T *get_device_ptr( T *x, unsigned int flags)
     {
         assert( x);
 

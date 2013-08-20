@@ -85,5 +85,23 @@ float cuda_event_elapsed_time( cudaEvent_t start, cudaEvent_t end)
     check_cuda_error( cudaEventElapsedTime( &ms, start, end));
     return ms;
 }
+
+void cuda_stream_create( cudaStream_t *stream)
+{
+    check_cuda_error( cudaStreamCreate( stream));
+}
+
+void cuda_stream_destroy( cudaStream_t stream)
+{
+    // assuming this will be used mostly in destructors,
+    // don't check the result, and specially, don't throw.
+    cudaStreamDestroy( stream);
+}
+
+void cuda_stream_synchronize( cudaStream_t stream)
+{
+    check_cuda_error( cudaStreamSynchronize( stream));
+}
+
 } // cuda
 } // ramen

@@ -87,12 +87,29 @@ void cuda_memcpy( T *dst, const T *src, size_t count, enum cudaMemcpyKind kind)
                                   count * sizeof( T), kind));
 }
 
+
+template<class T>
+void cuda_memcpy_async( T *dst, const T *src, std::size_t count,
+                        enum cudaMemcpyKind kind, cudaStream_t stream)
+{
+    check_cuda_error( cudaMemcpyAsync( reinterpret_cast<void*>( dst),
+                                       reinterpret_cast<const void*>( src),
+                                       count * sizeof( T), kind, stream));
+}
+
 // events
 RAMEN_CUDA_API void cuda_event_create( cudaEvent_t *event);
 RAMEN_CUDA_API void cuda_event_destroy( cudaEvent_t event);
 RAMEN_CUDA_API void cuda_event_record( cudaEvent_t event, cudaStream_t stream);
 RAMEN_CUDA_API void cuda_event_synchronize( cudaEvent_t event);
 RAMEN_CUDA_API float cuda_event_elapsed_time( cudaEvent_t start, cudaEvent_t end);
+
+// streams
+RAMEN_CUDA_API void cuda_stream_create( cudaStream_t *stream);
+RAMEN_CUDA_API void cuda_stream_destroy( cudaStream_t stream);
+RAMEN_CUDA_API void cuda_stream_synchronize( cudaStream_t stream);
+
+// memcopy
 
 } // cuda
 } // ramen

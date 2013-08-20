@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include<ramen/cuda/event.hpp>
+#include<ramen/cuda/stream.hpp>
 
 #include<ramen/cuda/cudart.hpp>
 
@@ -29,40 +29,19 @@ namespace ramen
 namespace cuda
 {
 
-event_t::event_t()
+stream_t::stream_t()
 {
-    init( 0);
+    cuda_stream_create( &stream_);
 }
 
-event_t::event_t( const stream_t& stream)
+stream_t::~stream_t()
 {
-    init( stream.stream());
+    cuda_stream_destroy( stream_);
 }
 
-void event_t::init( cudaStream_t stream)
+void stream_t::synchronize()
 {
-    cuda_event_create( &event_);
-    record( stream);
-}
-
-event_t::~event_t()
-{
-    cuda_event_destroy( event());
-}
-
-void event_t::record( cudaStream_t stream)
-{
-    cuda_event_record( event(), stream);
-}
-
-void event_t::synchronize()
-{
-    cuda_event_synchronize( event());
-}
-
-float elapsed_time( const event_t& start, const event_t& end)
-{
-    return cuda_event_elapsed_time( start.event(), end.event());
+    cuda_stream_synchronize( stream());
 }
 
 } // cuda

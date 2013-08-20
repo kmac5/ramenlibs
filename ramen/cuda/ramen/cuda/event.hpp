@@ -23,7 +23,7 @@ THE SOFTWARE.
 #ifndef RAMEN_CUDA_EVENT_HPP
 #define RAMEN_CUDA_EVENT_HPP
 
-#include<ramen/cuda/exceptions.hpp>
+#include<ramen/cuda/stream.hpp>
 
 namespace ramen
 {
@@ -35,10 +35,11 @@ class RAMEN_CUDA_API event_t
 public:
 
     event_t();
+    explicit event_t( const stream_t& stream);
+
     ~event_t();
 
-    void record();
-    void syncronize();
+    void synchronize();
 
     cudaEvent_t event() const
     {
@@ -50,6 +51,10 @@ private:
     // non-copyable
     event_t( const event_t&);
     event_t& operator=( const event_t&);
+
+    void init( cudaStream_t stream);
+
+    void record( cudaStream_t stream);
 
     cudaEvent_t event_;
 };

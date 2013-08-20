@@ -32,6 +32,7 @@ SET( RAMEN_CUDA_SOURCES cudart.cpp
                         exceptions.cpp
                         event.cpp
                         host_allocator.cpp
+                        stream.cpp
                         )
 
 SET( RAMEN_CUDA_LIBS ${CUDA_CUDART_LIBRARY}
