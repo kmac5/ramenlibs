@@ -49,6 +49,7 @@ ADD_RM_TEST( attribute_ref)
 ADD_RM_TEST( attribute_table)
 ADD_RM_TEST( bounding_box3)
 ADD_RM_TEST( exceptions)
+ADD_RM_TEST( polygon_normal)
 ADD_RM_TEST( shape_attributes)
 ADD_RM_TEST( shape_transform)
 

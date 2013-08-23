@@ -22,9 +22,12 @@ THE SOFTWARE.
 
 #include<ramen/geo/visitors/compute_face_normals.hpp>
 
+#include<boost/iterator/permutation_iterator.hpp>
+
 #include<ramen/geo/shape.hpp>
 #include<ramen/geo/shape_models/poly_mesh_model.hpp>
 #include<ramen/geo/global_names.hpp>
+#include<ramen/geo/algorithm/polygon_normal.hpp>
 
 namespace ramen
 {
@@ -39,31 +42,10 @@ math::normal_t<T> face_normal( int num_verts,
                                boost::uint32_t face_start_index,
                                const arrays::const_array_ref_t<math::point3_t<T> >& points)
 {
-    // Newell's method to compute the plane equation.
-    math::normal_t<T> n( 0, 0, 0);
-
-    if( num_verts < 3)
-        return n;
-
-    for( int i = 0; i < num_verts - 1; ++i)
-    {
-        math::point3_t<T> u( points[face_vertices[face_start_index + i]]);
-        math::point3_t<T> v( points[face_vertices[face_start_index + i + 1]]);
-        n.x += ( u.y - v.y) * ( u.z + v.z);
-        n.y += ( u.z - v.z) * ( u.x + v.x);
-        n.z += ( u.x - v.x) * ( u.y + v.y);
-    }
-
-    // last side
-    {
-        math::point3_t<T> u( points[face_vertices[face_start_index + num_verts - 1]]);
-        math::point3_t<T> v( points[face_vertices[face_start_index]]);
-        n.x += ( u.y - v.y) * ( u.z + v.z);
-        n.y += ( u.z - v.z) * ( u.x + v.x);
-        n.z += ( u.x - v.x) * ( u.y + v.y);
-    }
-
-    return math::normalize( n);
+    return newell_polygon_normal( boost::make_permutation_iterator( points.begin(),
+                                                                    face_vertices.begin() + face_start_index),
+                                  boost::make_permutation_iterator( points.begin(),
+                                                                    face_vertices.begin() + face_start_index + num_verts));
 }
 
 } // unnamed
