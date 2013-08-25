@@ -43,11 +43,12 @@ newell_polygon_normal( PointIter start, PointIter end)
     BOOST_STATIC_ASSERT(( boost::is_same<typename point_type::size_type, boost::mpl::int_<3> >::value));
 
     typedef typename point_type::value_type value_type;
+    typedef math::normal_t<value_type> normal_type;
 
     std::size_t num_verts = std::distance( start, end);
 
     if( num_verts < 3)
-        return boost::optional<math::normal_t<value_type> >();
+        return boost::optional<normal_type>();
 
     math::normal_t<value_type> n( 0, 0, 0);
     for( PointIter it( start); it != end; ++it)
@@ -71,7 +72,7 @@ newell_polygon_normal( PointIter start, PointIter end)
         return n;
     }
 
-    return boost::optional<math::normal_t<value_type> >();
+    return boost::optional<normal_type>();
 }
 
 } // geo

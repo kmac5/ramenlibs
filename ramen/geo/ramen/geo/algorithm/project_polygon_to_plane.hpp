@@ -32,7 +32,40 @@ namespace ramen
 namespace geo
 {
 
-template<class PointIter>
+template<class PointIter, class OutPointIter>
+bool project_polygon_to_plane( PointIter start, PointIter end, OutPointIter result)
+{
+    boost::optional<normal_type> n( newell_polygon_normal( start, end));
+
+    if( n)
+    {
+        project_polygon_to_plane( n, start, end, result);
+        return true;
+    }
+
+    // TODO: what here???
+    return false;
+}
+
+template<class T, class PointIter, class OutPointIter>
+void project_polygon_to_plane( const math::normal_t<T>& n,
+                               PointIter start,
+                               PointIter end,
+                               OutPointIter result)
+{
+    // TODO: finish this...
+    assert( false);
+
+    typedef typename std::iterator_traits<PointIter>::value_type point3_type;
+    BOOST_STATIC_ASSERT(( boost::is_same<typename point3_type::size_type, boost::mpl::int_<3> >::value));
+    BOOST_STATIC_ASSERT(( boost::is_same<T, typename point3_type::value_type>::value));
+
+    for( PointIter it( start); it != end; ++it)
+    {
+        // TODO: project
+        *result++ = point2_type( 0);
+    }
+}
 
 } // geo
 } // ramen
