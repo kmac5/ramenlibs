@@ -134,7 +134,7 @@ public:
 
     virtual void visit( visitable_t& model, shape_t& shape)
     {
-        detail::transform_dictionary( shape.attributes().constant() , xform_);
+        detail::transform_dictionary( shape.attributes().constant()      , xform_);
         detail::transform_attribute_table( shape.attributes().primitive(), xform_);
         detail::transform_attribute_table( shape.attributes().vertex()   , xform_);
         detail::transform_attribute_table( shape.attributes().point()    , xform_);

@@ -26,6 +26,7 @@ THE SOFTWARE.
 
 #include<ramen/geo/shape.hpp>
 #include<ramen/geo/shape_models/poly_mesh_model.hpp>
+#include<ramen/geo/shape_models/subd_mesh_model.hpp>
 #include<ramen/geo/global_names.hpp>
 #include<ramen/geo/algorithm/polygon_normal.hpp>
 
@@ -33,31 +34,30 @@ namespace ramen
 {
 namespace geo
 {
-namespace
-{
-
-template<class T>
-math::normal_t<T> face_normal( int num_verts,
-                               const arrays::const_array_ref_t<boost::uint32_t>& face_vertices,
-                               boost::uint32_t face_start_index,
-                               const arrays::const_array_ref_t<math::point3_t<T> >& points)
-{
-    return newell_polygon_normal( boost::make_permutation_iterator( points.begin(),
-                                                                    face_vertices.begin() + face_start_index),
-                                  boost::make_permutation_iterator( points.begin(),
-                                                                    face_vertices.begin() + face_start_index + num_verts));
-}
-
-} // unnamed
 
 compute_face_normals_visitor::compute_face_normals_visitor() : shape_visitor()
 {
 }
 
-void compute_face_normals_visitor::visit( const poly_mesh_model_t& model, shape_t& shape)
+void compute_face_normals_visitor::visit( poly_mesh_model_t& model, shape_t& shape)
+{
+    do_visit( model, shape);
+}
+
+void compute_face_normals_visitor::visit( subd_mesh_model_t& model, shape_t& shape)
+{
+    do_visit( model, shape);
+}
+
+void compute_face_normals_visitor::visit( visitable_t& model, shape_t& shape)
+{
+    // ignore all other shapes.
+}
+
+void compute_face_normals_visitor::do_visit( mesh_model_t& model, shape_t& shape)
 {
     if( !shape.attributes().point().has_attribute( g_P_name))
-        throw core::runtime_error( core::string8_t( "No P attribute found in bounding_box3_visitor"));
+        throw core::runtime_error( core::string8_t( "No P attribute found in compute face normals visitor"));
 
     // create the N array, if it does not exist.
     if( shape.attributes().primitive().has_attribute( g_N_name))
@@ -75,20 +75,18 @@ void compute_face_normals_visitor::visit( const poly_mesh_model_t& model, shape_
     boost::uint32_t face_start_index = 0;
     for( int i = 0, e = model.num_faces(); i < e; ++i)
     {
-        // TODO: implement this...
         boost::uint32_t num_verts = verts_per_face[i];
-        normals[i] = face_normal( num_verts,
-                                  face_vert_indices,
-                                  face_start_index,
-                                  points);
+
+        boost::optional<math::normalf_t> n =  newell_polygon_normal( boost::make_permutation_iterator( points.begin(),
+                                                                            face_vert_indices.begin() + face_start_index),
+                                                                      boost::make_permutation_iterator( points.begin(),
+                                                                            face_vert_indices.begin() + face_start_index + num_verts));
+
+        if( n)
+            normals[i] = n.get();
 
         face_start_index += num_verts;
     }
-}
-
-void compute_face_normals_visitor::visit( const visitable_t& model, shape_t& shape)
-{
-    // ignore all other shapes.
 }
 
 } // geo

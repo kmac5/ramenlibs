@@ -98,7 +98,7 @@ class bounding_box3_visitor : public const_shape_visitor
 public:
 
     bounding_box3_visitor( const core::name_t& point_attr_name = core::name_t(),
-                           const math::box3_t<T>& box = math::box3_t<T>())
+                           const math::box3_t<T>& box = math::box3_t<T>()) : const_shape_visitor()
     {
         init( point_attr_name, box);
     }

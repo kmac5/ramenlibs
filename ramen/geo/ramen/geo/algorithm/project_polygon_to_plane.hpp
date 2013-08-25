@@ -20,15 +20,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_GEO_MODELS_SUBD_MESH_FWD_HPP
-#define RAMEN_GEO_MODELS_SUBD_MESH_FWD_HPP
+#ifndef RAMEN_GEO_ALGORITHM_PROJECT_POLYGON_TO_PLANE_HPP
+#define RAMEN_GEO_ALGORITHM_PROJECT_POLYGON_TO_PLANE_HPP
+
+#include<ramen/geo/config.hpp>
+
+#include<ramen/geo/algorithm/polygon_normal.hpp>
 
 namespace ramen
 {
 namespace geo
 {
 
-class subd_mesh_model_t;
+template<class PointIter>
 
 } // geo
 } // ramen

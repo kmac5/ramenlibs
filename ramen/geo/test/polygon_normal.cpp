@@ -39,7 +39,7 @@ TEST( NewellPolygonNormal, All)
     points.push_back( point3f_t( 7, 3, 0));
     points.push_back( point3f_t( 0, 1, 3));
     points.push_back( point3f_t( 5, 0, 7));
-    normalf_t n( newell_polygon_normal( points.begin(), points.end()));
+    boost::optional<normalf_t> n( newell_polygon_normal( points.begin(), points.end()));
 }
 
 int main(int argc, char **argv)

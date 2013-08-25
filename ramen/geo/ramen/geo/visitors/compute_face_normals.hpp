@@ -36,10 +36,16 @@ class RAMEN_GEO_API compute_face_normals_visitor : public shape_visitor
 {
 public:
 
-    compute_face_normals_visitor();
+    explicit compute_face_normals_visitor();
 
-    virtual void visit( const poly_mesh_model_t& model, shape_t& shape);
-    virtual void visit( const visitable_t& model, shape_t& shape);
+    virtual void visit( poly_mesh_model_t& model, shape_t& shape);
+    virtual void visit( subd_mesh_model_t& model, shape_t& shape);
+
+    virtual void visit( visitable_t& model, shape_t& shape);
+
+private:
+
+    void do_visit( mesh_model_t& model, shape_t& shape);
 };
 
 } // geo

@@ -77,8 +77,13 @@ public:
 
     void swap( attribute_table_t& other);
 
+    // factory functions
+    static attribute_table_t create_empty_with_same_attributes( const attribute_table_t& other);
+
     bool empty() const;
     std::size_t size() const;
+
+    void clear();
 
     bool has_attribute( const core::name_t& name) const;
     core::type_t attribute_type( const core::name_t& name) const;
@@ -153,6 +158,9 @@ public:
 
     iterator begin();
     iterator end();
+
+    void push_back_attribute_values_copy( const attribute_table_t& src,
+                                          std::size_t element_index);
 
     bool operator==( const attribute_table_t& other) const;
     bool operator!=( const attribute_table_t& other) const;

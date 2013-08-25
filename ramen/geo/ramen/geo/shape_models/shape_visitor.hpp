@@ -28,6 +28,7 @@ THE SOFTWARE.
 #include<ramen/geo/shape_fwd.hpp>
 
 #include<ramen/geo/shape_models/visitable.hpp>
+#include<ramen/geo/shape_models/mesh_model_fwd.hpp>
 #include<ramen/geo/shape_models/poly_mesh_model_fwd.hpp>
 #include<ramen/geo/shape_models/subd_mesh_model_fwd.hpp>
 #include<ramen/geo/shape_models/nurbs_curve_model_fwd.hpp>
@@ -44,7 +45,7 @@ class RAMEN_GEO_API const_shape_visitor
 {
 public:
 
-    const_shape_visitor();
+    explicit const_shape_visitor( bool nothrow = false);
     virtual ~const_shape_visitor();
 
     virtual void visit( const poly_mesh_model_t& model, const shape_t& shape);
@@ -56,13 +57,17 @@ public:
 
     // catch all overload.
     virtual void visit( const visitable_t& model, const shape_t& shape);
+
+protected:
+
+    bool nothrow_;
 };
 
 class RAMEN_GEO_API shape_visitor
 {
 public:
 
-    shape_visitor();
+    explicit shape_visitor( bool nothrow = false);
     virtual ~shape_visitor();
 
     virtual void visit( poly_mesh_model_t& model, shape_t& shape);
@@ -74,6 +79,10 @@ public:
 
     // catch all overload.
     virtual void visit( visitable_t& model, shape_t& shape);
+
+protected:
+
+    bool nothrow_;
 };
 
 } // geo

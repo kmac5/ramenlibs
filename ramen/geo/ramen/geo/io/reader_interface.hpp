@@ -52,7 +52,7 @@ public:
 
     virtual void release() = 0;
 
-    const core::string8_t& filename() const       { return filename_;}
+    const core::string8_t& filename() const             { return filename_;}
     const containers::dictionary_t& options() const     { return options_;}
 
     float start_time() const;

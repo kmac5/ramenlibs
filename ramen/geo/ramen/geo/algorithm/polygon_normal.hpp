@@ -25,32 +25,34 @@ THE SOFTWARE.
 
 #include<ramen/geo/config.hpp>
 
+#include<boost/optional.hpp>
+
 #include<ramen/math/point3.hpp>
 #include<ramen/math/normal.hpp>
-
 
 namespace ramen
 {
 namespace geo
 {
 
-template<class Iter>
-math::normal_t<typename std::iterator_traits<Iter>::value_type::value_type>
-newell_polygon_normal( Iter start, Iter end)
+template<class PointIter>
+boost::optional<math::normal_t<typename std::iterator_traits<PointIter>::value_type::value_type> >
+newell_polygon_normal( PointIter start, PointIter end)
 {
+    typedef typename std::iterator_traits<PointIter>::value_type point_type;
+    BOOST_STATIC_ASSERT(( boost::is_same<typename point_type::size_type, boost::mpl::int_<3> >::value));
 
-    typedef typename std::iterator_traits<Iter>::value_type::value_type value_type;
-
-    math::normal_t<value_type> n( 0, 0, 0);
+    typedef typename point_type::value_type value_type;
 
     std::size_t num_verts = std::distance( start, end);
 
     if( num_verts < 3)
-        return n;
+        return boost::optional<math::normal_t<value_type> >();
 
-    for( Iter it( start); it != end; ++it)
+    math::normal_t<value_type> n( 0, 0, 0);
+    for( PointIter it( start); it != end; ++it)
     {
-        Iter next( it + 1);
+        PointIter next( it + 1);
         if( next == end)
             next = start;
 
@@ -62,7 +64,14 @@ newell_polygon_normal( Iter start, Iter end)
         it = next;
     }
 
-    return math::normalize( n);
+    value_type l = n.length();
+    if( l != value_type(0))
+    {
+        n /= l;
+        return n;
+    }
+
+    return boost::optional<math::normal_t<value_type> >();
 }
 
 } // geo

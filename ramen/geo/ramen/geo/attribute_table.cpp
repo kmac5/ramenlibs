@@ -29,6 +29,8 @@ THE SOFTWARE.
 #include<ramen/core/memory.hpp>
 #include<ramen/core/copy_on_write.hpp>
 
+#include<ramen/arrays/apply_visitor.hpp>
+
 #include<ramen/geo/exceptions.hpp>
 
 namespace ramen
@@ -69,6 +71,17 @@ void attribute_table_t::swap( attribute_table_t& other)
     std::swap( pimpl_, other.pimpl_);
 }
 
+attribute_table_t attribute_table_t::create_empty_with_same_attributes( const attribute_table_t& other)
+{
+    assert( other.pimpl_);
+
+    attribute_table_t new_table;
+    for( impl::const_iterator it( other.pimpl_->map.begin()), e( other.pimpl_->map.end()); it != e; ++it)
+        new_table.insert( it->first, it->second.read().type());
+
+    return new_table;
+}
+
 bool attribute_table_t::empty() const
 {
     assert( pimpl_);
@@ -81,6 +94,13 @@ std::size_t attribute_table_t::size() const
     assert( pimpl_);
 
     return pimpl_->map.size();
+}
+
+void attribute_table_t::clear()
+{
+    assert( pimpl_);
+
+    pimpl_->map.clear();
 }
 
 bool attribute_table_t::has_attribute( const core::name_t& name) const
@@ -337,6 +357,47 @@ attribute_table_t::iterator attribute_table_t::end()
     assert( pimpl_);
 
     return iterator( pimpl_->map.end().get_ptr());
+}
+
+namespace
+{
+
+class push_back_element_copy_visitor
+{
+public:
+
+    push_back_element_copy_visitor( const arrays::array_t& src_array,
+                                    std::size_t element_index) : src_array_( src_array)
+    {
+        element_index_ = element_index;
+    }
+
+    template<class T>
+    void operator()( arrays::array_ref_t<T>& array)
+    {
+        //arrays::const_array_ref_t<T> src_ref( src_array_);
+        //array.push_back( src_ref[element_index_]);
+    }
+
+private:
+
+    const arrays::array_t& src_array_;
+    std::size_t element_index_;
+};
+
+} // unnamed
+
+void attribute_table_t::push_back_attribute_values_copy( const attribute_table_t& src,
+                                                         std::size_t element_index)
+{
+    for( impl::iterator it( pimpl_->map.begin()), e( pimpl_->map.end()); it != e; ++it)
+    {
+        const arrays::array_t& src_array( src.const_array( it->first));
+        assert( element_index < src_array.size());
+
+        push_back_element_copy_visitor v( src_array, element_index);
+        arrays::apply_visitor( v, it->second.write());
+    }
 }
 
 bool attribute_table_t::operator==( const attribute_table_t& other) const

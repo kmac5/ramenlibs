@@ -31,6 +31,6 @@ namespace geo
 class nurbs_curve_model_t;
 
 } // geo
-} // jupiter
+} // ramen
 
 #endif

@@ -51,6 +51,7 @@ SET( RAMEN_GEO_SOURCES  attribute_ref.cpp
 
                         visitors/compute_face_normals.cpp
                         visitors/shape_to_points.cpp
+                        visitors/triangulate.cpp
                         )
 
 SET( RAMEN_GEO_LIBS  ramen_arrays

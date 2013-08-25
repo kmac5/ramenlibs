@@ -20,15 +20,45 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_GEO_MODELS_SUBD_MESH_FWD_HPP
-#define RAMEN_GEO_MODELS_SUBD_MESH_FWD_HPP
+#ifndef RAMEN_GEO_VISITORS_TRIANGULATE_HPP
+#define RAMEN_GEO_VISITORS_TRIANGULATE_HPP
+
+#include<ramen/geo/shape_models/shape_visitor.hpp>
+
+#include<ramen/geo/shape.hpp>
 
 namespace ramen
 {
 namespace geo
 {
 
-class subd_mesh_model_t;
+class RAMEN_GEO_API triangulate_visitor : public shape_visitor
+{
+public:
+
+    explicit triangulate_visitor( bool keep_quads = false);
+
+    virtual void visit( poly_mesh_model_t& model, shape_t& shape);
+    virtual void visit( subd_mesh_model_t& model, shape_t& shape);
+
+    virtual void visit( const visitable_t& model, shape_t& shape);
+
+private:
+
+    void do_visit( mesh_model_t& model,
+                   shape_t& shape,
+                   mesh_model_t& new_model,
+                   shape_t& new_shape);
+
+    void copy_face( mesh_model_t& model,
+                    const shape_t& shape,
+                    std::size_t index,
+                    boost::uint32_t face_start_index,
+                    mesh_model_t& new_model,
+                    shape_t& new_shape);
+
+    bool keep_quads_;
+};
 
 } // geo
 } // ramen
