@@ -33,7 +33,7 @@ namespace ramen
 namespace geo
 {
 
-triangulate_visitor::triangulate_visitor( bool keep_quads) : shape_visitor()
+triangulate_visitor::triangulate_visitor( bool keep_quads) : shape_visitor( true)
 {
 }
 
@@ -51,11 +51,6 @@ void triangulate_visitor::visit( subd_mesh_model_t& model, shape_t& shape)
     do_visit( model, shape, new_model, new_shape);
 }
 
-void triangulate_visitor::visit( const visitable_t& model, shape_t& shape)
-{
-    // ignore all other shapes.
-}
-
 void triangulate_visitor::do_visit( mesh_model_t& model,
                                     shape_t& shape,
                                     mesh_model_t& new_model,
@@ -66,9 +61,9 @@ void triangulate_visitor::do_visit( mesh_model_t& model,
 
     // copy attributes
     new_shape.attributes().point()     = shape.attributes().point();
+    new_shape.attributes().constant()  = shape.attributes().constant();
     new_shape.attributes().vertex()    = attribute_table_t::create_empty_with_same_attributes( shape.attributes().vertex());
     new_shape.attributes().primitive() = attribute_table_t::create_empty_with_same_attributes( shape.attributes().primitive());
-    new_shape.attributes().constant()  = shape.attributes().constant();
 
     arrays::const_array_ref_t<math::point3f_t> points( shape.attributes().point().const_array( g_P_name));
     arrays::const_array_ref_t<boost::uint32_t> verts_per_face( model.const_verts_per_face_array());
@@ -88,7 +83,8 @@ void triangulate_visitor::do_visit( mesh_model_t& model,
                     copy_face( model, shape, i, face_start_index, new_model, new_shape);
                 else
                 {
-                    // fast quad triangulation
+                    // TODO: fast quad triangulation here...
+                    assert( false);
                     new_shape.attributes().primitive().push_back_attribute_values_copy( shape.attributes().primitive(), i);
                     new_shape.attributes().primitive().push_back_attribute_values_copy( shape.attributes().primitive(), i);
                 }

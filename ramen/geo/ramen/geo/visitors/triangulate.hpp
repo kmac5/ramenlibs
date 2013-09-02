@@ -41,8 +41,6 @@ public:
     virtual void visit( poly_mesh_model_t& model, shape_t& shape);
     virtual void visit( subd_mesh_model_t& model, shape_t& shape);
 
-    virtual void visit( const visitable_t& model, shape_t& shape);
-
 private:
 
     void do_visit( mesh_model_t& model,
