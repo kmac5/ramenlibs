@@ -59,6 +59,7 @@ public:
 
     void swap( md5_hash_fun& other);
 
+    // To implement...
     void operator()( const void *data, std::size_t size)
     {
         // TODO: implement...
