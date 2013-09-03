@@ -49,11 +49,12 @@ SET( RAMEN_BUILD_TESTS              ON  CACHE BOOL "Build tests")
 
 # libs compile control
 SET( RAMEN_WITH_ARRAYS  ON  CACHE BOOL "Build arrays lib")
+SET( RAMEN_WITH_CUDA    ON  CACHE BOOL "Build cuda lib")
 SET( RAMEN_WITH_GEO     ON  CACHE BOOL "Build geo lib")
 SET( RAMEN_WITH_GEO_IO  ON  CACHE BOOL "Build geo io lib")
-SET( RAMEN_WITH_OS      ON  CACHE BOOL "Build os lib")
 SET( RAMEN_WITH_GL      ON  CACHE BOOL "Build gl lib")
-SET( RAMEN_WITH_CUDA    ON  CACHE BOOL "Build cuda lib")
+SET( RAMEN_WITH_HASH    ON  CACHE BOOL "Build hash lib")
+SET( RAMEN_WITH_OS      ON  CACHE BOOL "Build os lib")
 
 ######################################################
 # platform specific
@@ -148,8 +149,8 @@ IF( RAMEN_WITH_ARRAYS)
     ADD_SUBDIRECTORY( ramen/arrays)
 ENDIF()
 
-IF( RAMEN_WITH_OS)
-    ADD_SUBDIRECTORY( ramen/os)
+IF( RAMEN_WITH_CUDA)
+    ADD_SUBDIRECTORY( ramen/cuda)
 ENDIF()
 
 IF( RAMEN_WITH_GEO)
@@ -160,8 +161,12 @@ IF( RAMEN_WITH_GL)
     ADD_SUBDIRECTORY( ramen/gl)
 ENDIF()
 
-IF( RAMEN_WITH_CUDA)
-    ADD_SUBDIRECTORY( ramen/cuda)
+IF( RAMEN_WITH_HASH)
+    ADD_SUBDIRECTORY( ramen/hash)
+ENDIF()
+
+IF( RAMEN_WITH_OS)
+    ADD_SUBDIRECTORY( ramen/os)
 ENDIF()
 
 ######################################################
