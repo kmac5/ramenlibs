@@ -27,6 +27,9 @@ THE SOFTWARE.
 
 #include<boost/move/move.hpp>
 
+#include<boost/integer.hpp>
+#include<boost/array.hpp>
+
 namespace ramen
 {
 namespace hash
@@ -38,10 +41,9 @@ class RAMEN_HASH_API murmur3_hash_fun
 
 public:
 
-    // totally made up...
-    typedef int digest_type;
+    typedef boost::array<boost::uint8_t,16> digest_type;
 
-    murmur3_hash_fun();
+    explicit murmur3_hash_fun( boost::uint32_t seed = 0);
     ~murmur3_hash_fun();
 
     // Move constructor
@@ -59,17 +61,9 @@ public:
 
     void swap( murmur3_hash_fun& other);
 
-    // To implement...
-    void operator()( const void *data, std::size_t size)
-    {
-        // TODO: implement...
-    }
+    void operator()( const void *data, std::size_t size);
 
-    // also made up
-    digest_type finalize()
-    {
-        return 0;
-    }
+    digest_type finalize();
 
 private:
 

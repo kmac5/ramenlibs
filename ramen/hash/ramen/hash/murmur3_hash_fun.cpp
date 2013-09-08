@@ -22,6 +22,8 @@ THE SOFTWARE.
 
 #include<ramen/hash/murmur3_hash_fun.hpp>
 
+#include<vector>
+
 #include<ramen/hash/extern/MurmurHash3.h>
 
 namespace ramen
@@ -31,14 +33,40 @@ namespace hash
 
 struct murmur3_hash_fun::impl
 {
-    impl()
+    explicit impl( boost::uint32_t seed) : seed_( seed)
     {
     }
+
+    void append( const void *data, std::size_t size)
+    {
+        storage_.reserve( storage_.size() + size);
+        std::copy( reinterpret_cast<const boost::uint8_t*>( data),
+                   reinterpret_cast<const boost::uint8_t*>( data) + size,
+                   std::back_inserter( storage_));
+    }
+
+    murmur3_hash_fun::digest_type finalize()
+    {
+        murmur3_hash_fun::digest_type result;
+
+        const void *data = 0;
+        if( !storage_.empty())
+            data = reinterpret_cast<const void*>( &storage_[0]);
+
+        MurmurHash3_x64_128( data,
+                             storage_.size(),
+                             seed_,
+                             reinterpret_cast<void*>( result.begin()));
+        return result;
+    }
+
+    boost::uint32_t seed_;
+    std::vector<boost::uint8_t> storage_;
 };
 
-murmur3_hash_fun::murmur3_hash_fun()
+murmur3_hash_fun::murmur3_hash_fun( boost::uint32_t seed)
 {
-    pimpl_ = new impl();
+    pimpl_ = new impl( seed);
 }
 
 murmur3_hash_fun::~murmur3_hash_fun()
@@ -49,6 +77,16 @@ murmur3_hash_fun::~murmur3_hash_fun()
 void murmur3_hash_fun::swap( murmur3_hash_fun& other)
 {
     std::swap( pimpl_, other.pimpl_);
+}
+
+void murmur3_hash_fun::operator()( const void *data, std::size_t size)
+{
+    pimpl_->append( data, size);
+}
+
+murmur3_hash_fun::digest_type murmur3_hash_fun::finalize()
+{
+    return pimpl_->finalize();
 }
 
 } // hash
