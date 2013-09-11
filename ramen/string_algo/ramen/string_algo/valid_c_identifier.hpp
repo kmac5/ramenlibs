@@ -38,15 +38,15 @@ namespace string_algo
 namespace detail
 {
 
-inline bool check_char( int c, bool numbers_valid)
+inline bool check_char( int c, std::size_t char_num)
 {
     if( isalpha( c))
         return true;
 
-    if( numbers_valid && isdigit( c))
+    if( isdigit( c) && char_num > 1)
         return true;
 
-    if( c == '_')
+    if( c == '_' && char_num > 2)
         return true;
 
     return false;
@@ -60,13 +60,14 @@ bool is_valid_c_identifier( Iterator first, Iterator last)
     if( first == last)
         return false;
 
+    std::size_t char_num = 1;
     Iterator it( first);
-    if( !detail::check_char( *it, false))
+    if( !detail::check_char( *it, char_num++))
         return false;
 
     for( ; it != last; ++it)
     {
-        if( !detail::check_char( *it, true))
+        if( !detail::check_char( *it, char_num++))
             return false;
     }
 
