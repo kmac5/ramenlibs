@@ -29,6 +29,7 @@ protected:
 } // core
 } // ramen
 
+//! Prevents a class to be subclassed.
 #define RAMEN_CORE_FINAL( T) private virtual ramen::core::implementation::final<T>
 
 #endif

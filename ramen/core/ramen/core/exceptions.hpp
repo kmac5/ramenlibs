@@ -38,7 +38,7 @@ namespace core
 
 /*!
 \ingroup core
-\brief Exception class.
+\brief Exception class
 */
 class RAMEN_CORE_API exception
 {
@@ -52,7 +52,7 @@ public:
 
 /*!
 \ingroup core
-\brief Exception class.
+\brief Exception class
 */
 class RAMEN_CORE_API runtime_error : public exception
 {
@@ -69,7 +69,7 @@ private:
 
 /*!
 \ingroup core
-\brief Exception class.
+\brief Exception class
 */
 class RAMEN_CORE_API bad_cast : public exception
 {
@@ -86,7 +86,7 @@ private:
 
 /*!
 \ingroup core
-\brief Exception class.
+\brief Exception class
 */
 class RAMEN_CORE_API bad_type_cast : public exception
 {
@@ -103,7 +103,7 @@ private:
 
 /*!
 \ingroup core
-\brief Exception class.
+\brief Exception class
 */
 class RAMEN_CORE_API not_implemented : public exception
 {

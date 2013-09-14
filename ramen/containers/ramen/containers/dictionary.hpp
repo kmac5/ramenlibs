@@ -42,7 +42,7 @@ namespace containers
 \ingroup core
 \brief A collection of variant_t indexed by core::name_t keys.
 */
-class RAMEN_CORE_API dictionary_t
+class RAMEN_CORE_API dictionary_t : RAMEN_CORE_FINAL( dictionary_t)
 {
     BOOST_COPYABLE_AND_MOVABLE( dictionary_t)
 

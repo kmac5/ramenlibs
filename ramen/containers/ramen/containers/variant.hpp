@@ -57,7 +57,7 @@ namespace containers
 \ingroup core
 \brief A discriminated union class.
 */
-class RAMEN_CONTAINERS_API variant_t
+class RAMEN_CONTAINERS_API variant_t : RAMEN_CORE_FINAL( variant_t)
 {
 public:
 

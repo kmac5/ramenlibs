@@ -171,7 +171,7 @@ public:
     // Adapted from ILM's Imath library.
     static matrix44_t<T> axis_angle_rotation_matrix( vector3_t<T> axis, T angle_in_deg)
     {
-        vector3_t<T> unit( axis.normalized());
+        vector3_t<T> unit( normalize( axis));
         T angle_in_rad = angle_in_deg * constants<T>::deg2rad();
         T sine   = cmath<T>::sin( angle_in_rad);
         T cosine = cmath<T>::cos( angle_in_rad);
@@ -250,9 +250,9 @@ public:
         // rotate the y-axis into targetUpDir   (row 1),
         // rotate the z-axis into targetDir     (row 2).
         vector3_t<T> row[3];
-        row[0] = target_perp_dir.normalized();
-        row[1] = target_up_dir.normalized();
-        row[2] = target_dir.normalized();
+        row[0] = normalize( target_perp_dir);
+        row[1] = normalize( target_up_dir);
+        row[2] = normalize( target_dir);
 
         result( 0, 0) = row[0]( 0);
         result( 0, 1) = row[0]( 1);
@@ -298,7 +298,7 @@ public:
             z_axis_to_from_dir = align_z_axis_with_target_dir_matrix( from_dir,
                                                                       vector3_t<T>( 0, 1, 0));
 
-            matrix44_t<T> from_dir_to_z_axis = z_axis_to_from_dir.transposed();
+            matrix44_t<T> from_dir_to_z_axis = transpose( z_axis_to_from_dir);
             matrix44_t<T> z_axis_to_to_dir = align_z_axis_with_target_dir_matrix( to_dir,
                                                                                   up_dir);
             return from_dir_to_z_axis * z_axis_to_to_dir;

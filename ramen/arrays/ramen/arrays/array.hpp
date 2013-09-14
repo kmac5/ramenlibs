@@ -30,6 +30,7 @@ THE SOFTWARE.
 
 #include<boost/move/move.hpp>
 
+#include<ramen/core/final.hpp>
 #include<ramen/core/types.hpp>
 #include<ramen/core/allocator_interface.hpp>
 
@@ -43,7 +44,7 @@ namespace arrays
 /*!
 \brief A polymorphic array of elements.
 */
-class RAMEN_ARRAYS_API array_t
+class RAMEN_ARRAYS_API array_t : RAMEN_CORE_FINAL( array_t)
 {
     BOOST_COPYABLE_AND_MOVABLE( array_t)
 

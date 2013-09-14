@@ -36,16 +36,16 @@ namespace core
 
 /*!
 \ingroup core
-\brief base class for polymorphic allocators.
+\brief Base class for polymorphic allocators.
 */
 class RAMEN_CORE_API allocator_interface_t : public ref_counted_t
 {
 public:
 
-    /// allocates a block of memory of size \param size bytes.
+    /// Allocates a block of memory of size \param size bytes.
     virtual void *allocate( std::size_t size) = 0;
 
-    /// deallocates a block of memory.
+    /// Deallocates the block of memory pointer by \param ptr.
     virtual void deallocate( void *ptr) = 0;
 
 protected:
@@ -55,7 +55,7 @@ protected:
 
 private:
 
-    /// delete this object.
+    /// Delete this object.
     virtual void release() const = 0;
 };
 

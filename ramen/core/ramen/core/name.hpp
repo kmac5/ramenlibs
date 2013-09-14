@@ -25,6 +25,8 @@ THE SOFTWARE.
 
 #include<ramen/core/name_fwd.hpp>
 
+#include<ramen/core/final.hpp>
+
 #include<iostream>
 
 namespace ramen
@@ -36,7 +38,7 @@ namespace core
 \ingroup core
 \brief Unique string class.
 */
-class RAMEN_CORE_API name_t
+class RAMEN_CORE_API name_t : RAMEN_CORE_FINAL( name_t)
 {
 public:
 

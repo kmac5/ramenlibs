@@ -56,6 +56,8 @@ SET( RAMEN_WITH_GL      ON  CACHE BOOL "Build gl lib")
 SET( RAMEN_WITH_HASH    ON  CACHE BOOL "Build hash lib")
 SET( RAMEN_WITH_OS      ON  CACHE BOOL "Build os lib")
 
+SET( RAMEN_WITH_GEO_VIEWER ON CACHE BOOL "Build geo viewer")
+
 ######################################################
 # platform specific
 

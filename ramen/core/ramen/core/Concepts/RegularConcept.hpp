@@ -30,14 +30,18 @@ namespace ramen
 namespace core
 {
 
+/*!
+\ingroup core
+\brief Concept checking class for regular concept.
+*/
 template <class T>
 struct RegularConcept :	boost::CopyConstructible<T>
                       , boost::Assignable<T>
-                    //, boost::EqualityComparable<T>
+                    //, boost::EqualityComparable<T> // equality is optional
 {
-	BOOST_CONCEPT_USAGE( RegularConcept)
-	{
-	}
+    BOOST_CONCEPT_USAGE( RegularConcept)
+    {
+    }
 };
 
 } // core

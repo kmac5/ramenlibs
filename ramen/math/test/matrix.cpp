@@ -27,6 +27,8 @@ THE SOFTWARE.
 #include<ramen/math/matrix33.hpp>
 #include<ramen/math/matrix44.hpp>
 
+#include<iostream>
+
 using namespace ramen::math;
 
 TEST( Matrix44, Construct)
@@ -67,6 +69,39 @@ TEST( Matrix44, MatrixMult)
                         292,   282,   261,   462,
                         453,   342,   238,   300};
     ASSERT_EQ( memcmp( (void*) nm.begin(), (void*) &nm_data[0], 16), 0);
+}
+
+TEST( Matrix44, MatrixMultOrder)
+{
+    matrix44_t<int> m( 3, 0, 0, 0,
+                       0, 3, 0, 0,
+                       0, 0, 3, 0,
+                       0, 0, 0, 1);
+
+    matrix44_t<int> n( 1, 0, 0, 0,
+                       0, 1, 0, 0,
+                       0, 0, 1, 0,
+                       5, 3, 1, 1);
+
+    matrix44_t<int> mn = m * n;
+
+    for( int i = 0; i < 4; ++i)
+    {
+        for( int j = 0; j < 4; ++j)
+            std::cout << mn( i, j) << ", ";
+
+        std::cout << std::endl;
+    }
+
+    matrix44_t<int> nm = n * m;
+
+    for( int i = 0; i < 4; ++i)
+    {
+        for( int j = 0; j < 4; ++j)
+            std::cout << nm( i, j) << ", ";
+
+        std::cout << std::endl;
+    }
 }
 
 int main(int argc, char **argv)

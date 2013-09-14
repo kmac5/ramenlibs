@@ -24,3 +24,27 @@ IF( RAMEN_BUILD_TESTS)
         ADD_SUBDIRECTORY( test)
         ENABLE_TESTING()
 ENDIF()
+
+IF( RAMEN_WITH_GEO_VIEWER AND RAMEN_WITH_REGEX AND RAMEN_WITH_GEO_IO)
+    FIND_PACKAGE( Boost COMPONENTS ${BOOST_NEEDED_LIBRARIES} program_options REQUIRED)
+
+    # OpenGL + OSX 10.8 + Qt4 is a mess.
+    # Don't even try it.
+    IF( NOT APPLE)
+        IF( RAMEN_WITH_GL)
+            SET( QT_MT_REQUIRED false)
+            SET( QT_MIN_VERSION "4.8.0")
+            FIND_PACKAGE( Qt4)
+            SET( NEEDED_QT_INCLUDES ${QT_INCLUDE_DIR}
+                                    ${QT_QTCORE_INCLUDE_DIR}
+                                    ${QT_QTGUI_INCLUDE_DIR}
+                                    ${QT_QTOPENGL_INCLUDE_DIR})
+
+            SET( NEEDED_QT_LIBS ${QT_QTCORE_LIBRARIES}
+                                ${QT_QTGUI_LIBRARIES}
+                                ${QT_QTOPENGL_LIBRARIES})
+
+            ADD_SUBDIRECTORY( geo_viewer)
+        ENDIF()
+    ENDIF()
+ENDIF()

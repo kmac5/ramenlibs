@@ -23,7 +23,7 @@ THE SOFTWARE.
 #ifndef RAMEN_COPY_ON_WRITE_HPP
 #define RAMEN_COPY_ON_WRITE_HPP
 
-#include<ramen/core/config.hpp>
+#include<ramen/core/final.hpp>
 
 #include<cassert>
 
@@ -46,7 +46,7 @@ namespace core
 \brief Copy on write holder.
 */
 template <typename T> // T models Regular
-class copy_on_write_t
+class copy_on_write_t : RAMEN_CORE_FINAL( copy_on_write_t<T>)
 {
     BOOST_CONCEPT_ASSERT(( RegularConcept<T>));
 
@@ -54,11 +54,13 @@ public:
 
     typedef T value_type;
 
+    /// Default constructor.
     copy_on_write_t()
     {
         object_.reset( new implementation_t(), capture_deleter_t());
     }
 
+    /// Constructor.
     explicit copy_on_write_t( const T& x)
     {
         object_.reset( new implementation_t( x), capture_deleter_t());

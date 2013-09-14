@@ -86,6 +86,21 @@ public:
         eye_ += d * n_;
     }
 
+    void tumble( const math::vector2f_t& d)
+    {
+        math::matrix44f_t r = math::matrix44f_t::axis_angle_rotation_matrix( v_, d.x * 0.05f);
+        u_ = u_ * r;
+        n_ = n_ * r;
+
+        r = math::matrix44f_t::axis_angle_rotation_matrix( u_, -d.y * 0.05f);
+        v_ = v_ * r;
+        n_ = n_ * r;
+
+        u_.normalize();
+        v_.normalize();
+        n_.normalize();
+    }
+
     int width_, height_;
     float aspect_;
     math::point3f_t eye_;
@@ -135,6 +150,11 @@ struct maya_like_camera_controller_t
 
             case dolly_k:
                 camera_->dolly( ( pos.x - last_pos_.x) * 0.01f);
+            break;
+
+            case tumble_k:
+                camera_->tumble( math::vector2f_t( pos.x - last_pos_.x,
+                                                   pos.y - last_pos_.y));
             break;
         }
 

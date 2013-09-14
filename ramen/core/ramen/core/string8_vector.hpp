@@ -25,6 +25,8 @@ THE SOFTWARE.
 
 #include<ramen/core/string8_vector_fwd.hpp>
 
+#include<ramen/core/final.hpp>
+
 #include<iterator>
 
 #include<boost/move/move.hpp>
@@ -42,7 +44,7 @@ namespace core
 \ingroup core
 \brief A vector of unique string8_t strings.
 */
-class RAMEN_CORE_API string8_vector_t
+class RAMEN_CORE_API string8_vector_t : RAMEN_CORE_FINAL( string8_vector_t)
 {
     BOOST_COPYABLE_AND_MOVABLE( string8_vector_t)
 
