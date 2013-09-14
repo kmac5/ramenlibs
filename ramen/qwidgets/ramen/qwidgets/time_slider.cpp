@@ -50,7 +50,7 @@ time_slider_t::time_slider_t( QWidget *parent) : QWidget( parent)
     setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Fixed);
 }
 
-void time_slider_t::update( int start, double frame, int end)
+void time_slider_t::update_state( int start, double frame, int end)
 {
     block_all_signals( true);
 

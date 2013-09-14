@@ -44,7 +44,7 @@ public:
 
     time_slider_t( QWidget *parent = 0);
 
-    void update( int start, double frame, int end);
+    void update_state( int start, double frame, int end);
 
 public Q_SLOTS:
 
