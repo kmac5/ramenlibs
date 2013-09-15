@@ -20,57 +20,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_QWIDGETS_TIME_SLIDER_HPP
-#define	RAMEN_QWIDGETS_TIME_SLIDER_HPP
+#include<gtest/gtest.h>
 
-#include<ramen/qwidgets/time_slider_fwd.hpp>
+#include<ramen/core/flags.hpp>
 
-#include<ramen/qwidgets/time_scale.hpp>
+using namespace ramen::core;
 
-class QSpinBox;
-class QSlider;
-class QDoubleSpinBox;
-
-namespace ramen
+TEST( Flags, All)
 {
-namespace qwidgets
+}
+
+int main(int argc, char **argv)
 {
-
-class RAMEN_QWIDGETS_API time_slider_t : public QWidget
-{
-    Q_OBJECT
-
-public:
-
-    time_slider_t( QWidget *parent = 0);
-
-    void update_state( int start, double frame, int end);
-
-public Q_SLOTS:
-
-    void set_start_frame( int t);
-    void set_end_frame( int t);
-
-    void set_frame( double f);
-
-Q_SIGNALS:
-
-    void start_frame_changed( int t);
-    void end_frame_changed( int t);
-    void frame_changed( double t);
-
-private:
-
-    void block_all_signals( bool b);
-    void adjust_frame( double frame);
-
-    QSpinBox *start_, *end_;
-    QDoubleSpinBox *current_;
-    QSlider *slider_;
-    time_scale_t *scale_;
-};
-
-} // qwidgets
-} // ramen
-
-#endif
+    ::testing::InitGoogleTest( &argc, argv);
+    return RUN_ALL_TESTS();
+}
