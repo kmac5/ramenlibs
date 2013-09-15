@@ -33,12 +33,15 @@ namespace ramen
 namespace geo
 {
 
-triangulate_visitor::triangulate_visitor( bool keep_quads) : shape_visitor( true)
+triangulate_visitor::triangulate_visitor( bool keep_quads) : shape_visitor()
 {
 }
 
 void triangulate_visitor::visit( poly_mesh_model_t& model, shape_t& shape)
 {
+    if( !shape.attributes().point().has_attribute( g_P_name))
+        throw core::runtime_error( core::string8_t( "No P attribute found in triangulate visitor"));
+
     shape_t new_shape( shape_t::create_poly_mesh());
     poly_mesh_model_t& new_model( shape_cast<poly_mesh_model_t>( new_shape));
     do_visit( model, shape, new_model, new_shape);
@@ -46,6 +49,9 @@ void triangulate_visitor::visit( poly_mesh_model_t& model, shape_t& shape)
 
 void triangulate_visitor::visit( subd_mesh_model_t& model, shape_t& shape)
 {
+    if( !shape.attributes().point().has_attribute( g_P_name))
+        throw core::runtime_error( core::string8_t( "No P attribute found in triangulate visitor"));
+
     shape_t new_shape( shape_t::create_subd_mesh());
     subd_mesh_model_t& new_model( shape_cast<subd_mesh_model_t>( new_shape));
     do_visit( model, shape, new_model, new_shape);
@@ -56,9 +62,6 @@ void triangulate_visitor::do_visit( mesh_model_t& model,
                                     mesh_model_t& new_model,
                                     shape_t& new_shape)
 {
-    if( !shape.attributes().point().has_attribute( g_P_name))
-        throw core::runtime_error( core::string8_t( "No P attribute found in triangulate visitor"));
-
     // copy attributes
     new_shape.attributes().point()     = shape.attributes().point();
     new_shape.attributes().constant()  = shape.attributes().constant();
@@ -82,16 +85,12 @@ void triangulate_visitor::do_visit( mesh_model_t& model,
                 if( keep_quads_)
                     copy_face( model, shape, i, face_start_index, new_model, new_shape);
                 else
-                {
-                    // TODO: fast quad triangulation here...
-                    assert( false);
-                    new_shape.attributes().primitive().push_back_attribute_values_copy( shape.attributes().primitive(), i);
-                    new_shape.attributes().primitive().push_back_attribute_values_copy( shape.attributes().primitive(), i);
-                }
+                    triangulate_quad( model, shape, i, face_start_index, new_model, new_shape);
             }
             else
             {
-                // triangulate polygon here
+                // TODO: triangulate polygon here
+                throw core::not_implemented();
             }
         }
 
@@ -128,6 +127,20 @@ void triangulate_visitor::copy_face( mesh_model_t& model,
     // copy face attributes
     new_shape.attributes().primitive().push_back_attribute_values_copy( shape.attributes().primitive(),
                                                                         index);
+}
+
+void triangulate_visitor::triangulate_quad( mesh_model_t& model,
+                                            const shape_t& shape,
+                                            std::size_t index,
+                                            boost::uint32_t face_start_index,
+                                            mesh_model_t& new_model,
+                                            shape_t& new_shape)
+{
+    // TODO: fast quad triangulation here...
+    throw core::not_implemented();
+
+    //new_shape.attributes().primitive().push_back_attribute_values_copy( shape.attributes().primitive(), i);
+    //new_shape.attributes().primitive().push_back_attribute_values_copy( shape.attributes().primitive(), i);
 }
 
 } // geo

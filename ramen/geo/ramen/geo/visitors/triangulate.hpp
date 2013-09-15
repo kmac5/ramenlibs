@@ -55,6 +55,13 @@ private:
                     mesh_model_t& new_model,
                     shape_t& new_shape);
 
+    void triangulate_quad( mesh_model_t& model,
+                           const shape_t& shape,
+                           std::size_t index,
+                           boost::uint32_t face_start_index,
+                           mesh_model_t& new_model,
+                           shape_t& new_shape);
+
     bool keep_quads_;
 };
 

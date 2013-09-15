@@ -20,38 +20,38 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_CORE_FLAGS_HPP
-#define RAMEN_CORE_FLAGS_HPP
+#ifndef RAMEN_GEO_VISITORS_COUNT_NGONS_HPP
+#define RAMEN_GEO_VISITORS_COUNT_NGONS_HPP
 
-#include<ramen/core/config.hpp>
+#include<ramen/geo/shape_models/shape_visitor.hpp>
+
+#include<ramen/geo/shape.hpp>
 
 namespace ramen
 {
-namespace core
+namespace geo
 {
 
-template<class T, class Bit>
-bool test_flag( T flags, Bit bit)
+class RAMEN_GEO_API count_ngons_visitor : public const_shape_visitor
 {
-    return flags & bit;
-}
+public:
 
-template<class T, class Bit>
-void set_flag( T& flags, Bit bit, bool value)
-{
-    if( value)
-        flags |= bit;
-    else
-        flags &= ~bit;
-}
+    explicit count_ngons_visitor();
 
-template<class T, class Bit>
-void toggle_flag( T& flags, Bit bit)
-{
-    set_flag( flags, bit, !test_flag( flags, bit));
-}
+    virtual void visit( const poly_mesh_model_t& model, const shape_t& shape);
+    virtual void visit( const subd_mesh_model_t& model, const shape_t& shape);
 
-} // core
+    std::size_t num_degenerate;
+    std::size_t num_triangles;
+    std::size_t num_quads;
+    std::size_t num_ngons;
+
+private:
+
+    void do_visit( const mesh_model_t& model);
+};
+
+} // geo
 } // ramen
 
 #endif

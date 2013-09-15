@@ -20,33 +20,64 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_GEO_VISITORS_FACE_NORMALS_HPP
-#define RAMEN_GEO_VISITORS_FACE_NORMALS_HPP
-
-#include<ramen/geo/shape_models/shape_visitor.hpp>
+#include<ramen/geo/visitors/count_ngons.hpp>
 
 #include<ramen/geo/shape.hpp>
+#include<ramen/geo/shape_models/poly_mesh_model.hpp>
+#include<ramen/geo/shape_models/subd_mesh_model.hpp>
 
 namespace ramen
 {
 namespace geo
 {
 
-class RAMEN_GEO_API compute_face_normals_visitor : public shape_visitor
+count_ngons_visitor::count_ngons_visitor() : const_shape_visitor()
 {
-public:
+}
 
-    explicit compute_face_normals_visitor();
+void count_ngons_visitor::visit( const poly_mesh_model_t& model, const shape_t& shape)
+{
+    do_visit( model);
+}
 
-    virtual void visit( poly_mesh_model_t& model, shape_t& shape);
-    virtual void visit( subd_mesh_model_t& model, shape_t& shape);
+void count_ngons_visitor::visit( const subd_mesh_model_t& model, const shape_t& shape)
+{
+    do_visit( model);
+}
 
-private:
+void count_ngons_visitor::do_visit( const mesh_model_t& model)
+{
+    num_degenerate = 0;
+    num_triangles = 0;
+    num_quads = 0;
+    num_ngons = 0;
 
-    void do_visit( mesh_model_t& model, shape_t& shape);
-};
+    arrays::const_array_ref_t<boost::uint32_t> verts_per_face( model.const_verts_per_face_array());
+
+    for( int i = 0, e = verts_per_face.size(); i < e; ++i)
+    {
+        switch( verts_per_face[i])
+        {
+            case 0:
+            case 1:
+            case 2:
+                num_degenerate++;
+            break;
+
+            case 3:
+                num_triangles++;
+            break;
+
+            case 4:
+                num_quads++;
+            break;
+
+            default:
+                num_ngons++;
+            break;
+        }
+    }
+}
 
 } // geo
 } // ramen
-
-#endif

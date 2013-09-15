@@ -35,7 +35,7 @@ namespace ramen
 namespace geo
 {
 
-const_shape_visitor::const_shape_visitor( bool nothrow) : nothrow_( nothrow) {}
+const_shape_visitor::const_shape_visitor() {}
 const_shape_visitor::~const_shape_visitor() {}
 
 void const_shape_visitor::visit( const poly_mesh_model_t& model, const shape_t& shape)
@@ -70,11 +70,10 @@ void const_shape_visitor::visit( const points_model_t& model, const shape_t& sha
 
 void const_shape_visitor::visit( const visitable_t& model, const shape_t& shape)
 {
-    if( !nothrow_)
-        throw bad_shape_type( shape.type());
+    throw bad_shape_type( shape.type());
 }
 
-shape_visitor::shape_visitor( bool nothrow) : nothrow_( nothrow) {}
+shape_visitor::shape_visitor() {}
 shape_visitor::~shape_visitor() {}
 
 void shape_visitor::visit( poly_mesh_model_t& model, shape_t& shape)
@@ -109,8 +108,7 @@ void shape_visitor::visit( points_model_t& model, shape_t& shape)
 
 void shape_visitor::visit( visitable_t& model, shape_t& shape)
 {
-    if( !nothrow_)
-        throw bad_shape_type( shape.type());
+    throw bad_shape_type( shape.type());
 }
 
 } // geo

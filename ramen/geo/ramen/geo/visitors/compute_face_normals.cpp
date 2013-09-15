@@ -49,11 +49,6 @@ void compute_face_normals_visitor::visit( subd_mesh_model_t& model, shape_t& sha
     do_visit( model, shape);
 }
 
-void compute_face_normals_visitor::visit( visitable_t& model, shape_t& shape)
-{
-    // ignore all other shapes.
-}
-
 void compute_face_normals_visitor::do_visit( mesh_model_t& model, shape_t& shape)
 {
     if( !shape.attributes().point().has_attribute( g_P_name))

@@ -20,38 +20,63 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_CORE_FLAGS_HPP
-#define RAMEN_CORE_FLAGS_HPP
+#ifndef RAMEN_MATH_LINE_HPP
+#define RAMEN_MATH_LINE_HPP
 
-#include<ramen/core/config.hpp>
+#include<ramen/math/config.hpp>
+
+#include<boost/operators.hpp>
 
 namespace ramen
 {
-namespace core
+namespace math
 {
 
-template<class T, class Bit>
-bool test_flag( T flags, Bit bit)
+/*!
+\brief Infinite line.
+*/
+template<class Point>
+class line_t : boost::equality_comparable<line_t<Point> >
 {
-    return flags & bit;
-}
+public:
 
-template<class T, class Bit>
-void set_flag( T& flags, Bit bit, bool value)
-{
-    if( value)
-        flags |= bit;
-    else
-        flags &= ~bit;
-}
+    typedef Point                               point_type;
+    typedef typename point_type::value_type     scalar_type;
+    typedef typename point_type::vector_type    vector_type;
 
-template<class T, class Bit>
-void toggle_flag( T& flags, Bit bit)
-{
-    set_flag( flags, bit, !test_flag( flags, bit));
-}
+    line_t() {}
 
-} // core
+    line_t( const point_type& origin, const vector_type& dir) : o( origin), d( dir)
+    {
+    }
+
+    line_t( const point_type& p, const point_type& q) : o( p), d( q - p)
+    {
+    }
+
+    void normalize_direction()
+    {
+        d = d.normalize();
+    }
+
+    point_type operator()( scalar_type t) const
+    {
+        return o + t * d;
+    }
+
+    bool operator==( const line_t<Point>& other)
+    {
+        return o == other.o && d == other.d;
+    }
+
+    point_type o;
+    vector_type d;
+};
+
+typedef line_t<float>     linef_t;
+typedef line_t<double>    lined_t;
+
+} // math
 } // ramen
 
 #endif

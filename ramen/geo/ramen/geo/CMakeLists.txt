@@ -50,6 +50,7 @@ SET( RAMEN_GEO_SOURCES  attribute_ref.cpp
                         shape_models/subd_mesh_model.cpp
 
                         visitors/compute_face_normals.cpp
+                        visitors/count_ngons.cpp
                         visitors/shape_to_points.cpp
                         visitors/triangulate.cpp
                         )

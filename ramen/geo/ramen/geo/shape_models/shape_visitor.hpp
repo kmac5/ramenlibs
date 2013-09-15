@@ -45,7 +45,7 @@ class RAMEN_GEO_API const_shape_visitor
 {
 public:
 
-    explicit const_shape_visitor( bool nothrow = false);
+    const_shape_visitor();
     virtual ~const_shape_visitor();
 
     virtual void visit( const poly_mesh_model_t& model, const shape_t& shape);
@@ -57,17 +57,13 @@ public:
 
     // catch all overload.
     virtual void visit( const visitable_t& model, const shape_t& shape);
-
-protected:
-
-    bool nothrow_;
 };
 
 class RAMEN_GEO_API shape_visitor
 {
 public:
 
-    explicit shape_visitor( bool nothrow = false);
+    explicit shape_visitor();
     virtual ~shape_visitor();
 
     virtual void visit( poly_mesh_model_t& model, shape_t& shape);
@@ -79,10 +75,6 @@ public:
 
     // catch all overload.
     virtual void visit( visitable_t& model, shape_t& shape);
-
-protected:
-
-    bool nothrow_;
 };
 
 } // geo

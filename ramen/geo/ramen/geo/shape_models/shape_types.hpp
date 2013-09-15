@@ -40,8 +40,9 @@ enum shape_type_t
     curves_shape_k          = 1 << 5
 };
 
-enum
+enum shape_mask_t
 {
+    curves_shape_mask_k = curves_shape_k | nurbs_curve_shape_k,
     nurbs_shape_mask_k  = nurbs_curve_shape_k | nurbs_surface_shape_k,
     mesh_shape_mask_k   = poly_mesh_shape_k | subd_mesh_shape_k
 };

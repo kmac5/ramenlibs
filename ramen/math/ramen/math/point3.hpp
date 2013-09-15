@@ -71,8 +71,6 @@ public:
         return static_cast<T*>( &x)[index];
     }
 
-    // operators
-
     point3_t<T>& operator+=( const vector3_t<T>& vec)
     {
         x += vec.x;

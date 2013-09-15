@@ -26,8 +26,30 @@ THE SOFTWARE.
 
 using namespace ramen::core;
 
+enum flag_bits_t
+{
+    bit0 = 1 << 0,
+    bit1 = 1 << 1,
+    bit2 = 1 << 2
+};
+
 TEST( Flags, All)
 {
+    int flags = 0;
+
+    set_flag( flags, bit0, true);
+    ASSERT_TRUE( test_flag( flags, bit0));
+
+    set_flag( flags, bit2, true);
+    ASSERT_TRUE( test_flag( flags, bit2));
+
+    set_flag( flags, bit0, false);
+    ASSERT_FALSE( test_flag( flags, bit0));
+
+    set_flag( flags, bit2, false);
+    ASSERT_FALSE( test_flag( flags, bit2));
+
+    ASSERT_EQ( flags, 0);
 }
 
 int main(int argc, char **argv)

@@ -20,38 +20,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_CORE_FLAGS_HPP
-#define RAMEN_CORE_FLAGS_HPP
+#include<gtest/gtest.h>
 
-#include<ramen/core/config.hpp>
+#include<ramen/math/line.hpp>
 
-namespace ramen
-{
-namespace core
-{
+using namespace ramen::math;
 
-template<class T, class Bit>
-bool test_flag( T flags, Bit bit)
+TEST( Line, All)
 {
-    return flags & bit;
 }
 
-template<class T, class Bit>
-void set_flag( T& flags, Bit bit, bool value)
+int main( int argc, char **argv)
 {
-    if( value)
-        flags |= bit;
-    else
-        flags &= ~bit;
+    ::testing::InitGoogleTest( &argc, argv);
+    return RUN_ALL_TESTS();
 }
-
-template<class T, class Bit>
-void toggle_flag( T& flags, Bit bit)
-{
-    set_flag( flags, bit, !test_flag( flags, bit));
-}
-
-} // core
-} // ramen
-
-#endif
