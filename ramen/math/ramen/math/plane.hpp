@@ -98,7 +98,7 @@ public:
         return boost::optional<point_type>();
     }
 
-    boost::optional<point3_t<T> > nearest_point_in_plane( const point3_t<T>& p)
+    boost::optional<point3_t<T> > nearest_point_on_plane( const point3_t<T>& p)
     {
         line_t<point3_t<T> > line( p, n);
         return intersection_point( p);

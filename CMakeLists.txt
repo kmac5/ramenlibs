@@ -56,7 +56,7 @@ SET( RAMEN_WITH_GL      ON  CACHE BOOL "Build gl lib")
 SET( RAMEN_WITH_HASH    ON  CACHE BOOL "Build hash lib")
 SET( RAMEN_WITH_OS      ON  CACHE BOOL "Build os lib")
 
-SET( RAMEN_WITH_GEO_VIEWER ON CACHE BOOL "Build geo viewer")
+SET( RAMEN_BUILD_TOOLS ON CACHE BOOL "Build extra tools")
 
 ######################################################
 # platform specific
@@ -175,7 +175,6 @@ ENDIF()
 # tests
 
 IF( RAMEN_BUILD_TESTS)
-
     INCLUDE_DIRECTORIES(  google_testing_libs/google
                           google_testing_libs/google/gtest
                           google_testing_libs/google/gmock

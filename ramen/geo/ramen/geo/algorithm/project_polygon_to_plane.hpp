@@ -25,6 +25,8 @@ THE SOFTWARE.
 
 #include<ramen/geo/config.hpp>
 
+#include<ramen/math/plane.hpp>
+
 #include<ramen/geo/algorithm/polygon_normal.hpp>
 
 namespace ramen
@@ -32,39 +34,38 @@ namespace ramen
 namespace geo
 {
 
-template<class PointIter, class OutPointIter>
-bool project_polygon_to_plane( PointIter start, PointIter end, OutPointIter result)
-{
-    boost::optional<normal_type> n( newell_polygon_normal( start, end));
-
-    if( n)
-    {
-        project_polygon_to_plane( n, start, end, result);
-        return true;
-    }
-
-    // TODO: what here???
-    return false;
-}
-
 template<class T, class PointIter, class OutPointIter>
-void project_polygon_to_plane( const math::normal_t<T>& n,
+void project_polygon_to_plane( const math::plane_t<T>& plane,
                                PointIter start,
                                PointIter end,
                                OutPointIter result)
 {
-    // TODO: finish this...
-    assert( false);
+    typedef typename std::iterator_traits<PointIter>::value_type    point3_type;
 
-    typedef typename std::iterator_traits<PointIter>::value_type point3_type;
     BOOST_STATIC_ASSERT(( boost::is_same<typename point3_type::size_type, boost::mpl::int_<3> >::value));
     BOOST_STATIC_ASSERT(( boost::is_same<T, typename point3_type::value_type>::value));
 
     for( PointIter it( start); it != end; ++it)
+        *result++ = plane.nearest_point_on_plane( *it);
+}
+
+template<class PointIter, class OutPointIter>
+bool make_polygon_planar( PointIter start, PointIter end, OutPointIter result)
+{
+    typedef typename std::iterator_traits<PointIter>::value_type    point3_type;
+    typedef typename point3_type::normal_type                       normal_type;
+    typedef typename point3_type::value_type                        scalar_type;
+
+    boost::optional<normal_type> n( newell_polygon_normal( start, end));
+
+    if( n)
     {
-        // TODO: project
-        *result++ = point2_type( 0);
+        math::plane_t<scalar_type> plane( n, *start);
+        make_polygon_planar( plane, start, end, result);
+        return true;
     }
+
+    return false;
 }
 
 } // geo

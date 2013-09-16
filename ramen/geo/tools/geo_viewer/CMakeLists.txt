@@ -20,11 +20,6 @@
 # THE SOFTWARE.
 
 INCLUDE_DIRECTORIES(    ../
-                        ../../core
-                        ../../arrays
-                        ../../math
-                        ../../color
-                        ../../gl
                         ${Boost_INCLUDE_DIR}
                         ${OPENGL_INCLUDE_DIR}
                         ${GLEW_INCLUDE_DIRS}
