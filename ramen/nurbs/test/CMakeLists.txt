@@ -18,31 +18,27 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-INCLUDE_DIRECTORIES(    ../../
-                        ${Boost_INCLUDE_DIR}
-                        ../../../core
-                        ../../../math
-                        ../../../color
+ENABLE_TESTING()
 
-                        ../../../extern/tinythreadpp
+INCLUDE_DIRECTORIES(	../
+                        ../../../google_testing_libs/google
+                        ../../../google_testing_libs/google/gtest
+                        ../../../google_testing_libs/google/gmock
+                        ../../math
                         )
 
-# lib
-FILE( GLOB_RECURSE RAMEN_ARRAYS_HEADERS ./*.hpp)
-SET( RAMEN_ARRAYS_SOURCES array.cpp
-                          detail/string_array_model.cpp
+SET( RAMEN_TEST_TARGET_LIBS  #ramen_nurbs
+                             gmock
+                             ${RAMEN_TEST_SYSTEM_LIBS}
+                             )
 
-                          ../../../extern/tinythreadpp/tinythread.h
-                          ../../../extern/tinythreadpp/tinythread.cpp
-                          )
+# tests
 
-SET( RAMEN_ARRAYS_LIBS ramen_core
-                       ${RAMEN_CORE_LIBS}
-                       )
+MACRO( ADD_RM_TEST sourcefile)
+    ADD_EXECUTABLE( ${sourcefile} ${sourcefile}.cpp)
+    TARGET_LINK_LIBRARIES( ${sourcefile} ${RAMEN_TEST_TARGET_LIBS})
+    ADD_TEST( ${sourcefile} ${CMAKE_CURRENT_BINARY_DIR}/${sourcefile})
+ENDMACRO()
 
-IF( RAMEN_WITH_HALF)
-    SET( RAMEN_ARRAYS_LIBS ${RAMEN_ARRAYS_LIBS} ${HALF_LIBRARIES})
-ENDIF()
-
-ADD_LIBRARY( ramen_arrays SHARED ${RAMEN_ARRAYS_HEADERS} ${RAMEN_ARRAYS_SOURCES})
-TARGET_LINK_LIBRARIES( ramen_arrays ${RAMEN_ARRAYS_LIBS})
+ADD_RM_TEST( basis)
+ADD_RM_TEST( knots)

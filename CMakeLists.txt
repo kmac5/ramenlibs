@@ -139,12 +139,14 @@ INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR}
 # libraries
 
 ADD_SUBDIRECTORY( ramen/algorithm)
+ADD_SUBDIRECTORY( ramen/bezier)
 ADD_SUBDIRECTORY( ramen/color)
 ADD_SUBDIRECTORY( ramen/containers)
 ADD_SUBDIRECTORY( ramen/core)
 ADD_SUBDIRECTORY( ramen/functional)
 ADD_SUBDIRECTORY( ramen/iterators)
 ADD_SUBDIRECTORY( ramen/math)
+ADD_SUBDIRECTORY( ramen/nurbs)
 ADD_SUBDIRECTORY( ramen/string_algo)
 
 IF( RAMEN_WITH_ARRAYS)

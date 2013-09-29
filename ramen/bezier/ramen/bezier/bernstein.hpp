@@ -20,51 +20,60 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_HASH_HASH_GENERATOR_HPP
-#define RAMEN_HASH_HASH_GENERATOR_HPP
+#ifndef RAMEN_BEZIER_BERNSTEIN_HPP
+#define	RAMEN_BEZIER_BERNSTEIN_HPP
 
-#include<ramen/hash/Concepts/HashFunctionConcept.hpp>
+#include<ramen/bezier/config.hpp>
 
-#include<ramen/hash/hash_traits.hpp>
+#include<boost/array.hpp>
 
 namespace ramen
 {
-namespace hash
+namespace bezier
 {
 
-template<class HashFun>
-class generator_t
+template<class T, int Degree>
+T bernstein( int i, T u)
 {
-    BOOST_CONCEPT_ASSERT(( HashFunctionConcept<HashFun>));
+    T tmp[Degree + 1];
 
-public:
+    for( int j = 0; j <= Degree; ++j)
+		tmp[j] = T(0);
 
-    typedef HashFun                                     hash_function_type;
-    typedef typename hash_function_type::digest_type    digest_type;
+    tmp[Degree - i] = T(1);
+    T u1 = T(1) - u;
 
-    generator_t() {}
-
-    template<class T>
-    void operator()( const T& x)
+    for( int k = 1; k <= Degree; ++k)
     {
-        hash_traits<T, HashFun>::hash( x, hash_fun_);
+		for( int j = Degree; j >= k; --j)
+		    tmp[j] = u1 * tmp[j] + u * tmp[j-1];
     }
 
-    digest_type finalize()
+    return tmp[Degree];
+}
+
+template<class T, int Degree>
+void all_bernstein( T u, boost::array<T, Degree+1>& B)
+{
+    B[0] = T(1);
+    T u1 = T(1) - u;
+
+    for( int j = 1; j <= Degree; ++j)
     {
-        return hash_fun_.finalize();
+        T saved = T(0);
+
+        for( int k = 0; k < j; ++k)
+        {
+            T temp = B[k];
+            B[k] = saved + u1 * temp;
+            saved = u * temp;
+        }
+
+        B[j] = saved;
     }
+}
 
-private:
-
-    // non-copyable
-    generator_t( const generator_t&);
-    generator_t& operator=( const generator_t&);
-
-    HashFun hash_fun_;
-};
-
-} // hash
+} // bezier
 } // ramen
 
 #endif

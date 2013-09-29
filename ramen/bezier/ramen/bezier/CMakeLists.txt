@@ -20,29 +20,16 @@
 
 INCLUDE_DIRECTORIES(    ../../
                         ${Boost_INCLUDE_DIR}
-                        ../../../core
                         ../../../math
-                        ../../../color
-
-                        ../../../extern/tinythreadpp
                         )
 
 # lib
-FILE( GLOB_RECURSE RAMEN_ARRAYS_HEADERS ./*.hpp)
-SET( RAMEN_ARRAYS_SOURCES array.cpp
-                          detail/string_array_model.cpp
+FILE( GLOB_RECURSE RAMEN_BEZIER_HEADERS ./*.hpp)
+SET( RAMEN_BEZIER_SOURCES )
 
-                          ../../../extern/tinythreadpp/tinythread.h
-                          ../../../extern/tinythreadpp/tinythread.cpp
-                          )
-
-SET( RAMEN_ARRAYS_LIBS ramen_core
-                       ${RAMEN_CORE_LIBS}
+SET( RAMEN_BEZIER_LIBS ramen_math
+                       ${RAMEN_MATH_LIBS}
                        )
 
-IF( RAMEN_WITH_HALF)
-    SET( RAMEN_ARRAYS_LIBS ${RAMEN_ARRAYS_LIBS} ${HALF_LIBRARIES})
-ENDIF()
-
-ADD_LIBRARY( ramen_arrays SHARED ${RAMEN_ARRAYS_HEADERS} ${RAMEN_ARRAYS_SOURCES})
-TARGET_LINK_LIBRARIES( ramen_arrays ${RAMEN_ARRAYS_LIBS})
+#ADD_LIBRARY( ramen_bezier SHARED ${RAMEN_BEZIER_HEADERS} ${RAMEN_BEZIER_SOURCES})
+#TARGET_LINK_LIBRARIES( ramen_bezier ${RAMEN_BEZIER_LIBS})

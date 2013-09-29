@@ -20,51 +20,29 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_HASH_HASH_GENERATOR_HPP
-#define RAMEN_HASH_HASH_GENERATOR_HPP
+#ifndef RAMEN_NURBS_RANGE_VALUE_TYPE_HPP
+#define RAMEN_NURBS_RANGE_VALUE_TYPE_HPP
 
-#include<ramen/hash/Concepts/HashFunctionConcept.hpp>
+#include<ramen/nurbs/config.hpp>
 
-#include<ramen/hash/hash_traits.hpp>
+#include<boost/range/iterator.hpp>
 
 namespace ramen
 {
-namespace hash
+namespace nurbs
 {
 
-template<class HashFun>
-class generator_t
+template<class Range>
+class range_value_type
 {
-    BOOST_CONCEPT_ASSERT(( HashFunctionConcept<HashFun>));
+    typedef typename boost::range_iterator<Range>::type iterator;
 
 public:
 
-    typedef HashFun                                     hash_function_type;
-    typedef typename hash_function_type::digest_type    digest_type;
-
-    generator_t() {}
-
-    template<class T>
-    void operator()( const T& x)
-    {
-        hash_traits<T, HashFun>::hash( x, hash_fun_);
-    }
-
-    digest_type finalize()
-    {
-        return hash_fun_.finalize();
-    }
-
-private:
-
-    // non-copyable
-    generator_t( const generator_t&);
-    generator_t& operator=( const generator_t&);
-
-    HashFun hash_fun_;
+    typedef typename std::iterator_traits<iterator>::value_type type;
 };
 
-} // hash
+} // nurbs
 } // ramen
 
 #endif

@@ -27,9 +27,7 @@ namespace ramen
 namespace gl
 {
 
-compile_error::compile_error() : exception()
-{
-}
+compile_error::compile_error() : exception() {}
 
 const char *compile_error::what() const
 {

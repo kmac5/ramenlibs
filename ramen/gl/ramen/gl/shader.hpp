@@ -59,14 +59,12 @@ public:
     shader_t( GLenum type, std::istream& is)
     {
         core::string8_t src;
-
         is.seekg( 0, std::ios::end);
         std::size_t size = is.tellg();
         src.reserve( size + 1);
         is.seekg( 0, std::ios::beg);
         src.assign(( std::istreambuf_iterator<char>( is)),
                      std::istreambuf_iterator<char>());
-
         init( type, src.c_str(), src.size());
     }
 

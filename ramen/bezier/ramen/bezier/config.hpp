@@ -20,51 +20,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_HASH_HASH_GENERATOR_HPP
-#define RAMEN_HASH_HASH_GENERATOR_HPP
+#ifndef RAMEN_BEZIER_CONFIG_HPP
+#define RAMEN_BEZIER_CONFIG_HPP
 
-#include<ramen/hash/Concepts/HashFunctionConcept.hpp>
+#include<ramen/config/config.hpp>
 
-#include<ramen/hash/hash_traits.hpp>
-
-namespace ramen
-{
-namespace hash
-{
-
-template<class HashFun>
-class generator_t
-{
-    BOOST_CONCEPT_ASSERT(( HashFunctionConcept<HashFun>));
-
-public:
-
-    typedef HashFun                                     hash_function_type;
-    typedef typename hash_function_type::digest_type    digest_type;
-
-    generator_t() {}
-
-    template<class T>
-    void operator()( const T& x)
-    {
-        hash_traits<T, HashFun>::hash( x, hash_fun_);
-    }
-
-    digest_type finalize()
-    {
-        return hash_fun_.finalize();
-    }
-
-private:
-
-    // non-copyable
-    generator_t( const generator_t&);
-    generator_t& operator=( const generator_t&);
-
-    HashFun hash_fun_;
-};
-
-} // hash
-} // ramen
+#ifdef ramen_bezier_EXPORTS // <-- #defined by CMake automagically
+    #define RAMEN_BEZIER_API RAMEN_CONFIG_EXPORT
+#else
+    #define RAMEN_BEZIER_API RAMEN_CONFIG_IMPORT
+#endif
 
 #endif

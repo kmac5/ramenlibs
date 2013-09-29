@@ -20,51 +20,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_HASH_HASH_GENERATOR_HPP
-#define RAMEN_HASH_HASH_GENERATOR_HPP
+#include<gtest/gtest.h>
 
-#include<ramen/hash/Concepts/HashFunctionConcept.hpp>
+#include<ramen/bezier/bernstein.hpp>
 
-#include<ramen/hash/hash_traits.hpp>
-
-namespace ramen
+TEST( Bernstein, All)
 {
-namespace hash
+}
+
+TEST( AllBernstein, All)
 {
+}
 
-template<class HashFun>
-class generator_t
+int main(int argc, char **argv)
 {
-    BOOST_CONCEPT_ASSERT(( HashFunctionConcept<HashFun>));
-
-public:
-
-    typedef HashFun                                     hash_function_type;
-    typedef typename hash_function_type::digest_type    digest_type;
-
-    generator_t() {}
-
-    template<class T>
-    void operator()( const T& x)
-    {
-        hash_traits<T, HashFun>::hash( x, hash_fun_);
-    }
-
-    digest_type finalize()
-    {
-        return hash_fun_.finalize();
-    }
-
-private:
-
-    // non-copyable
-    generator_t( const generator_t&);
-    generator_t& operator=( const generator_t&);
-
-    HashFun hash_fun_;
-};
-
-} // hash
-} // ramen
-
-#endif
+    ::testing::InitGoogleTest( &argc, argv);
+    return RUN_ALL_TESTS();
+}

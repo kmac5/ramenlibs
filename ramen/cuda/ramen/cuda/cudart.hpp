@@ -41,6 +41,7 @@ RAMEN_CUDA_API void cuda_choose_device( int *device, const struct cudaDeviceProp
 RAMEN_CUDA_API void cuda_set_device( int device);
 RAMEN_CUDA_API void cuda_device_synchronize();
 
+// memory allocation
 template<class T>
 T *cuda_malloc( std::size_t size)
 {
@@ -81,6 +82,7 @@ T *cuda_host_get_device_ptr( T *ptr, unsigned int flags = 0)
     return reinterpret_cast<T*>( tmp);
 }
 
+// memcopy
 template<class T>
 void cuda_memcpy( T *dst, const T *src, size_t count, enum cudaMemcpyKind kind)
 {
@@ -110,8 +112,6 @@ RAMEN_CUDA_API float cuda_event_elapsed_time( cudaEvent_t start, cudaEvent_t end
 RAMEN_CUDA_API void cuda_stream_create( cudaStream_t *stream);
 RAMEN_CUDA_API void cuda_stream_destroy( cudaStream_t stream);
 RAMEN_CUDA_API void cuda_stream_synchronize( cudaStream_t stream);
-
-// memcopy
 
 } // cuda
 } // ramen
