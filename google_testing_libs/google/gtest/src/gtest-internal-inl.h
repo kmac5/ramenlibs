@@ -348,8 +348,7 @@ class TestPropertyKeyIs {
   // Constructor.
   //
   // TestPropertyKeyIs has NO default constructor.
-  explicit TestPropertyKeyIs(const char* key)
-      : key_(key) {}
+  explicit TestPropertyKeyIs(const std::string& key) : key_(key) {}
 
   // Returns true iff the test name of test property matches on key_.
   bool operator()(const TestProperty& test_property) const {
@@ -551,8 +550,14 @@ class GTEST_API_ UnitTestImpl {
   // Gets the number of failed tests.
   int failed_test_count() const;
 
+  // Gets the number of disabled tests that will be reported in the XML report.
+  int reportable_disabled_test_count() const;
+
   // Gets the number of disabled tests.
   int disabled_test_count() const;
+
+  // Gets the number of tests to be printed in the XML report.
+  int reportable_test_count() const;
 
   // Gets the number of all tests.
   int total_test_count() const;
@@ -711,6 +716,12 @@ class GTEST_API_ UnitTestImpl {
   void ClearAdHocTestResult() {
     ad_hoc_test_result_.Clear();
   }
+
+  // Adds a TestProperty to the current TestResult object when invoked in a
+  // context of a test or a test case, or to the global property set. If the
+  // result already contains a property with the same key, the value will be
+  // updated.
+  void RecordProperty(const TestProperty& test_property);
 
   enum ReactionToSharding {
     HONOR_SHARDING_PROTOCOL,
@@ -1038,8 +1049,9 @@ bool ParseNaturalNumber(const ::std::string& str, Integer* number) {
 class TestResultAccessor {
  public:
   static void RecordProperty(TestResult* test_result,
+                             const std::string& xml_element,
                              const TestProperty& property) {
-    test_result->RecordProperty(property);
+    test_result->RecordProperty(xml_element, property);
   }
 
   static void ClearTestPartResults(TestResult* test_result) {
