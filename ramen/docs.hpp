@@ -20,37 +20,30 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_ALGORITHM_CLAMP_HPP
-#define RAMEN_ALGORITHM_CLAMP_HPP
-
-#include<ramen/algorithm/config.hpp>
-
-#include<cassert>
-
-namespace ramen
-{
-namespace algorithm
-{
-
+// Groups
 /*!
-\ingroup algorithm
-\brief Clamps x between lo and hi.
+\defgroup algorithm Algorithm
+\defgroup arrays Arrays
+\defgroup bezier Bezier
+\defgroup color Color
+\defgroup containers Containers
+\defgroup core Core
+\defgroup cuda CUDA
+\defgroup functional Functional
+\defgroup geo Geo
+\defgroup gl GL
+\defgroup hash Hash
+\defgroup iterators Iterators
+\defgroup math Math
+\defgroup nurbs NURBS
+\defgroup os OS
+\defgroup string_algo StringAlgo
 */
-template<class T>
-inline T clamp( T x, T lo, T hi)
-{
-    assert( lo <= hi);
 
-    if( x < lo)
-        return lo;
+// Docs main
+/**
+\mainpage Ramen libs developer docs.
 
-    if( x > hi)
-        return hi;
-
-    return x;
-}
-
-} // algorithm
-} // ramen
-
-#endif
+\section intro Introduction
+\section coding_guide Coding Guidelines
+*/

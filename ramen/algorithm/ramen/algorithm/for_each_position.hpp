@@ -34,6 +34,10 @@ namespace ramen
 namespace algorithm
 {
 
+/*!
+\ingroup algorithm
+\brief Like std::for_each, but passes an iterator
+*/
 template<class InputIterator, class UnaryFunction>
 inline void for_each_position( InputIterator first, InputIterator last, UnaryFunction f)
 {
@@ -44,12 +48,20 @@ inline void for_each_position( InputIterator first, InputIterator last, UnaryFun
     }
 }
 
+/*!
+\ingroup algorithm
+\brief Like std::for_each, but passes an iterator
+*/
 template<class InputRange, class UnaryFunction>
 inline void for_each_position( InputRange& range, UnaryFunction f)
 {
     for_each_position( boost::begin( range), boost::end( range), f);
 }
 
+/*!
+\ingroup algorithm
+\brief Like std::for_each, but passes an iterator
+*/
 template<class InputRange, class UnaryFunction>
 inline void for_each_position( const InputRange& range, UnaryFunction f)
 {
