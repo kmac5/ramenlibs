@@ -107,11 +107,10 @@ public:
         eye_ = math::point3f_t( eye_.x + center.x, eye_.y + center.y, eye_.z + center.z);
         
         // adjust up vector
-        //v_.x = 0;
-        //u_.y = 0;
-        //u_ = math::cross( v_, n_);
-        //n_ = math::cross( u_, v_);
+        u_.y = 0;
+        v_ = math::cross( n_, u_);
         
+        // normalize everything, just in case
         u_.normalize();
         v_.normalize();
         n_.normalize();

@@ -27,7 +27,7 @@ namespace ramen
 namespace cameras
 {
 
-linear_camera_t::linear_camera_t()
+linear_camera_t::linear_camera_t() : camera_t()
 {
 }
 

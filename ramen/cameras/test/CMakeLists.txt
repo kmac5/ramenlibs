@@ -43,4 +43,4 @@ MACRO( ADD_RM_TEST sourcefile)
     ADD_TEST( ${sourcefile} ${CMAKE_CURRENT_BINARY_DIR}/${sourcefile})
 ENDMACRO()
 
-#ADD_RM_TEST( nothing)
+ADD_RM_TEST( persp_camera)

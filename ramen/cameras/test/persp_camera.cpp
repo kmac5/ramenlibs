@@ -20,15 +20,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include<ramen/cameras/camera.hpp>
+#include<gtest/gtest.h>
 
-namespace ramen
+#include<ramen/cameras/persp_camera.hpp>
+
+using namespace ramen::cameras;
+
+TEST( PerspCamera, All)
 {
-namespace cameras
+}
+
+int main( int argc, char **argv)
 {
-
-camera_t::camera_t() {}
-camera_t::~camera_t() {}
-
-} // cameras
-} // ramen
+    ::testing::InitGoogleTest( &argc, argv);
+    return RUN_ALL_TESTS();
+}

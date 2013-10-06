@@ -20,15 +20,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include<ramen/cameras/camera.hpp>
+#include<ramen/cameras/persp_camera.hpp>
 
 namespace ramen
 {
 namespace cameras
 {
 
-camera_t::camera_t() {}
-camera_t::~camera_t() {}
+persp_camera_t::persp_camera_t() : linear_camera_t()
+{
+}
 
 } // cameras
 } // ramen

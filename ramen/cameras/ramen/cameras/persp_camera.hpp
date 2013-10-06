@@ -20,15 +20,34 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include<ramen/cameras/camera.hpp>
+#ifndef RAMEN_CAMERAS_PERSP_CAMERA_HPP
+#define RAMEN_CAMERAS_PERSP_CAMERA_HPP
+
+#include<ramen/cameras/linear_camera.hpp>
 
 namespace ramen
 {
 namespace cameras
 {
 
-camera_t::camera_t() {}
-camera_t::~camera_t() {}
+/*!
+\ingroup cameras
+\brief Perspective camera.
+*/
+class RAMEN_CAMERAS_API persp_camera_t : public linear_camera_t
+{
+public:
+
+    persp_camera_t();
+
+private:
+
+    // non-copyable
+    persp_camera_t( const persp_camera_t&);
+    persp_camera_t& operator=( const persp_camera_t&);   
+};
 
 } // cameras
 } // ramen
+
+#endif

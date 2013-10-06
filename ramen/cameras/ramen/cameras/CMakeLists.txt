@@ -31,6 +31,7 @@ FILE( GLOB_RECURSE RAMEN_CAMERAS_HEADERS ./*.hpp)
 SET( RAMEN_CAMERAS_SOURCES camera.cpp
                            camera_controller.cpp
                            linear_camera.cpp
+                           persp_camera.cpp
                            )
 
 SET( RAMEN_CAMERAS_LIBS  ramen_containers

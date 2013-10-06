@@ -50,7 +50,9 @@ private:
 
     // non-copyable
     camera_t( const camera_t&);
-    camera_t& operator=( const camera_t&);   
+    camera_t& operator=( const camera_t&);
+
+    math::point3d_t eye_;
 };
 
 } // cameras
