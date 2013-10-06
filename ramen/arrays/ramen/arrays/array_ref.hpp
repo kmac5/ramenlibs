@@ -116,6 +116,7 @@ struct array_ref_traits<core::string8_t>
 };
 
 /*!
+\ingroup arrays
 \brief Constant reference to an array.
 */
 template<class T>
@@ -177,6 +178,7 @@ protected:
 };
 
 /*!
+\ingroup arrays
 \brief Non-constant reference to an array.
 */
 template<class T>

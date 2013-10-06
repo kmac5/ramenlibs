@@ -44,10 +44,11 @@ public:
     camera_t()
     {
         set_viewport_size( 640, 480);
-        eye_ = math::point3f_t( 0, 0, 0);
+        eye_ = math::point3f_t( 0, 5, -10);
         u_   = math::vector3f_t( 1, 0, 0);
         v_   = math::vector3f_t( 0, 1, 0);
         n_   = math::vector3f_t( 0, 0, 1);
+        interest_ = 10;
         fov_ = 45.0f;
         near_clip_ = 0.01f;
         far_clip_ = 10000.0f;
@@ -73,6 +74,7 @@ public:
         glLoadIdentity();
         gluPerspective( fov_, aspect_, near_clip_, far_clip_);
         glMatrixMode( GL_MODELVIEW);
+        glLoadIdentity();
     }
 
     void track( const math::vector2f_t& d)
@@ -88,23 +90,48 @@ public:
 
     void tumble( const math::vector2f_t& d)
     {
-        math::matrix44f_t r = math::matrix44f_t::axis_angle_rotation_matrix( v_, d.x * 0.05f);
+        math::point3f_t center = eye_ + n_ * interest_;
+        math::matrix44f_t r = math::matrix44f_t::axis_angle_rotation_matrix( v_, -d.x * 0.05f);
         u_ = u_ * r;
         n_ = n_ * r;
+        eye_ = math::point3f_t( eye_.x - center.x, eye_.y - center.y, eye_.z - center.z);
+        eye_ = eye_ * r;
+        eye_ = math::point3f_t( eye_.x + center.x, eye_.y + center.y, eye_.z + center.z);
 
-        r = math::matrix44f_t::axis_angle_rotation_matrix( u_, -d.y * 0.05f);
+        center = eye_ + n_ * interest_;
+        r = math::matrix44f_t::axis_angle_rotation_matrix( u_, d.y * 0.05f);
         v_ = v_ * r;
         n_ = n_ * r;
-
+        eye_ = math::point3f_t( eye_.x - center.x, eye_.y - center.y, eye_.z - center.z);
+        eye_ = eye_ * r;
+        eye_ = math::point3f_t( eye_.x + center.x, eye_.y + center.y, eye_.z + center.z);
+        
+        // adjust up vector
+        //v_.x = 0;
+        //u_.y = 0;
+        //u_ = math::cross( v_, n_);
+        //n_ = math::cross( u_, v_);
+        
         u_.normalize();
         v_.normalize();
         n_.normalize();
     }
 
+    void roll( const math::vector2f_t& d)
+    {
+        math::matrix44f_t r = math::matrix44f_t::axis_angle_rotation_matrix( n_, -d.x * 0.05f);
+        u_ = u_ * r;
+        v_ = v_ * r;
+        
+        u_.normalize();
+        v_.normalize();
+    }
+    
     int width_, height_;
     float aspect_;
     math::point3f_t eye_;
     math::vector3f_t u_, v_, n_;
+    float interest_;
     float fov_;
     float near_clip_;
     float far_clip_;
@@ -119,7 +146,8 @@ struct maya_like_camera_controller_t
         none_k = 0,
         tumble_k,
         track_k,
-        dolly_k
+        dolly_k,
+        roll_k
     };
 
     maya_like_camera_controller_t()
@@ -156,6 +184,11 @@ struct maya_like_camera_controller_t
                 camera_->tumble( math::vector2f_t( pos.x - last_pos_.x,
                                                    pos.y - last_pos_.y));
             break;
+                
+            case roll_k:
+                camera_->roll( math::vector2f_t( pos.x - last_pos_.x,
+                                                 pos.y - last_pos_.y));
+            break;
         }
 
         last_pos_ = pos;
@@ -178,9 +211,33 @@ maya_like_camera_controller_t g_cam_controller;
 
 scene_view_t::scene_view_t( QWidget *parent) : QGLWidget( parent) {}
 
+void scene_view_t::make_grid_scene()
+{
+    clear_scene();
+    update();
+}
+
+void scene_view_t::make_box_scene()
+{
+    clear_scene();
+    update();
+}
+
+void scene_view_t::make_sphere_scene()
+{
+    clear_scene();
+    update();
+}
+
 void scene_view_t::load_scene( const boost::filesystem::path& p)
 {
+    clear_scene();
     update();
+}
+
+void scene_view_t::clear_scene()
+{
+    
 }
 
 void scene_view_t::initializeGL()
@@ -286,6 +343,12 @@ void scene_view_t::draw_world_axes() const
 
 void scene_view_t::mousePressEvent( QMouseEvent *event)
 {
+    if( event->button() != Qt::LeftButton)
+    {
+        event->ignore();
+        return;
+    }
+    
     math::point2i_t pos( event->x(), event->y());
     maya_like_camera_controller_t::movement_type_t m_type;
 
@@ -296,7 +359,12 @@ void scene_view_t::mousePressEvent( QMouseEvent *event)
         if( event->modifiers() & Qt::AltModifier)
             m_type = maya_like_camera_controller_t::dolly_k;
         else
-            m_type = maya_like_camera_controller_t::tumble_k;
+        {
+            if( event->modifiers() & Qt::ControlModifier)
+                m_type = maya_like_camera_controller_t::roll_k;
+            else
+                m_type = maya_like_camera_controller_t::tumble_k;
+        }
     }
 
     g_cam_controller.mouse_press( pos, m_type);

@@ -113,6 +113,30 @@ public:
         return 0;
     }
 
+    containers::string8_vector_t read_extensions_list()
+    {
+        containers::string8_vector_t ext_list;        
+        for( int i = 0, e = formats_.size(); i < e; ++i)
+        {
+            if( formats_[i]->can_read())
+                formats_[i]->add_extensions( ext_list);
+        }
+        
+        return ext_list;
+    }
+
+    containers::string8_vector_t write_extensions_list()
+    {
+        containers::string8_vector_t ext_list;        
+        for( int i = 0, e = formats_.size(); i < e; ++i)
+        {
+            if( formats_[i]->can_read())
+                formats_[i]->add_extensions( ext_list);
+        }
+        
+        return ext_list;
+    }
+    
 private:
 
     // non-copyable
@@ -138,11 +162,14 @@ private:
 
 } // unnamed
 
-void register_io_format( core::auto_ptr_t<format_t>& format)
+containers::string8_vector_t extensions_supported_for_reading()
 {
-    assert( format.get());
+    return formats_factory_t::instance().read_extensions_list();
+}
 
-    formats_factory_t::instance().register_format( format.release());
+containers::string8_vector_t extensions_supported_for_writing()
+{
+    return formats_factory_t::instance().write_extensions_list();
 }
 
 reader_t reader_for_file( const char *filename, const containers::dictionary_t& options)
@@ -164,6 +191,13 @@ reader_t reader_for_file( const char *filename, const containers::dictionary_t& 
 
     // keep dumb compilers happy.
     return reader_t( 0);
+}
+
+void register_io_format( core::auto_ptr_t<format_t>& format)
+{
+    assert( format.get());
+
+    formats_factory_t::instance().register_format( format.release());
 }
 
 } // io

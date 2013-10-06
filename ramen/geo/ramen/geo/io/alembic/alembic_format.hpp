@@ -42,6 +42,7 @@ public:
 
     virtual const core::name_t& tag() const;
 
+    virtual void add_extensions( containers::string8_vector_t& ext_list) const;    
     virtual bool check_extension( const char *ext) const;
 
     virtual reader_interface_t *create_reader( const char *filename,

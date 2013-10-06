@@ -45,6 +45,11 @@ void alembic_format_t::release() { delete this;}
 
 const core::name_t& alembic_format_t::tag() const { return tag_;}
 
+void alembic_format_t::add_extensions( containers::string8_vector_t& ext_list) const
+{
+    ext_list.push_back( "abc");
+}
+
 bool alembic_format_t::check_extension( const char *ext) const
 {
     return compare( ext, "abc", 3, false) == 0;

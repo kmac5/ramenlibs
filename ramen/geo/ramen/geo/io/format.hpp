@@ -29,6 +29,8 @@ THE SOFTWARE.
 
 #include<ramen/core/name.hpp>
 
+#include<ramen/containers/string8_vector_fwd.hpp>
+
 #include<ramen/geo/io/reader_interface.hpp>
 
 namespace ramen
@@ -49,6 +51,7 @@ public:
     bool can_read() const;
     bool can_write() const;
 
+    virtual void add_extensions( containers::string8_vector_t& ext_list) const = 0;
     virtual bool check_extension( const char *ext) const = 0;
 
     virtual reader_interface_t *create_reader( const char *filename,

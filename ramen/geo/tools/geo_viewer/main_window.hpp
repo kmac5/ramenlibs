@@ -47,6 +47,10 @@ protected:
 
 public Q_SLOTS:
 
+    void make_grid();
+    void make_box();
+    void make_sphere();
+    
     void open();
     void quit();
 
@@ -55,10 +59,16 @@ private:
     QMenuBar *menubar_;
 
     QMenu *file_;
+        QMenu *new_;
+            QAction *create_grid_;
+            QAction *create_box_;
+            QAction *create_sphere_;
         QAction *open_;
         QAction *quit_;
 
     scene_view_t *scene_view_;
+    
+    QString read_ext_list_;    
 };
 
 #endif

@@ -20,49 +20,36 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef GEO_VIEWER_SCENE_VIEW_HPP
-#define GEO_VIEWER_SCENE_VIEW_HPP
+#ifndef RAMEN_CAMERAS_LINEAR_CAMERA_HPP
+#define RAMEN_CAMERAS_LINEAR_CAMERA_HPP
 
-#include<geo_viewer/scene_view_fwd.hpp>
+#include<ramen/cameras/camera.hpp>
 
-#include<boost/filesystem/path.hpp>
-
-#include<ramen/gl/glew.hpp>
-
-#include<QtOpenGL/QGLWidget>
-
-class QMouseEvent;
-
-class scene_view_t : public QGLWidget
+namespace ramen
 {
-    Q_OBJECT
+namespace cameras
+{
 
+/*!
+\ingroup cameras
+\brief Base class for linear cameras.
+*/
+class RAMEN_CAMERAS_API linear_camera_t : public camera_t
+{
 public:
-
-    scene_view_t( QWidget *parent = 0);
-
-    void make_grid_scene();
-    void make_box_scene();
-    void make_sphere_scene();
-    
-    void load_scene( const boost::filesystem::path& p);
     
 protected:
 
-    void clear_scene();
+    linear_camera_t();
     
-    virtual void initializeGL();
-    virtual void resizeGL( int w, int h);
-    virtual void paintGL();
-
-    virtual void mousePressEvent( QMouseEvent *event);
-    virtual void mouseMoveEvent( QMouseEvent *event);
-    virtual void mouseReleaseEvent( QMouseEvent *event);
-
 private:
 
-    void draw_grid() const;
-    void draw_world_axes() const;
+    // non-copyable
+    linear_camera_t( const linear_camera_t&);
+    linear_camera_t& operator=( const linear_camera_t&);   
 };
+
+} // cameras
+} // ramen
 
 #endif

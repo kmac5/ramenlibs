@@ -25,6 +25,8 @@ THE SOFTWARE.
 
 #include<ramen/geo/config.hpp>
 
+#include<ramen/containers/string8_vector.hpp>
+
 #include<ramen/geo/io/format.hpp>
 #include<ramen/geo/io/reader.hpp>
 
@@ -35,7 +37,8 @@ namespace geo
 namespace io
 {
 
-RAMEN_GEO_IO_API void register_io_format( core::auto_ptr_t<format_t>& format);
+RAMEN_GEO_IO_API containers::string8_vector_t extensions_supported_for_reading();
+RAMEN_GEO_IO_API containers::string8_vector_t extensions_supported_for_writing();
 
 /*
  *  Input options:
@@ -53,6 +56,8 @@ RAMEN_GEO_IO_API void register_io_format( core::auto_ptr_t<format_t>& format);
 
 RAMEN_GEO_IO_API reader_t reader_for_file( const char *filename,
                                            const containers::dictionary_t& options);
+
+RAMEN_GEO_IO_API void register_io_format( core::auto_ptr_t<format_t>& format);
 
 } // io
 } // geo

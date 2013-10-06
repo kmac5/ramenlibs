@@ -26,6 +26,7 @@ THE SOFTWARE.
 
 #include<ramen/gl/glew.hpp>
 
+#include<ramen/geo/io/io.hpp>
 #include<ramen/geo/io/exceptions.hpp>
 
 #include<QApplication>
@@ -41,9 +42,41 @@ THE SOFTWARE.
 
 #include<geo_viewer/scene_view.hpp>
 
+namespace
+{
+
+QString convert_extension_list( const ramen::containers::string8_vector_t& ext_list)
+{
+    // TODO: get a list of extensions from ramen::geo::io.
+    //static QString types( "Geo Files (*.abc) ;; Any File (*.*)");
+    QString result;
+    for( int i = 0; i< ext_list.size(); ++i)
+    {
+        result.append( "Geo Files (*.");
+        result.append( ext_list[i].c_str());
+        result.append( ") ;; ");
+    }
+    
+    result.append( "Any File (*.*)");
+    return result;
+}
+
+} // unnamed
+
 main_window_t::main_window_t( QWidget *parent, Qt::WindowFlags flags) : QMainWindow( parent, flags)
 {
+    read_ext_list_ = convert_extension_list( ramen::geo::io::extensions_supported_for_reading());
+    
     menubar_ = menuBar();
+
+    create_grid_ = new QAction( "Grid", this);
+    connect( create_grid_, SIGNAL( triggered()), this, SLOT( make_grid()));
+
+    create_box_ = new QAction( "Box", this);
+    connect( create_box_, SIGNAL( triggered()), this, SLOT( make_box()));
+
+    create_sphere_ = new QAction( "Sphere", this);
+    connect( create_sphere_, SIGNAL( triggered()), this, SLOT( make_sphere()));
 
     open_ = new QAction( "Open...", this);
     open_->setShortcut( QString( "Ctrl+O"));
@@ -56,6 +89,10 @@ main_window_t::main_window_t( QWidget *parent, Qt::WindowFlags flags) : QMainWin
     connect( quit_, SIGNAL( triggered()), this, SLOT( quit()));
 
     file_ = menubar_->addMenu( "File");
+    new_ = file_->addMenu( "New");
+        new_->addAction( create_grid_);
+        new_->addAction( create_box_);
+        new_->addAction( create_sphere_);
     file_->addAction( open_);
     file_->addSeparator();
     file_->addAction( quit_);
@@ -79,12 +116,25 @@ void main_window_t::closeEvent( QCloseEvent *event)
     event->accept();
 }
 
+void main_window_t::make_grid()
+{
+    scene_view_->make_grid_scene();
+}
+
+void main_window_t::make_box()
+{
+    scene_view_->make_box_scene();
+}
+
+void main_window_t::make_sphere()
+{
+    scene_view_->make_sphere_scene();
+}
+
 // slots
 void main_window_t::open()
 {
-    // TODO: get a list of extensions from ramen::geo::io.
-    static QString types( "Geo Files (*.abc) ;; Any File (*.*)");
-    QFileDialog dialog( this, "Open Geo...", QString::null, types);
+    QFileDialog dialog( this, "Open Geo...", QString::null, read_ext_list_);
     dialog.setOption( QFileDialog::DontUseNativeDialog, true);
     dialog.setFileMode( QFileDialog::ExistingFile);
     dialog.show();

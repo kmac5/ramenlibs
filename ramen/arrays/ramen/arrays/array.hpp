@@ -42,6 +42,7 @@ namespace arrays
 {
 
 /*!
+\ingroup arrays
 \brief A polymorphic array of elements.
 */
 class RAMEN_ARRAYS_API array_t : RAMEN_CORE_FINAL( array_t)

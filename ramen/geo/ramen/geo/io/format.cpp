@@ -48,8 +48,7 @@ bool format_t::can_read() const
 
 bool format_t::can_write() const
 {
-    //return flags_ & can_write_bit;
-    return false;
+    return flags_ & can_write_bit;
 }
 
 int format_t::compare( const char *str1, const char *str2,

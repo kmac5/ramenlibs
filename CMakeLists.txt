@@ -49,6 +49,7 @@ SET( RAMEN_BUILD_TESTS              ON  CACHE BOOL "Build tests")
 
 # libs compile control
 SET( RAMEN_WITH_ARRAYS  ON  CACHE BOOL "Build arrays lib")
+SET( RAMEN_WITH_CAMERAS ON  CACHE BOOL "Build cameras lib")
 SET( RAMEN_WITH_CUDA    ON  CACHE BOOL "Build cuda lib")
 SET( RAMEN_WITH_GEO     ON  CACHE BOOL "Build geo lib")
 SET( RAMEN_WITH_GEO_IO  ON  CACHE BOOL "Build geo io lib")
@@ -151,6 +152,10 @@ ADD_SUBDIRECTORY( ramen/string_algo)
 
 IF( RAMEN_WITH_ARRAYS)
     ADD_SUBDIRECTORY( ramen/arrays)
+ENDIF()
+
+IF( RAMEN_WITH_CAMERAS)
+    ADD_SUBDIRECTORY( ramen/cameras)
 ENDIF()
 
 IF( RAMEN_WITH_CUDA)

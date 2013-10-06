@@ -25,6 +25,7 @@ THE SOFTWARE.
 \defgroup algorithm Algorithm
 \defgroup arrays Arrays
 \defgroup bezier Bezier
+\defgroup cameras Cameras
 \defgroup color Color
 \defgroup containers Containers
 \defgroup core Core
