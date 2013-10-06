@@ -32,6 +32,10 @@ namespace ramen
 namespace bezier
 {
 
+/*!
+\ingroup bezier
+\brief Evaluates the Bernstein polynomial i of degree Degree at u
+*/
 template<class T, int Degree>
 T bernstein( int i, T u)
 {
@@ -52,6 +56,10 @@ T bernstein( int i, T u)
     return tmp[Degree];
 }
 
+/*!
+\ingroup bezier
+\brief Evaluates all Bernstein polynomials of degree Degree at u
+*/
 template<class T, int Degree>
 void all_bernstein( T u, boost::array<T, Degree+1>& B)
 {

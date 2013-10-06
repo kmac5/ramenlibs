@@ -57,11 +57,11 @@ bool make_polygon_planar( PointIter start, PointIter end, OutPointIter result)
     typedef typename point3_type::value_type                        scalar_type;
 
     boost::optional<normal_type> n( newell_polygon_normal( start, end));
-
+    
     if( n)
     {
         math::plane_t<scalar_type> plane( n, *start);
-        make_polygon_planar( plane, start, end, result);
+        project_polygon_to_plane( plane, start, end, result);
         return true;
     }
 

@@ -30,6 +30,7 @@ INCLUDE_DIRECTORIES(    ../../
 FILE( GLOB_RECURSE RAMEN_CONTAINERS_HEADERS ./*.hpp)
 SET( RAMEN_CONTAINERS_SOURCES dictionary.cpp
                               exceptions.cpp
+                              string8_vector.cpp
                               variant.cpp
                               )
 

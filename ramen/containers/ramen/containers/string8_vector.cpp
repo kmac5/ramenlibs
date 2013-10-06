@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include<ramen/core/string8_vector.hpp>
+#include<ramen/containers/string8_vector.hpp>
 
 #include<algorithm>
 
@@ -33,20 +33,20 @@ THE SOFTWARE.
 
 namespace ramen
 {
-namespace core
+namespace containers
 {
 
 struct string8_vector_t::impl
 {
     typedef boost::flyweights::flyweight<core::string8_t>           string_type;
-    typedef stl_allocator_adapter_t<string_type>                    allocator_type;
+    typedef core::stl_allocator_adapter_t<string_type>              allocator_type;
     typedef boost::container::vector<string_type, allocator_type>   vector_type;
 
-    impl() : items( allocator_type( global_new_allocator()))
+    impl() : items( allocator_type( core::global_new_allocator()))
     {
     }
 
-    impl( const allocator_ptr_t& alloc) : items( allocator_type( alloc))
+    impl( const core::allocator_ptr_t& alloc) : items( allocator_type( alloc))
     {
     }
 
@@ -60,7 +60,7 @@ struct string8_vector_t::impl
 
 string8_vector_t::string8_vector_t() : pimpl_( 0) {}
 
-string8_vector_t::string8_vector_t( const allocator_ptr_t& alloc) : pimpl_( 0)
+string8_vector_t::string8_vector_t( const core::allocator_ptr_t& alloc) : pimpl_( 0)
 {
     assert( alloc);
 
@@ -135,7 +135,7 @@ void string8_vector_t::resize( size_type n)
     pimpl_->items.resize( n);
 }
 
-void string8_vector_t::push_back( const string8_t& str)
+void string8_vector_t::push_back( const core::string8_t& str)
 {
     if( !pimpl_)
         pimpl_ = new impl;
@@ -151,7 +151,7 @@ void string8_vector_t::erase( size_type start, size_type end)
                          pimpl_->items.begin() + end);
 }
 
-const string8_t& string8_vector_t::operator[]( std::size_t n) const
+const core::string8_t& string8_vector_t::operator[]( std::size_t n) const
 {
     assert( pimpl_);
     assert( n < size());
@@ -272,7 +272,7 @@ string8_vector_t::string_proxy::string_proxy( string8_vector_t *parent, int inde
     assert( index_ >= 0);
 }
 
-string8_vector_t::string_proxy::operator const string8_t&() const
+string8_vector_t::string_proxy::operator const core::string8_t&() const
 {
     assert( parent_->pimpl_);
     assert( index_ < parent_->size());
@@ -384,5 +384,5 @@ string8_vector_t::iterator string8_vector_t::end()
     return iterator( this, 0);
 }
 
-} // core
+} // containers
 } // ramen

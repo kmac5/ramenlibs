@@ -32,7 +32,8 @@ THE SOFTWARE.
 
 #include<ramen/core/exceptions.hpp>
 #include<ramen/core/stl_allocator_adapter.hpp>
-#include<ramen/core/string8_vector.hpp>
+
+#include<ramen/containers/string8_vector.hpp>
 
 #include<ramen/arrays/array.hpp>
 #include<ramen/arrays/detail/array_models.hpp>
@@ -84,10 +85,10 @@ struct array_ref_traits<core::string8_t>
 {
     typedef detail::string_array_model_t model_type;
 
-    typedef const core::string8_t&                  const_reference;
-    typedef core::string8_vector_t::string_proxy    reference;
-    typedef core::string8_vector_t::const_iterator  const_iterator;
-    typedef core::string8_vector_t::iterator        iterator;
+    typedef const core::string8_t&                        const_reference;
+    typedef containers::string8_vector_t::string_proxy    reference;
+    typedef containers::string8_vector_t::const_iterator  const_iterator;
+    typedef containers::string8_vector_t::iterator        iterator;
 
     static const_iterator get_begin( const array_t& array)
     {

@@ -29,7 +29,7 @@ THE SOFTWARE.
 
 #include<ramen/core/Concepts/RegularConcept.hpp>
 #include<ramen/core/allocator_interface.hpp>
-#include<ramen/core/string8_vector.hpp>
+#include<ramen/containers/string8_vector.hpp>
 
 #include<ramen/arrays/Concepts/ArrayModelConcept.hpp>
 
@@ -73,7 +73,7 @@ public:
 
     virtual bool equal( const array_interface_t& other) const;
 
-    core::string8_vector_t items_;
+    containers::string8_vector_t items_;
 };
 
 } // detail

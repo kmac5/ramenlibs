@@ -45,4 +45,5 @@ ENDMACRO()
 
 ADD_RM_TEST( dictionary)
 ADD_RM_TEST( ptr_vector)
+ADD_RM_TEST( string8_vector)
 ADD_RM_TEST( variant)

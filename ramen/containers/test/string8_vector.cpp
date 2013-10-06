@@ -22,10 +22,11 @@ THE SOFTWARE.
 
 #include<gtest/gtest.h>
 
-#include<ramen/core/string8.hpp>
-#include<ramen/core/string8_vector.hpp>
+//#include<ramen/core/string8.hpp>
+#include<ramen/containers/string8_vector.hpp>
 
 using namespace ramen::core;
+using namespace ramen::containers;
 
 TEST( String8Vector, Construct)
 {

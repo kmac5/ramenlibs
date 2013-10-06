@@ -19,7 +19,7 @@
 # THE SOFTWARE.
 
 IF( RAMEN_WITH_REGEX AND RAMEN_WITH_GEO_IO)
-    FIND_PACKAGE( Boost COMPONENTS ${BOOST_NEEDED_LIBRARIES} program_options REQUIRED)
+    FIND_PACKAGE( Boost COMPONENTS ${BOOST_NEEDED_LIBRARIES} program_options filesystem system REQUIRED)
 
     INCLUDE_DIRECTORIES( ..
                          ../../arrays

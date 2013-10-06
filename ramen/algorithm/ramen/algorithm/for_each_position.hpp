@@ -36,7 +36,7 @@ namespace algorithm
 
 /*!
 \ingroup algorithm
-\brief Like std::for_each, but passes an iterator
+\brief Calls f for each iterator in the range [first, last)
 */
 template<class InputIterator, class UnaryFunction>
 inline void for_each_position( InputIterator first, InputIterator last, UnaryFunction f)
@@ -50,7 +50,7 @@ inline void for_each_position( InputIterator first, InputIterator last, UnaryFun
 
 /*!
 \ingroup algorithm
-\brief Like std::for_each, but passes an iterator
+\brief Calls f for each iterator in the range [first, last)
 */
 template<class InputRange, class UnaryFunction>
 inline void for_each_position( InputRange& range, UnaryFunction f)
@@ -60,7 +60,7 @@ inline void for_each_position( InputRange& range, UnaryFunction f)
 
 /*!
 \ingroup algorithm
-\brief Like std::for_each, but passes an iterator
+\brief Calls f for each iterator in the range [first, last)
 */
 template<class InputRange, class UnaryFunction>
 inline void for_each_position( const InputRange& range, UnaryFunction f)

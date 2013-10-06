@@ -25,6 +25,8 @@ THE SOFTWARE.
 
 #include<geo_viewer/scene_view_fwd.hpp>
 
+#include<boost/filesystem/path.hpp>
+
 #include<ramen/gl/glew.hpp>
 
 #include<QtOpenGL/QGLWidget>
@@ -39,6 +41,8 @@ public:
 
     scene_view_t( QWidget *parent = 0);
 
+    void load_scene( const boost::filesystem::path& p);
+    
 protected:
 
     virtual void initializeGL();

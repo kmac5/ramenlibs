@@ -91,9 +91,9 @@ void main_window_t::open()
 
     if( dialog.exec())
     {
-        //QStringList filenames = dialog.selectedFiles();
-        //std::string p = filenames[0].toStdString();
-        /*
+        QStringList filenames = dialog.selectedFiles();
+        std::string p = filenames[0].toStdString();
+        
         try
         {
             scene_view_->load_scene( boost::filesystem::path( p));
@@ -104,7 +104,6 @@ void main_window_t::open()
             statusBar()->showMessage( "error while loading geo");
             QMessageBox::warning( this, "Error loading geo", e.what());
         }
-        */
     }
 }
 

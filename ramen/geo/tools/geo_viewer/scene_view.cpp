@@ -178,6 +178,11 @@ maya_like_camera_controller_t g_cam_controller;
 
 scene_view_t::scene_view_t( QWidget *parent) : QGLWidget( parent) {}
 
+void scene_view_t::load_scene( const boost::filesystem::path& p)
+{
+    update();
+}
+
 void scene_view_t::initializeGL()
 {
     if( GLenum err = glewInit() != GLEW_OK)

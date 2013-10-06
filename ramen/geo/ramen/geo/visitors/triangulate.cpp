@@ -136,11 +136,46 @@ void triangulate_visitor::triangulate_quad( mesh_model_t& model,
                                             mesh_model_t& new_model,
                                             shape_t& new_shape)
 {
-    // TODO: fast quad triangulation here...
-    throw core::not_implemented();
+    arrays::const_array_ref_t<boost::uint32_t> verts_per_face( model.const_verts_per_face_array());
+    arrays::const_array_ref_t<boost::uint32_t> face_vert_indices( model.const_face_vert_indices_array());
 
-    //new_shape.attributes().primitive().push_back_attribute_values_copy( shape.attributes().primitive(), i);
-    //new_shape.attributes().primitive().push_back_attribute_values_copy( shape.attributes().primitive(), i);
+    arrays::array_ref_t<boost::uint32_t> new_verts_per_face( new_model.verts_per_face_array());
+    arrays::array_ref_t<boost::uint32_t> new_face_vert_indices( new_model.face_vert_indices_array());
+
+    assert( verts_per_face[index] == 4);
+
+    // First triangle
+    new_verts_per_face.push_back( 3);
+    new_face_vert_indices.push_back( face_vert_indices[face_start_index]);
+    new_shape.attributes().vertex().push_back_attribute_values_copy( shape.attributes().vertex(),
+                                                                     face_start_index);
+
+    new_face_vert_indices.push_back( face_vert_indices[face_start_index + 1]);
+    new_shape.attributes().vertex().push_back_attribute_values_copy( shape.attributes().vertex(),
+                                                                     face_start_index + 1);
+
+    new_face_vert_indices.push_back( face_vert_indices[face_start_index + 3]);
+    new_shape.attributes().vertex().push_back_attribute_values_copy( shape.attributes().vertex(),
+                                                                     face_start_index + 3);
+    
+    new_shape.attributes().primitive().push_back_attribute_values_copy( shape.attributes().primitive(),
+                                                          index);
+    // Second triangle
+    new_verts_per_face.push_back( 3);
+    new_face_vert_indices.push_back( face_vert_indices[face_start_index + 1]);
+    new_shape.attributes().vertex().push_back_attribute_values_copy( shape.attributes().vertex(),
+                                                                     face_start_index + 1);
+
+    new_face_vert_indices.push_back( face_vert_indices[face_start_index + 2]);
+    new_shape.attributes().vertex().push_back_attribute_values_copy( shape.attributes().vertex(),
+                                                                     face_start_index + 2);
+    
+    new_face_vert_indices.push_back( face_vert_indices[face_start_index + 3]);
+    new_shape.attributes().vertex().push_back_attribute_values_copy( shape.attributes().vertex(),
+                                                                     face_start_index + 3);
+
+    new_shape.attributes().primitive().push_back_attribute_values_copy( shape.attributes().primitive(),
+                                                                        index);    
 }
 
 } // geo

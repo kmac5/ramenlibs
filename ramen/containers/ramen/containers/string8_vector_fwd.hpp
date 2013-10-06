@@ -20,29 +20,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_NURBS_RANGE_VALUE_TYPE_HPP
-#define RAMEN_NURBS_RANGE_VALUE_TYPE_HPP
+#ifndef RAMEN_CONTAINERS_STRING8_VECTOR_FWD_HPP
+#define RAMEN_CONTAINERS_STRING8_VECTOR_FWD_HPP
 
-#include<ramen/nurbs/config.hpp>
-
-#include<boost/range/iterator.hpp>
+#include<ramen/containers/config.hpp>
 
 namespace ramen
 {
-namespace nurbs
+namespace containers
 {
 
-template<class Range>
-class range_value_type
-{
-    typedef typename boost::range_iterator<Range>::type iterator;
+class string8_vector_t;
 
-public:
-
-    typedef typename std::iterator_traits<iterator>::value_type type;
-};
-
-} // nurbs
+} // containers
 } // ramen
 
 #endif

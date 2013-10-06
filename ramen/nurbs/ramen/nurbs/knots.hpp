@@ -33,8 +33,6 @@ THE SOFTWARE.
 #include<boost/range/end.hpp>
 #include<boost/range/size.hpp>
 
-#include<ramen/nurbs/range_value_type.hpp>
-
 namespace ramen
 {
 namespace nurbs

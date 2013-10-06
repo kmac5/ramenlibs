@@ -24,9 +24,10 @@ INCLUDE_DIRECTORIES(	../
                         ../../../google_testing_libs/google
                         ../../../google_testing_libs/google/gtest
                         ../../../google_testing_libs/google/gmock
+                        ../../color
+                        ../../containers
                         ../../core
                         ../../math
-                        ../../color
                         )
 
 SET( RAMEN_TEST_TARGET_LIBS  ramen_arrays

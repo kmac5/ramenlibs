@@ -20,10 +20,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_CORE_STRING8_VECTOR_HPP
-#define RAMEN_CORE_STRING8_VECTOR_HPP
+#ifndef RAMEN_CONTAINERS_STRING8_VECTOR_HPP
+#define RAMEN_CONTAINERS_STRING8_VECTOR_HPP
 
-#include<ramen/core/string8_vector_fwd.hpp>
+#include<ramen/containers/string8_vector_fwd.hpp>
 
 #include<ramen/core/final.hpp>
 
@@ -31,20 +31,20 @@ THE SOFTWARE.
 
 #include<boost/move/move.hpp>
 
-#include<ramen/core/string_fwd.hpp>
+#include<ramen/core/string8.hpp>
 
 #include<ramen/core/allocator_interface.hpp>
 
 namespace ramen
 {
-namespace core
+namespace containers
 {
 
 /*!
-\ingroup core
+\ingroup containers
 \brief A vector of unique string8_t strings.
 */
-class RAMEN_CORE_API string8_vector_t : RAMEN_CORE_FINAL( string8_vector_t)
+class RAMEN_CONTAINERS_API string8_vector_t : RAMEN_CORE_FINAL( string8_vector_t)
 {
     BOOST_COPYABLE_AND_MOVABLE( string8_vector_t)
 
@@ -54,7 +54,7 @@ public:
     typedef std::size_t     size_type;
 
     string8_vector_t();
-    explicit string8_vector_t( const allocator_ptr_t& alloc);
+    explicit string8_vector_t( const core::allocator_ptr_t& alloc);
 
     ~string8_vector_t();
 
@@ -97,14 +97,14 @@ public:
     void shrink_to_fit();
     void resize( size_type n);
 
-    void push_back( const string8_t& str);
+    void push_back( const core::string8_t& str);
     void erase( size_type start, size_type end);
 
     // iterators and proxies...
 
-    const string8_t& operator[]( std::size_t n) const;
+    const core::string8_t& operator[]( std::size_t n) const;
 
-    class RAMEN_CORE_API const_iterator
+    class RAMEN_CONTAINERS_API const_iterator
     {
     public:
 
@@ -146,11 +146,11 @@ public:
     const_iterator begin() const;
     const_iterator end() const;
 
-    class RAMEN_CORE_API string_proxy
+    class RAMEN_CONTAINERS_API string_proxy
     {
     public:
 
-        operator const string8_t&() const;
+        operator const core::string8_t&() const;
 
         string_proxy& operator=( const core::string8_t& str);
 
@@ -166,7 +166,7 @@ public:
 
     string_proxy operator[]( std::size_t n);
 
-    class RAMEN_CORE_API iterator
+    class RAMEN_CONTAINERS_API iterator
     {
     public:
 
@@ -221,7 +221,7 @@ inline void swap( string8_vector_t& x, string8_vector_t& y)
     x.swap( y);
 }
 
-} // core
+} // containers
 } // ramen
 
 #endif

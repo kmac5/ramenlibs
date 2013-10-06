@@ -55,8 +55,8 @@ ADD_EXECUTABLE( geo_viewer ${GEO_VIEWER_ALL_SOURCES})
 TARGET_LINK_LIBRARIES( geo_viewer   ramen_geo_io
                                     ramen_gl
                                     ${RAMEN_GEO_IO_LIBS}
-
                                     ${NEEDED_QT_LIBS}
                                     ${OPENGL_LIBRARY}
                                     ${GLEW_LIBRARIES}
+                                    ${Boost_LIBRARIES}
                                     )

@@ -39,6 +39,10 @@ namespace ramen
 namespace nurbs
 {
 
+/*!
+\ingroup nurbs
+\brief Evaluates the non-uniform bspline basis functions of degree degree at u
+*/
 // (From Bartels, Beatty & Barsky, p.387)
 template<class KnotsRange, class T, std::size_t N>
 void basis_functions( std::size_t degree,
@@ -54,7 +58,6 @@ void basis_functions( std::size_t degree,
     assert( span + degree < boost::size( knots));
 
     std::size_t order = degree + 1;
-    T omega;
 
     basis[0] = T( 1);
     typename boost::range_iterator<KnotsRange>::type knots_it = boost::begin( knots);
@@ -66,10 +69,10 @@ void basis_functions( std::size_t degree,
         
     	for( int s = r - 2; s >= 0; --s)
         {
+            T omega = T(0);
+            
             ++i;
-            if (i < 0)
-                omega = 0;
-    	    else
+            if( i >= 0)
             	omega = (u - knots_it[i]) / (knots_it[i + r - 1] - knots_it[i]);
 	    
             basis[s + 1] = basis[s + 1] + (1 - omega) * basis[s];    
@@ -78,6 +81,10 @@ void basis_functions( std::size_t degree,
     }
 }
 
+/*!
+\ingroup nurbs
+\brief Evaluates the non-uniform bspline basis functions derivatives of degree degree at u
+*/
 // (From Bartels, Beatty & Barsky, p.387)
 template<class KnotsRange, class T, std::size_t N>
 void derivative_basis_functions( std::size_t degree,
@@ -93,7 +100,6 @@ void derivative_basis_functions( std::size_t degree,
     assert( span + degree < boost::size( knots));
 
     std::size_t order = degree + 1;
-    T omega;
 
     basis_functions( degree, u, span, knots, basis);
     basis[degree] = T(0);
@@ -104,7 +110,7 @@ void derivative_basis_functions( std::size_t degree,
     for( int s = order - 2; s >= 0; ++s)
     {
         i++;
-    	omega = knot_scale * ( T( degree)) / ( knots_it[i + degree] - knots_it[i]);
+    	T omega = knot_scale * ( T( degree)) / ( knots_it[i + degree] - knots_it[i]);
         basis[s + 1] += -omega * basis[s];
         basis[s] *= omega;
     }

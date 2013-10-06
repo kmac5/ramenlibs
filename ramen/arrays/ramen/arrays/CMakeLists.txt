@@ -23,7 +23,7 @@ INCLUDE_DIRECTORIES(    ../../
                         ../../../core
                         ../../../math
                         ../../../color
-
+                        ../../../containers
                         ../../../extern/tinythreadpp
                         )
 
@@ -36,9 +36,10 @@ SET( RAMEN_ARRAYS_SOURCES array.cpp
                           ../../../extern/tinythreadpp/tinythread.cpp
                           )
 
-SET( RAMEN_ARRAYS_LIBS ramen_core
-                       ${RAMEN_CORE_LIBS}
-                       )
+SET( RAMEN_ARRAYS_LIBS  ramen_containers
+                        ramen_core
+                        ${RAMEN_CORE_LIBS}
+                        )
 
 IF( RAMEN_WITH_HALF)
     SET( RAMEN_ARRAYS_LIBS ${RAMEN_ARRAYS_LIBS} ${HALF_LIBRARIES})
