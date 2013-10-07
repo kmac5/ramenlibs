@@ -38,20 +38,14 @@ struct scene_t::impl
     shape_vector_t objects_;
 };
 
-scene_t::scene_t()
+scene_t::scene_t() : pimpl_( 0)
 {
-    init();
     pimpl_ = new impl();
 }
 
 scene_t::~scene_t()
 {
     delete pimpl_;
-}
-
-void scene_t::init()
-{
-    pimpl_ = 0;
 }
 
 scene_t::scene_t( const scene_t& other)

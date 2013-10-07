@@ -47,14 +47,14 @@ void reader_t::swap( reader_t& other)
     std::swap( model_, other.model_);
 }
 
-float reader_t::start_time() const
+double reader_t::start_time() const
 {
     assert( model_);
 
     return model_->start_time();
 }
 
-float reader_t::end_time() const
+double reader_t::end_time() const
 {
     assert( model_);
 

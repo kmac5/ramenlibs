@@ -61,11 +61,9 @@ public:
     }
 
     // Move constructor
-    scene_t( BOOST_RV_REF( scene_t) other)
+    scene_t( BOOST_RV_REF( scene_t) other) : pimpl_( 0)
     {
         assert( other.pimpl_);
-
-        init();
         swap( other);
     }
 
@@ -84,8 +82,6 @@ public:
     shape_vector_t& objects();
 
 private:
-
-    void init();
 
     struct impl;
     impl *pimpl_;

@@ -20,53 +20,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef GEO_VIEWER_SCENE_VIEW_HPP
-#define GEO_VIEWER_SCENE_VIEW_HPP
+#ifndef RAMEN_GEO_PRIMITIVES_HPP
+#define RAMEN_GEO_PRIMITIVES_HPP
 
-#include<geo_viewer/scene_view_fwd.hpp>
+#include<ramen/geo/shape.hpp>
 
-#include<boost/filesystem/path.hpp>
-
-#include<ramen/gl/glew.hpp>
-
-#include<QtOpenGL/QGLWidget>
-
-#include<ramen/geo/shape_vector.hpp>
-
-class QMouseEvent;
-
-class scene_view_t : public QGLWidget
+namespace ramen
 {
-    Q_OBJECT
+namespace geo
+{
 
-public:
+RAMEN_GEO_API shape_t make_box();
+RAMEN_GEO_API shape_t make_grid( shape_type_t shape_type, std::size_t rows, std::size_t cols);
 
-    scene_view_t( QWidget *parent = 0);
-
-    void make_grid_scene();
-    void make_box_scene();
-    void make_sphere_scene();
-    
-    void load_scene( const boost::filesystem::path& p);
-    
-protected:
-
-    void clear_scene();
-    
-    virtual void initializeGL();
-    virtual void resizeGL( int w, int h);
-    virtual void paintGL();
-
-    virtual void mousePressEvent( QMouseEvent *event);
-    virtual void mouseMoveEvent( QMouseEvent *event);
-    virtual void mouseReleaseEvent( QMouseEvent *event);
-
-private:
-
-    void draw_grid() const;
-    void draw_world_axes() const;
-    
-    ramen::geo::shape_vector_t objects_;
-};
+} // geo
+} // ramen
 
 #endif

@@ -20,53 +20,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef GEO_VIEWER_SCENE_VIEW_HPP
-#define GEO_VIEWER_SCENE_VIEW_HPP
+#include<ramen/geo/visitors/mesh_to_subd.hpp>
 
-#include<geo_viewer/scene_view_fwd.hpp>
+#include<ramen/geo/shape.hpp>
+#include<ramen/geo/shape_models/poly_mesh_model.hpp>
+#include<ramen/geo/shape_models/subd_mesh_model.hpp>
 
-#include<boost/filesystem/path.hpp>
-
-#include<ramen/gl/glew.hpp>
-
-#include<QtOpenGL/QGLWidget>
-
-#include<ramen/geo/shape_vector.hpp>
-
-class QMouseEvent;
-
-class scene_view_t : public QGLWidget
+namespace ramen
 {
-    Q_OBJECT
+namespace geo
+{
 
-public:
+mesh_to_subd::mesh_to_subd() : shape_visitor()
+{
+}
 
-    scene_view_t( QWidget *parent = 0);
-
-    void make_grid_scene();
-    void make_box_scene();
-    void make_sphere_scene();
+void mesh_to_subd::visit( const poly_mesh_model_t& model, shape_t& shape)
+{
+    //shape_t new_shape( subd_mesh_shape_k);
+    //new_shape.attributes().swap( shape.attributes());
     
-    void load_scene( const boost::filesystem::path& p);
-    
-protected:
+    throw core::not_implemented();
+}
 
-    void clear_scene();
-    
-    virtual void initializeGL();
-    virtual void resizeGL( int w, int h);
-    virtual void paintGL();
-
-    virtual void mousePressEvent( QMouseEvent *event);
-    virtual void mouseMoveEvent( QMouseEvent *event);
-    virtual void mouseReleaseEvent( QMouseEvent *event);
-
-private:
-
-    void draw_grid() const;
-    void draw_world_axes() const;
-    
-    ramen::geo::shape_vector_t objects_;
-};
-
-#endif
+} // geo
+} // ramen

@@ -20,6 +20,8 @@
 # THE SOFTWARE.
 
 INCLUDE_DIRECTORIES(    ../
+                        ../../../cameras
+
                         ${Boost_INCLUDE_DIR}
                         ${OPENGL_INCLUDE_DIR}
                         ${GLEW_INCLUDE_DIRS}
@@ -54,6 +56,7 @@ ADD_EXECUTABLE( geo_viewer ${GEO_VIEWER_ALL_SOURCES})
 
 TARGET_LINK_LIBRARIES( geo_viewer   ramen_geo_io
                                     ramen_gl
+                                    ramen_cameras
                                     ${RAMEN_GEO_IO_LIBS}
                                     ${NEEDED_QT_LIBS}
                                     ${OPENGL_LIBRARY}

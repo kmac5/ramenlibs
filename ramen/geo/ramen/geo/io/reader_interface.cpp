@@ -33,13 +33,13 @@ reader_interface_t::reader_interface_t( const char *filename,
                                         const containers::dictionary_t &options) : filename_( filename),
                                                                                    options_( options)
 {
-    start_time_ = end_time_ = 0;
+    start_time_ = end_time_ = 0.0;
 }
 
 reader_interface_t::~reader_interface_t() {}
 
-float reader_interface_t::start_time() const { return start_time_;}
-float reader_interface_t::end_time() const   { return end_time_;}
+double reader_interface_t::start_time() const { return start_time_;}
+double reader_interface_t::end_time() const   { return end_time_;}
 
 const shape_list_t& reader_interface_t::shape_list() const
 {

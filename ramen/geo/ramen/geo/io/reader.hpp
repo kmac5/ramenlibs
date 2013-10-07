@@ -66,8 +66,8 @@ public:
 
     void swap( reader_t& other);
 
-    float start_time() const;
-    float end_time() const;
+    double start_time() const;
+    double end_time() const;
 
     const shape_list_t& shape_list() const;
 

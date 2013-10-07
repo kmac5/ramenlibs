@@ -60,7 +60,7 @@ alembic_reader_model_t::alembic_reader_model_t( const char *filename,
 {
     use_paths_as_names_ = containers::get_optional( options, core::name_t( "paths_as_names"), false);
 
-    start_time_ = std::numeric_limits<float>::max();
+    start_time_ = std::numeric_limits<double>::max();
     end_time_ = -start_time_;
 
     AbcGeom::IArchive archive( AbcCoreHDF5::ReadArchive(), filename);
@@ -141,8 +141,8 @@ void alembic_reader_model_t::get_time_range( const Schema& schema)
 
         if( num_samps > 0)
         {
-            start_time_  = std::min( start_time_, static_cast<float>( tsmp->getSampleTime( 0)));
-            end_time_    = std::max( end_time_  , static_cast<float>( tsmp->getSampleTime( num_samps - 1)));
+            start_time_  = std::min( start_time_, static_cast<double>( tsmp->getSampleTime( 0)));
+            end_time_    = std::max( end_time_  , static_cast<double>( tsmp->getSampleTime( num_samps - 1)));
         }
     }
 }

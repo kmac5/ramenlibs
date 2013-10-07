@@ -55,8 +55,8 @@ public:
     const core::string8_t& filename() const             { return filename_;}
     const containers::dictionary_t& options() const     { return options_;}
 
-    float start_time() const;
-    float end_time() const;
+    double start_time() const;
+    double end_time() const;
 
     const shape_list_t& shape_list() const;
 
@@ -70,8 +70,8 @@ protected:
     core::string8_t filename_;
     const containers::dictionary_t& options_;
 
-    float start_time_;
-    float end_time_;
+    double start_time_;
+    double end_time_;
     shape_list_t shape_list_;
 };
 

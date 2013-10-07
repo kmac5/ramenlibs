@@ -34,6 +34,8 @@ SET( RAMEN_GEO_SOURCES  attribute_ref.cpp
                         exceptions.cpp
                         global_names.cpp
 
+                        primitives.cpp
+
                         shape.cpp
                         shape_vector.cpp
                         shape_attributes.cpp
@@ -51,6 +53,7 @@ SET( RAMEN_GEO_SOURCES  attribute_ref.cpp
 
                         visitors/compute_face_normals.cpp
                         visitors/count_ngons.cpp
+                        visitors/mesh_to_subd.cpp
                         visitors/shape_to_points.cpp
                         visitors/triangulate.cpp
                         )

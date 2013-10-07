@@ -22,15 +22,24 @@ THE SOFTWARE.
 
 #include<geo_viewer/scene_view.hpp>
 
+#include<boost/foreach.hpp>
+
+#include<QMouseEvent>
+
 #include<ramen/math/point3.hpp>
 #include<ramen/math/matrix44.hpp>
 #include<ramen/math/constants.hpp>
 
 #include<ramen/gl/gl.hpp>
 
-#include<iostream>
+#include<ramen/geo/shape_models/shape_visitor.hpp>
+#include<ramen/geo/shape_models/poly_mesh_model.hpp>
+#include<ramen/geo/shape_models/subd_mesh_model.hpp>
+#include<ramen/geo/global_names.hpp>
 
-#include<QMouseEvent>
+#include<ramen/geo/io/io.hpp>
+
+#include<iostream>
 
 using namespace ramen;
 
@@ -206,6 +215,48 @@ struct maya_like_camera_controller_t
 
 maya_like_camera_controller_t g_cam_controller;
 
+struct draw_wireframe_visitor : public geo::const_shape_visitor
+{
+    virtual void visit( const geo::poly_mesh_model_t& model, const geo::shape_t& shape)
+    {
+        do_visit( model, shape);
+    }
+
+    virtual void visit( const geo::subd_mesh_model_t& model, const geo::shape_t& shape)
+    {
+        do_visit( model, shape);
+    }
+
+private:
+
+    void do_visit( const geo::mesh_model_t& model, const geo::shape_t& shape)
+    {
+        // TODO: draw here!!!
+        if( shape.attributes().point().has_attribute( geo::g_P_name))
+        {
+            arrays::const_array_ref_t<math::point3f_t> p_ref( shape.attributes().point().const_array( geo::g_P_name));
+            arrays::const_array_ref_t<boost::uint32_t> verts_per_face_ref( model.const_verts_per_face_array());
+            arrays::const_array_ref_t<boost::uint32_t> vert_face_index_ref( model.const_face_vert_indices_array());
+            const boost::uint32_t *point_index = vert_face_index_ref.begin();
+
+            glLineWidth( 1.0f);
+            glColor3f( 1.0f, 1.0f, 1.0f);
+
+            for( int i = 0, e = verts_per_face_ref.size(); i < e; ++i)
+            {
+                int sides = verts_per_face_ref[i];
+                glBegin( GL_LINE_LOOP);
+                    for( int j = 0; j < sides; ++j)
+                    {
+                        boost::uint32_t index = *point_index++;
+                        glVertex3f( p_ref[index].x, p_ref[index].y, p_ref[index].z);
+                    }
+                glEnd();
+            }
+        }
+    }    
+};
+
 } // unnamed
 
 scene_view_t::scene_view_t( QWidget *parent) : QGLWidget( parent) {}
@@ -231,12 +282,17 @@ void scene_view_t::make_sphere_scene()
 void scene_view_t::load_scene( const boost::filesystem::path& p)
 {
     clear_scene();
+    
+    geo::io::reader_t r( geo::io::reader_for_file( p.string().c_str(),
+                                                   containers::dictionary_t()));
+    
+    objects_ = r.read().objects();
     update();
 }
 
 void scene_view_t::clear_scene()
 {
-    
+    objects_.clear();
 }
 
 void scene_view_t::initializeGL()
@@ -277,6 +333,10 @@ void scene_view_t::paintGL()
 
     draw_grid();
     draw_world_axes();
+    
+    draw_wireframe_visitor v;
+    BOOST_FOREACH( const geo::shape_t& s, objects_)
+        geo::apply_visitor( v, s);
 }
 
 void scene_view_t::draw_grid() const
