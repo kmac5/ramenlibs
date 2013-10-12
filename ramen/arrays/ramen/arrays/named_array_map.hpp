@@ -29,6 +29,7 @@ THE SOFTWARE.
 
 #include<ramen/core/name.hpp>
 #include<ramen/arrays/array.hpp>
+#include<ramen/arrays/apply_visitor.hpp>
 
 namespace ramen
 {
@@ -145,6 +146,36 @@ public:
     bool operator==( const named_array_map_t& other) const;
     bool operator!=( const named_array_map_t& other) const;
     
+    template<class Visitor>
+    void apply_visitor( Visitor& v) const
+    {
+        for( const_iterator it( begin()), e( end()); it != e; ++it)
+            ramen::arrays::apply_visitor( v, it.second());
+    }
+
+    template<class Visitor>
+    void apply_visitor( Visitor& v)
+    {
+        for( iterator it( begin()), e( end()); it != e; ++it)
+            ramen::arrays::apply_visitor( v, it.second());
+    }
+
+    template<class Visitor, class Predicate>
+    void apply_visitor_if( Visitor& v, Predicate pred) const
+    {
+        for( const_iterator it( begin()), e( end()); it != e; ++it)
+            if( pred( it.first()))
+                ramen::arrays::apply_visitor( v, it.second());
+    }
+
+    template<class Visitor, class Predicate>
+    void apply_visitor_if( Visitor& v, Predicate pred)
+    {
+        for( iterator it( begin()), e( end()); it != e; ++it)
+            if( pred( it.first()))
+                ramen::arrays::apply_visitor( v, it.second());
+    }
+
 private:
 
     struct impl;
