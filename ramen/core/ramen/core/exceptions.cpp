@@ -62,6 +62,20 @@ const char *bad_type_cast::what() const
     return message_.c_str();
 }
 
+key_not_found::key_not_found( const core::name_t& name)
+{
+    message_ = core::make_string( "key not found ", name.c_str());
+}
+
+key_not_found::key_not_found( core::string8_t message) : message_( boost::move( message))
+{
+}
+
+const char *key_not_found::what() const
+{
+    return message_.c_str();
+}
+
 not_implemented::not_implemented() {}
 
 const char *not_implemented::what() const

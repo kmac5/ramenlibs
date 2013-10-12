@@ -51,7 +51,6 @@ struct attribute_table_t::impl
 
 attribute_table_t::attribute_table_t()
 {
-    init();
     pimpl_ = new impl();
 }
 
@@ -63,8 +62,6 @@ attribute_table_t::attribute_table_t( const attribute_table_t& other)
 
     pimpl_ = new impl( *other.pimpl_);
 }
-
-void attribute_table_t::init() { pimpl_ = 0;}
 
 void attribute_table_t::swap( attribute_table_t& other)
 {

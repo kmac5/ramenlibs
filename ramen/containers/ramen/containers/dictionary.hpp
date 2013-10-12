@@ -31,7 +31,6 @@ THE SOFTWARE.
 #include<ramen/core/name.hpp>
 
 #include<ramen/containers/variant.hpp>
-#include<ramen/containers/exceptions.hpp>
 
 namespace ramen
 {

@@ -20,89 +20,73 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_GEO_ATTRIBUTE_TABLE_HPP
-#define RAMEN_GEO_ATTRIBUTE_TABLE_HPP
+#ifndef RAMEN_ARRAYS_NAMED_ARRAY_MAP_HPP
+#define RAMEN_ARRAYS_NAMED_ARRAY_MAP_HPP
 
-#include<ramen/geo/config.hpp>
+#include<ramen/arrays/config.hpp>
 
 #include<boost/move/move.hpp>
 
 #include<ramen/core/name.hpp>
-
-#include<ramen/geo/exceptions.hpp>
-#include<ramen/geo/attribute_ref.hpp>
+#include<ramen/arrays/array.hpp>
 
 namespace ramen
 {
-namespace geo
+namespace arrays
 {
 
-class RAMEN_GEO_API attribute_table_t
+class RAMEN_ARRAYS_API named_array_map_t
 {
-    BOOST_COPYABLE_AND_MOVABLE( attribute_table_t)
-
+    BOOST_COPYABLE_AND_MOVABLE( named_array_map_t)
+    
 public:
-
-    attribute_table_t();
-    ~attribute_table_t();
+    
+    named_array_map_t();
+    ~named_array_map_t();
 
     // Copy constructor
-    attribute_table_t( const attribute_table_t& other);
+    named_array_map_t( const named_array_map_t& other);
 
     // Copy assignment
-    attribute_table_t& operator=( BOOST_COPY_ASSIGN_REF( attribute_table_t) other)
+    named_array_map_t& operator=( BOOST_COPY_ASSIGN_REF( named_array_map_t) other)
     {
-        attribute_table_t tmp( other);
+        named_array_map_t tmp( other);
         swap( tmp);
         return *this;
     }
 
     // Move constructor
-    attribute_table_t( BOOST_RV_REF( attribute_table_t) other) : pimpl_( 0)
+    named_array_map_t( BOOST_RV_REF( named_array_map_t) other) : pimpl_( 0)
     {
-        assert( other.pimpl_);
-
         swap( other);
     }
 
     // Move assignment
-    attribute_table_t& operator=( BOOST_RV_REF( attribute_table_t) other)
+    named_array_map_t& operator=( BOOST_RV_REF( named_array_map_t) other)
     {
-        assert( other.pimpl_);
-
         swap( other);
         return *this;
     }
 
-    void swap( attribute_table_t& other);
-
-    // factory functions
-    static attribute_table_t create_empty_with_same_attributes( const attribute_table_t& other);
-
+    void swap( named_array_map_t& other);
+    
     bool empty() const;
     std::size_t size() const;
-
     void clear();
-
-    bool has_attribute( const core::name_t& name) const;
-    core::type_t attribute_type( const core::name_t& name) const;
-
+    
+    bool has_array( const core::name_t& name) const;
+    
     void insert( const core::name_t& name, core::type_t attr_type);
     void insert( const core::name_t& name, const arrays::array_t& array);
     void insert( const core::name_t& name, BOOST_RV_REF( arrays::array_t) array);
 
     void erase( const core::name_t& name);
-    void erase_arrays_indices( unsigned int start, unsigned int end);
-    void erase_arrays_index( unsigned int index);
-
-    const_attribute_ref_t get_const_attribute_ref( const core::name_t& name) const;
-    attribute_ref_t get_attribute_ref( const core::name_t& name);
-
-    const arrays::array_t& const_array( const core::name_t& name) const;
-    arrays::array_t& array( const core::name_t& name);
-
+    
+    const array_t& const_array( const core::name_t& name) const;
+    array_t& array( const core::name_t& name);
+    
     // iterators
-    struct RAMEN_GEO_API const_iterator
+    struct RAMEN_ARRAYS_API const_iterator
     {
         const_iterator();
 
@@ -120,7 +104,7 @@ public:
 
     private:
 
-        friend class attribute_table_t;
+        friend class named_array_map_t;
 
         explicit const_iterator( void *pimpl);
 
@@ -130,7 +114,7 @@ public:
     const_iterator begin() const;
     const_iterator end() const;
 
-    struct RAMEN_GEO_API iterator
+    struct RAMEN_ARRAYS_API iterator
     {
         iterator();
 
@@ -148,7 +132,7 @@ public:
 
     private:
 
-        friend class attribute_table_t;
+        friend class named_array_map_t;
 
         explicit iterator( void *pimpl);
 
@@ -157,22 +141,22 @@ public:
 
     iterator begin();
     iterator end();
-
-    void push_back_attribute_values_copy( const attribute_table_t& src,
-                                          std::size_t element_index);
-
-    bool operator==( const attribute_table_t& other) const;
-    bool operator!=( const attribute_table_t& other) const;
-
-    bool check_consistency() const;
-
+    
+    bool operator==( const named_array_map_t& other) const;
+    bool operator!=( const named_array_map_t& other) const;
+    
 private:
 
     struct impl;
     impl *pimpl_;
 };
 
-} // geo
+inline void swap( named_array_map_t& x, named_array_map_t& y)
+{
+    x.swap( y);
+}
+
+} // arrays
 } // ramen
 
 #endif

@@ -105,6 +105,24 @@ private:
 \ingroup core
 \brief Exception class
 */
+class RAMEN_CORE_API key_not_found : public exception
+{
+public:
+
+    explicit key_not_found( const core::name_t& name);
+    explicit key_not_found( core::string8_t message);
+    
+    virtual const char *what() const;
+    
+private:
+    
+    core::string8_t message_;
+};
+
+/*!
+\ingroup core
+\brief Exception class
+*/
 class RAMEN_CORE_API not_implemented : public exception
 {
 public:

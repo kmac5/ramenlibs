@@ -124,6 +124,10 @@ TEST( Dictionary, GetValue)
     }
 }
 
+TEST( Dictionary, Exceptions)
+{
+}
+
 TEST( Dictionary, Iterators)
 {
     std::map<dictionary_t::key_type, variant_t> vals;

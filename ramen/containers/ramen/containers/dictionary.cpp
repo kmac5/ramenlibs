@@ -113,14 +113,14 @@ void dictionary_t::clear()
 const dictionary_t::value_type& dictionary_t::operator[]( const dictionary_t::key_type& key) const
 {
     if( !pimpl_)
-        throw key_not_found( key);
+        throw core::key_not_found( key);
 
     impl::const_iterator it( pimpl_->items.find( key ));
 
     if( it != pimpl_->items.end())
         return it->second;
     else
-        throw key_not_found( key);
+        throw core::key_not_found( key);
 }
 
 dictionary_t::value_type& dictionary_t::operator[]( const dictionary_t::key_type& key)

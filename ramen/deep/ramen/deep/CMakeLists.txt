@@ -18,39 +18,23 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-ENABLE_TESTING()
-
-INCLUDE_DIRECTORIES(	../
-                        ../../../google_testing_libs/google
-                        ../../../google_testing_libs/google/gtest
-                        ../../../google_testing_libs/google/gmock
-                        ../../color
-                        ../../containers
-                        ../../core
-                        ../../math
+INCLUDE_DIRECTORIES(    ../../
+                        ${Boost_INCLUDE_DIR}
+                        ../../../arrays
+                        ../../../color
+                        ../../../containers
+                        ../../../core
+                        ../../../math
                         )
 
-SET( RAMEN_TEST_TARGET_LIBS  ramen_arrays
-                             ${RAMEN_ARRAYS_LIBS}
-                             gmock
-                             ${RAMEN_TEST_SYSTEM_LIBS}
-                             )
+# lib
+FILE( GLOB_RECURSE RAMEN_DEEP_HEADERS ./*.hpp)
+SET( RAMEN_DEEP_SOURCES pixel.cpp
+                        )
 
-IF( RAMEN_WITH_HALF)
-    SET( RAMEN_TEST_TARGET_LIBS ${RAMEN_TEST_TARGET_LIBS} ${HALF_LIBRARIES})
-ENDIF()
+SET( RAMEN_DEEP_LIBS ramen_arrays
+                     ${RAMEN_ARRAYS_LIBS}
+                     )
 
-# tests
-
-MACRO( ADD_RM_TEST sourcefile)
-    ADD_EXECUTABLE( ${sourcefile} ${sourcefile}.cpp)
-    TARGET_LINK_LIBRARIES( ${sourcefile} ${RAMEN_TEST_TARGET_LIBS})
-    ADD_TEST( ${sourcefile} ${CMAKE_CURRENT_BINARY_DIR}/${sourcefile})
-ENDMACRO()
-
-ADD_RM_TEST( array)
-ADD_RM_TEST( array_allocators)
-ADD_RM_TEST( array_ref)
-ADD_RM_TEST( apply_visitor)
-ADD_RM_TEST( named_array_map)
-ADD_RM_TEST( string_array)
+ADD_LIBRARY( ramen_deep SHARED ${RAMEN_DEEP_HEADERS} ${RAMEN_DEEP_SOURCES})
+TARGET_LINK_LIBRARIES( ramen_deep ${RAMEN_DEEP_LIBS})

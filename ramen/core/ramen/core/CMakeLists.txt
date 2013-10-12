@@ -33,6 +33,7 @@ FILE( GLOB_RECURSE RAMEN_CORE_HEADERS ./*.hpp)
 SET( RAMEN_CORE_SOURCES  allocator_interface.cpp
                          empty.cpp
                          exceptions.cpp
+                         global_names.cpp
                          name.cpp
                          new_allocator.cpp
                          memory.cpp

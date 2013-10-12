@@ -51,6 +51,7 @@ SET( RAMEN_BUILD_TESTS              ON  CACHE BOOL "Build tests")
 SET( RAMEN_WITH_ARRAYS  ON  CACHE BOOL "Build arrays lib")
 SET( RAMEN_WITH_CAMERAS ON  CACHE BOOL "Build cameras lib")
 SET( RAMEN_WITH_CUDA    ON  CACHE BOOL "Build cuda lib")
+SET( RAMEN_WITH_DEEP    ON  CACHE BOOL "Build deep image lib")
 SET( RAMEN_WITH_GEO     ON  CACHE BOOL "Build geo lib")
 SET( RAMEN_WITH_GEO_IO  ON  CACHE BOOL "Build geo io lib")
 SET( RAMEN_WITH_GL      ON  CACHE BOOL "Build gl lib")
@@ -160,6 +161,10 @@ ENDIF()
 
 IF( RAMEN_WITH_CUDA)
     ADD_SUBDIRECTORY( ramen/cuda)
+ENDIF()
+
+IF( RAMEN_WITH_DEEP)
+    ADD_SUBDIRECTORY( ramen/deep)
 ENDIF()
 
 IF( RAMEN_WITH_GEO)

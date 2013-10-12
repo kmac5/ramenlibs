@@ -20,37 +20,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_CONTAINERS_EXCEPTIONS_HPP
-#define RAMEN_CONTAINERS_EXCEPTIONS_HPP
-
-#include<ramen/containers/config.hpp>
-
-#include<ramen/core/exceptions.hpp>
+#include<ramen/core/global_names.hpp>
 
 namespace ramen
 {
-namespace containers
+namespace core
 {
 
-/*!
-\ingroup core
-\brief Exception class.
-*/
-class RAMEN_CONTAINERS_API key_not_found : public core::exception
-{
-public:
-
-    explicit key_not_found( const core::name_t& name);
-    explicit key_not_found( core::string8_t message);
-
-    virtual const char *what() const;
-
-private:
-
-    core::string8_t message_;
-};
+const core::name_t g_C_name = core::name_t( "C");
+const core::name_t g_R_name = core::name_t( "R");
+const core::name_t g_G_name = core::name_t( "G");
+const core::name_t g_B_name = core::name_t( "B");
+const core::name_t g_A_name = core::name_t( "A");
+const core::name_t g_Z_name = core::name_t( "Z");
 
 } // core
 } // ramen
-
-#endif

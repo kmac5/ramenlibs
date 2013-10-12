@@ -20,20 +20,40 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include<ramen/containers/exceptions.hpp>
+#include<ramen/deep/pixel.hpp>
+
+#include<ramen/core/global_names.hpp>
+
+#include<ramen/arrays/array.hpp>
 
 namespace ramen
 {
-namespace containers
+namespace deep
 {
 
-key_not_found::key_not_found( const core::name_t& name) : message_( name.c_str()) {}
-key_not_found::key_not_found( core::string8_t message) : message_( boost::move( message)) {}
-
-const char *key_not_found::what() const
+pixel_t::pixel_t( core::type_t alpha_type)
 {
-    return message_.c_str();
+    data_.insert( core::g_Z_name, core::float_k);
+    data_.insert( core::g_A_name, alpha_type);
+    
+    z_data_ref_ = new arrays::array_ref_t<float>( data_.array( core::g_Z_name));
 }
 
-} // containers
+pixel_t::~pixel_t()
+{
+    delete z_data_ref_;
+}
+
+pixel_t::pixel_t( const pixel_t& other) : data_( other.data_)
+{
+    z_data_ref_ = new arrays::array_ref_t<float>( data_.array( core::g_Z_name));
+}
+
+void pixel_t::swap( pixel_t& other)
+{
+    std::swap( data_, other.data_);
+    std::swap( z_data_ref_, other.z_data_ref_);
+}
+
+} // deep
 } // ramen

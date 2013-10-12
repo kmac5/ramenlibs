@@ -18,33 +18,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-INCLUDE_DIRECTORIES(    ../../
-                        ${Boost_INCLUDE_DIR}
-                        ../../../core
-                        ../../../math
-                        ../../../color
-                        ../../../containers
-                        ../../../extern/tinythreadpp
-                        )
+ADD_SUBDIRECTORY( ramen/deep)
 
-# lib
-FILE( GLOB_RECURSE RAMEN_ARRAYS_HEADERS ./*.hpp)
-SET( RAMEN_ARRAYS_SOURCES array.cpp
-                          detail/string_array_model.cpp
-                          named_array_map.cpp
-
-                          ../../../extern/tinythreadpp/tinythread.h
-                          ../../../extern/tinythreadpp/tinythread.cpp
-                          )
-
-SET( RAMEN_ARRAYS_LIBS  ramen_containers
-                        ramen_core
-                        ${RAMEN_CORE_LIBS}
-                        )
-
-IF( RAMEN_WITH_HALF)
-    SET( RAMEN_ARRAYS_LIBS ${RAMEN_ARRAYS_LIBS} ${HALF_LIBRARIES})
+IF( RAMEN_BUILD_TESTS)
+        ADD_SUBDIRECTORY( test)
+        ENABLE_TESTING()
 ENDIF()
-
-ADD_LIBRARY( ramen_arrays SHARED ${RAMEN_ARRAYS_HEADERS} ${RAMEN_ARRAYS_SOURCES})
-TARGET_LINK_LIBRARIES( ramen_arrays ${RAMEN_ARRAYS_LIBS})

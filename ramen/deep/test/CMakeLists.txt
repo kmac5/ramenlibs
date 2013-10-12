@@ -24,21 +24,19 @@ INCLUDE_DIRECTORIES(	../
                         ../../../google_testing_libs/google
                         ../../../google_testing_libs/google/gtest
                         ../../../google_testing_libs/google/gmock
+                        ${Boost_INCLUDE_DIR}
+                        ../../arrays
                         ../../color
                         ../../containers
                         ../../core
                         ../../math
                         )
 
-SET( RAMEN_TEST_TARGET_LIBS  ramen_arrays
-                             ${RAMEN_ARRAYS_LIBS}
+SET( RAMEN_TEST_TARGET_LIBS  ramen_deep
+                             ${RAMEN_DEEP_LIBS}
                              gmock
                              ${RAMEN_TEST_SYSTEM_LIBS}
                              )
-
-IF( RAMEN_WITH_HALF)
-    SET( RAMEN_TEST_TARGET_LIBS ${RAMEN_TEST_TARGET_LIBS} ${HALF_LIBRARIES})
-ENDIF()
 
 # tests
 
@@ -48,9 +46,4 @@ MACRO( ADD_RM_TEST sourcefile)
     ADD_TEST( ${sourcefile} ${CMAKE_CURRENT_BINARY_DIR}/${sourcefile})
 ENDMACRO()
 
-ADD_RM_TEST( array)
-ADD_RM_TEST( array_allocators)
-ADD_RM_TEST( array_ref)
-ADD_RM_TEST( apply_visitor)
-ADD_RM_TEST( named_array_map)
-ADD_RM_TEST( string_array)
+ADD_RM_TEST( pixel)
