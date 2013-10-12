@@ -25,6 +25,7 @@ THE SOFTWARE.
 
 #include<ramen/arrays/config.hpp>
 
+#include<assert.h>
 #include<iterator>
 
 #include<boost/container/vector.hpp>
@@ -122,6 +123,9 @@ struct array_ref_traits<core::string8_t>
 template<class T>
 class const_array_ref_t
 {
+    // for safe bool
+    operator int() const;
+    
 public:
 
     typedef T                                               value_type;
@@ -131,7 +135,9 @@ public:
     typedef typename array_ref_traits<T>::iterator          iterator;
     typedef typename array_t::size_type                     size_type;
 
-    explicit const_array_ref_t( const array_t& array) : array_( const_cast<array_t&>( array))
+    const_array_ref_t() : array_( 0) {}
+    
+    explicit const_array_ref_t( const array_t& array) : array_( const_cast<array_t*>( &array))
     {
         // preconditions
         assert( core::type_traits<value_type>::type() == array.type());
@@ -142,27 +148,37 @@ public:
 
     bool empty() const
     {
-        return array_.empty();
+        assert( array_);
+        
+        return array_->empty();
     }
 
     size_type size() const
     {
-        return array_.size();
+        assert( array_);
+        
+        return array_->size();
     }
 
     size_type capacity() const
     {
-        return array_.capacity();
+        assert( array_);
+        
+        return array_->capacity();
     }
 
     const_iterator begin() const
     {
-        return array_ref_traits<T>::get_begin( array_);
+        assert( array_);
+        
+        return array_ref_traits<T>::get_begin( *array_);
     }
 
     const_iterator end() const
     {
-        return array_ref_traits<T>::get_end( array_);
+        assert( array_);
+        
+        return array_ref_traits<T>::get_end( *array_);
     }
 
     const_reference operator[]( size_type i) const
@@ -172,9 +188,13 @@ public:
         return begin()[i];
     }
 
+    // safe bool conversion ( private int conversion prevents unsafe use)
+    operator bool() const throw() { return array_;}
+    bool operator!() const throw();
+    
 protected:
 
-    array_t& array_;
+    array_t *array_;
 };
 
 /*!
@@ -184,6 +204,9 @@ protected:
 template<class T>
 class array_ref_t : public const_array_ref_t<T>
 {
+    // for safe bool
+    operator int() const;
+    
 public:
 
     typedef T                                               value_type;
@@ -193,41 +216,51 @@ public:
     typedef typename array_ref_traits<T>::iterator          iterator;
     typedef typename array_t::size_type                     size_type;
 
+    array_ref_t() : const_array_ref_t<value_type>() {}
+    
     explicit array_ref_t( array_t& array) : const_array_ref_t<value_type>( array) {}
 
     void clear()
     {
-        return this->array_.clear();
+        assert( this->array_);
+        
+        return this->array_->clear();
     }
 
     void reserve( size_type n)
     {
-        this->array_.reserve( n);
+        assert( this->array_);
+                
+        this->array_->reserve( n);
     }
 
     void shrink_to_fit()
     {
-        this->array_.shrink_to_fit();
+        assert( this->array_);
+        
+        this->array_->shrink_to_fit();
     }
 
     const_iterator begin() const
     {
-        return array_ref_traits<T>::get_begin( this->array_);
+        assert( this->array_);
+
+        return array_ref_traits<T>::get_begin( *( this->array_));
     }
 
     const_iterator end() const
     {
-        return array_ref_traits<T>::get_end( this->array_);
+        return array_ref_traits<T>::get_end( *( this->array_));
     }
 
     iterator begin()
     {
-        return array_ref_traits<T>::get_begin( this->array_);
+        return array_ref_traits<T>::get_begin( *( this->array_));
     }
 
     iterator end()
     {
-        return array_ref_traits<T>::get_end( this->array_);
+        return array_ref_traits<T>::get_end( *( this->array_));
     }
 
     reference operator[]( size_type i)
@@ -245,23 +278,35 @@ public:
 
     void push_back( const_reference x)
     {
-        this->array_.push_back( reinterpret_cast<const void*>( &x));
+        assert( this->array_);
+        
+        this->array_->push_back( reinterpret_cast<const void*>( &x));
     }
 
     void resize( size_type n)
     {
-        this->array_.resize( n);
+        assert( this->array_);
+        
+        this->array_->resize( n);
     }
 
     void erase( size_type start, size_type end)
     {
-        this->array_.erase( start, end);
+        assert( this->array_);
+        
+        this->array_->erase( start, end);
     }
 
     void erase( size_type pos)
     {
-        this->array_.erase( pos);
+        assert( this->array_);
+        
+        this->array_->erase( pos);
     }
+    
+    // safe bool conversion ( private int conversion prevents unsafe use)
+    operator bool() const throw() { return this->array_;}
+    bool operator!() const throw();
 };
 
 // for boost range...

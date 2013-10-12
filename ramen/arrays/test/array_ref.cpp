@@ -49,6 +49,9 @@ struct mutate_fun
 
 TEST( ArrayRef, Construct)
 {
+    array_ref_t<float> nothing;
+    if( nothing)
+        assert( true);
 }
 
 TEST( ArrayRef, STLAlgo)
