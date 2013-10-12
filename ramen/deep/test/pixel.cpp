@@ -26,8 +26,9 @@ THE SOFTWARE.
 
 using namespace ramen::deep;
 
-TEST( DeepPixel, All)
+TEST( DeepPixel, Construct)
 {
+    pixel_t p;
 }
 
 int main(int argc, char **argv)

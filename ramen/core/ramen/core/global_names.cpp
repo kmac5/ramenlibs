@@ -27,12 +27,13 @@ namespace ramen
 namespace core
 {
 
-const core::name_t g_C_name = core::name_t( "C");
-const core::name_t g_R_name = core::name_t( "R");
-const core::name_t g_G_name = core::name_t( "G");
-const core::name_t g_B_name = core::name_t( "B");
-const core::name_t g_A_name = core::name_t( "A");
-const core::name_t g_Z_name = core::name_t( "Z");
+const core::name_t g_C_name     = core::name_t( "C");
+const core::name_t g_R_name     = core::name_t( "R");
+const core::name_t g_G_name     = core::name_t( "G");
+const core::name_t g_B_name     = core::name_t( "B");
+const core::name_t g_A_name     = core::name_t( "A");
+const core::name_t g_Z_name     = core::name_t( "Z");
+const core::name_t g_Zback_name = core::name_t( "ZBack");
 
 } // core
 } // ramen

@@ -28,6 +28,7 @@ THE SOFTWARE.
 #include<boost/move/move.hpp>
 
 #include<ramen/color/color3.hpp>
+#include<ramen/color/rgba_color.hpp>
 
 #include<ramen/arrays/named_array_map.hpp>
 #include<ramen/arrays/array_ref.hpp>
@@ -43,7 +44,7 @@ class RAMEN_DEEP_API pixel_t
     
 public:
     
-    explicit pixel_t( core::type_t alpha_type);
+    pixel_t();
     ~pixel_t();
 
     // Copy constructor
@@ -72,10 +73,23 @@ public:
 
     void swap( pixel_t& other);
     
+    const arrays::named_array_map_t& data() const
+    {
+        return data_;
+    }
+
+    arrays::named_array_map_t& data()
+    {
+        return data_;
+    }
+
 private:
 
     arrays::named_array_map_t data_;
     arrays::array_ref_t<float> *z_data_ref_;
+    arrays::array_ref_t<float> *z_back_data_ref_;
+    arrays::array_ref_t<color::color3f_t> *a_data_ref_;
+    arrays::array_ref_t<color::color3f_t> *c_data_ref_;
 };
 
 inline void swap( pixel_t& x, pixel_t& y)

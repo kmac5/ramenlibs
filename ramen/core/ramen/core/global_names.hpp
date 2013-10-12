@@ -38,6 +38,7 @@ RAMEN_CORE_API extern const core::name_t g_G_name;
 RAMEN_CORE_API extern const core::name_t g_B_name;
 RAMEN_CORE_API extern const core::name_t g_A_name;
 RAMEN_CORE_API extern const core::name_t g_Z_name;
+RAMEN_CORE_API extern const core::name_t g_Zback_name;
 
 } // core
 } // ramen

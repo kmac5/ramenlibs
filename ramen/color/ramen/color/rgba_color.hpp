@@ -25,17 +25,7 @@ THE SOFTWARE.
 
 #include<ramen/color/config.hpp>
 
-#include<cassert>
-
-#include<boost/operators.hpp>
-#include<boost/integer.hpp>
-#include<boost/mpl/int.hpp>
-
-#include<ramen/color/colorspace.hpp>
-
-#ifdef RAMEN_WITH_HALF
-    #include<ramen/core/half.hpp>
-#endif
+#include<ramen/color/color3.hpp>
 
 namespace ramen
 {
@@ -56,10 +46,14 @@ public:
 
     rgba_color_t() {}
 
-    explicit rgba_color_t( T x) : r( x), g( x), b( x), a( x) {}
-
     rgba_color_t( T rr, T gg, T bb, T aa = T(1)) : r( rr), g( gg), b( bb), a( aa) {}
-
+    
+    rgba_color_t( T x, T alpha = T(1)) : r( x), g( x), b( x), a( alpha) {}
+    
+    explicit rgba_color_t( const color3_t<T, rgb_t>& c) : r( c.x), g( c.y), b( c.z), a( T(1))
+    {
+    }
+    
     T operator()( unsigned int index) const
     {
         assert( index < size_type::value);
@@ -95,8 +89,51 @@ public:
                 a == other.a;
     }
 
+    void premultiply()
+    {
+        r *= a;
+        g *= a;
+        b *= a;
+    }
+
+    void unpremultiply()
+    {
+        if( a != T( 0))
+        {
+            r /= a;
+            g /= a;
+            b /= a;
+        }
+    }
+    
     T r, g, b, a;
 };
+
+template<class T>
+rgba_color_t<T> premultiply( const rgba_color_t<T>& c)
+{
+    rgba_color_t<T> x( c);
+    x.premultiply();
+    return x;
+}
+
+template<class T>
+rgba_color_t<T> unpremultiply( const rgba_color_t<T>& c)
+{
+    rgba_color_t<T> x( c);
+    x.unpremultiply();
+    return x;
+}
+template<class T>
+rgba_color_t<T> composite_over( const rgba_color_t<T>& a,
+                                const rgba_color_t<T>& b)
+{
+    T one_minus_aa = T(1) - a.a;
+    return rgba_color_t<T>( a.r + b.r * one_minus_aa,
+                            a.g + b.g * one_minus_aa,
+                            a.b + b.b * one_minus_aa,
+                            a.a + b.a * one_minus_aa);
+}
 
 // typedefs
 typedef rgba_color_t<boost::uint8_t>    rgba_colorc_t;
