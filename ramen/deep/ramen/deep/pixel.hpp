@@ -28,7 +28,6 @@ THE SOFTWARE.
 #include<boost/move/move.hpp>
 
 #include<ramen/color/color3.hpp>
-#include<ramen/color/rgba_color.hpp>
 
 #include<ramen/arrays/named_array_map.hpp>
 
@@ -43,7 +42,13 @@ class RAMEN_DEEP_API pixel_t
     
 public:
     
-    pixel_t();
+    enum interpretation_k
+    {
+        discrete_k,
+        continuous_k
+    };
+        
+    explicit pixel_t( interpretation_k interp = discrete_k);
 
     // Copy constructor
     pixel_t( const pixel_t& other);
@@ -71,12 +76,42 @@ public:
 
     void swap( pixel_t& other);
     
-    const arrays::named_array_map_t& data() const;
-    arrays::named_array_map_t& data();
+    bool has_channel( const core::name_t& name) const
+    {
+        return data_.has_array( name);
+    }
+    
+    void insert_channel( const core::name_t& name, core::type_t array_type);
+    void clear( interpretation_k interp = discrete_k);
 
+    const arrays::array_t& array( const core::name_t& name) const
+    {
+        return data_.array( name);
+    }
+
+    arrays::array_t& array( const core::name_t& name)
+    {
+        return data_.array( name);
+    }
+    
+    void push_back_discrete_sample( float z, const color::color3f_t& a);
+    void push_back_discrete_sample( float z, const color::color3f_t& a, const color::color3f_t& c);
+
+    void sort();
+    
+    std::size_t num_samples() const;
+    
+    void flatten( color::color3f_t& c, color::color3f_t& a) const;
+    
 private:
-
+    
+    void update_array_refs();
+    
     arrays::named_array_map_t data_;
+    arrays::array_ref_t<float> z_data_;
+    arrays::array_ref_t<float> z_back_data_;
+    arrays::array_ref_t<color::color3f_t> a_data_;
+    arrays::array_ref_t<color::color3f_t> c_data_;
 };
 
 inline void swap( pixel_t& x, pixel_t& y)

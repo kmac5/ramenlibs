@@ -115,7 +115,7 @@ void named_array_map_t::erase( const core::name_t& name)
     pimpl_->map.erase( name);
 }
 
-const array_t& named_array_map_t::const_array( const core::name_t& name) const
+const array_t& named_array_map_t::array( const core::name_t& name) const
 {
     assert( pimpl_);   
 

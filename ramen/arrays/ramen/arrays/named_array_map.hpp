@@ -83,7 +83,7 @@ public:
 
     void erase( const core::name_t& name);
     
-    const array_t& const_array( const core::name_t& name) const;
+    const array_t& array( const core::name_t& name) const;
     array_t& array( const core::name_t& name);
     
     // iterators

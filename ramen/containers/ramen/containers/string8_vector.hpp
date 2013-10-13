@@ -103,7 +103,9 @@ public:
     // iterators and proxies...
 
     const core::string8_t& operator[]( std::size_t n) const;
-
+    
+    class iterator;
+    
     class RAMEN_CONTAINERS_API const_iterator
     {
     public:
@@ -116,7 +118,7 @@ public:
 
         typedef reference_type    reference;
         typedef pointer_type      pointer;
-
+        
         reference_type operator*() const;
         reference_type operator->() const;
         reference_type operator[]( int n) const;
@@ -136,6 +138,7 @@ public:
     private:
 
         friend class string8_vector_t;
+        friend class iterator;
 
         const_iterator( const string8_vector_t *parent, int index);
 
@@ -195,6 +198,8 @@ public:
 
         difference_type operator-( const iterator& other) const;
 
+        operator const_iterator();
+        
     private:
 
         friend class string8_vector_t;

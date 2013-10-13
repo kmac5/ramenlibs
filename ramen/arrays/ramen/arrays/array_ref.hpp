@@ -146,6 +146,13 @@ public:
             throw core::bad_type_cast( array.type(), core::type_traits<value_type>::type());
     }
 
+    core::type_t type() const
+    {
+        assert( array_);
+        
+        return array_->type();
+    }
+    
     bool empty() const
     {
         assert( array_);
@@ -263,6 +270,13 @@ public:
         return array_ref_traits<T>::get_end( *( this->array_));
     }
 
+    const_reference operator[]( size_type i) const
+    {
+        assert( i < this->size());
+
+        return begin()[i];
+    }
+    
     reference operator[]( size_type i)
     {
         assert( i < this->size());

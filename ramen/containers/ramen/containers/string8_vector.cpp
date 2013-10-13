@@ -368,6 +368,11 @@ string8_vector_t::iterator::difference_type string8_vector_t::iterator::operator
     return index_ - other.index_;
 }
 
+string8_vector_t::iterator::operator const_iterator()
+{
+    return const_iterator( parent_, index_);
+}
+
 string8_vector_t::iterator string8_vector_t::begin()
 {
     if( pimpl_)

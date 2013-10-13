@@ -24,11 +24,30 @@ THE SOFTWARE.
 
 #include<ramen/deep/pixel.hpp>
 
+#include<boost/algorithm/cxx11/is_sorted.hpp>
+
+using namespace ramen::core;
+using namespace ramen::color;
+using namespace ramen::math;
+using namespace ramen::arrays;
 using namespace ramen::deep;
 
 TEST( DeepPixel, Construct)
 {
     pixel_t p;
+}
+
+TEST( DeepPixel, Sort)
+{
+    pixel_t p;
+    p.push_back_discrete_sample( 1.0f, color3f_t( 0.2f));    
+    p.push_back_discrete_sample( 4.0f, color3f_t( 0.7f));    
+    p.push_back_discrete_sample( 7.0f, color3f_t( 0.3f));    
+    p.push_back_discrete_sample( 2.0f, color3f_t( 0.4f));    
+    p.push_back_discrete_sample( 1.0f, color3f_t( 0.1f));
+    p.sort();
+    
+    EXPECT_TRUE( boost::algorithm::is_sorted( const_array_ref_t<float>( p.array( name_t( "Z")))));
 }
 
 int main(int argc, char **argv)
