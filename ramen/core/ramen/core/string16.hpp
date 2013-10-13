@@ -25,8 +25,6 @@ THE SOFTWARE.
 
 #include<ramen/core/string_fwd.hpp>
 
-#include<ramen/core/final.hpp>
-
 #include<cstddef>
 #include<cassert>
 
@@ -42,7 +40,7 @@ namespace core
 \ingroup core
 \brief string class with 16 bit characters.
 */
-class RAMEN_CORE_API string16_t : RAMEN_CORE_FINAL( string16_t)
+class RAMEN_CORE_API string16_t
 {
     BOOST_COPYABLE_AND_MOVABLE( string16_t)
 

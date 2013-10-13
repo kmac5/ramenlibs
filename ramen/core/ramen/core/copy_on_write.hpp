@@ -23,7 +23,7 @@ THE SOFTWARE.
 #ifndef RAMEN_COPY_ON_WRITE_HPP
 #define RAMEN_COPY_ON_WRITE_HPP
 
-#include<ramen/core/final.hpp>
+#include<ramen/core/config.hpp>
 
 #include<cassert>
 
@@ -46,7 +46,7 @@ namespace core
 \brief Copy on write holder.
 */
 template <typename T> // T models Regular
-class copy_on_write_t : RAMEN_CORE_FINAL( copy_on_write_t<T>)
+class copy_on_write_t
 {
     BOOST_CONCEPT_ASSERT(( RegularConcept<T>));
 

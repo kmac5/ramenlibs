@@ -55,6 +55,10 @@ protected:
 
 private:
 
+    // non-copyable
+    allocator_interface_t( const allocator_interface_t&);
+    allocator_interface_t& operator=( const allocator_interface_t&);
+
     /// Delete this object.
     virtual void release() const = 0;
 };

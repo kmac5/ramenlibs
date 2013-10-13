@@ -23,7 +23,7 @@ THE SOFTWARE.
 #ifndef RAMEN_CORE_EMPTY_HPP
 #define RAMEN_CORE_EMPTY_HPP
 
-#include<ramen/core/final.hpp>
+#include<ramen/core/config.hpp>
 
 #include<boost/operators.hpp>
 
@@ -36,8 +36,7 @@ namespace core
 \ingroup core
 \brief Empty class
 */
-struct RAMEN_CORE_API empty_t : RAMEN_CORE_FINAL( empty_t),
-                                private boost::totally_ordered<empty_t>
+struct RAMEN_CORE_API empty_t : boost::totally_ordered<empty_t>
 {
     //! swap
     void swap( empty_t&);

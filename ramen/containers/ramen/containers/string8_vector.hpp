@@ -25,8 +25,6 @@ THE SOFTWARE.
 
 #include<ramen/containers/string8_vector_fwd.hpp>
 
-#include<ramen/core/final.hpp>
-
 #include<iterator>
 
 #include<boost/move/move.hpp>
@@ -44,7 +42,7 @@ namespace containers
 \ingroup containers
 \brief A vector of unique string8_t strings.
 */
-class RAMEN_CONTAINERS_API string8_vector_t : RAMEN_CORE_FINAL( string8_vector_t)
+class RAMEN_CONTAINERS_API string8_vector_t
 {
     BOOST_COPYABLE_AND_MOVABLE( string8_vector_t)
 
@@ -198,7 +196,7 @@ public:
 
         difference_type operator-( const iterator& other) const;
 
-        operator const_iterator();
+        operator string8_vector_t::const_iterator();
         
     private:
 

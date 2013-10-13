@@ -70,26 +70,34 @@ class ray_t : public detail::ray_base_t<Data>
 {
 public:
 
-    BOOST_STATIC_CONSTANT( T, epsilon_k = 1.0e-3);
-    BOOST_STATIC_CONSTANT( T, maxt_k = 1.0e30);
+    // constants
+    inline T epsilon_k() const
+    {
+        return T( 1.0e-3);
+    }
+
+    inline T maxt_k() const
+    {
+        return T( 1.0e30);
+    }
 
     ray_t()
     {
         set_origin( point3_t<T>::origin());
         set_direction( vector3_t<T>( 0, 0, 1));
-        set_mint( epsilon_k);
-        set_maxt( maxt_k);
+        set_mint( epsilon_k());
+        set_maxt( maxt_k());
         set_time( 0);
     }
 
     ray_t( const point3_t<T>& origin,
            const vector3_t<T>& direction,
-           T maxt = T( maxt_k),
+           T maxt = T( maxt_k()),
            T time = T(0))
     {
         set_origin( origin);
         set_direction( direction);
-        set_mint( epsilon_k);
+        set_mint( epsilon_k());
         set_maxt( maxt);
         set_time( time);
     }

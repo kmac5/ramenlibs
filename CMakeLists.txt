@@ -60,6 +60,8 @@ SET( RAMEN_WITH_OS      ON  CACHE BOOL "Build os lib")
 
 SET( RAMEN_BUILD_TOOLS ON CACHE BOOL "Build extra tools")
 
+SET( LINK_BOOST_STATIC  OFF CACHE BOOL "Link to static boost libs")
+
 ######################################################
 # platform specific
 
@@ -71,7 +73,7 @@ ELSEIF( ${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
     SET( RAMEN_TEST_SYSTEM_LIBS ${CMAKE_THREAD_LIBS_INIT})
 ELSEIF( ${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-   # Windows
+    # ...
 ELSE()
     MESSAGE( FATAL_ERROR "Platform ${CMAKE_SYSTEM_NAME} not supported yet")
 ENDIF()
@@ -83,8 +85,10 @@ IF( CMAKE_COMPILER_IS_GNUCXX)
     SET( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pipe -fvisibility=hidden -fvisibility-inlines-hidden")
 ELSEIF( CMAKE_COMPILER_IS_CLANGXX)
     MESSAGE( FATAL_ERROR "clang is not supported yet")
+ELSEIF( CMAKE_COMPILER_IS_MSVC)
+    # ...
 ELSE()
-    MESSAGE( FATAL_ERROR "unknown compiler is not supported yet")
+    #MESSAGE( FATAL_ERROR "unknown compiler is not supported yet")
 ENDIF()
 
 ######################################################
@@ -96,6 +100,10 @@ SET( BOOST_NEEDED_LIBRARIES)
 FIND_PACKAGE( Boost COMPONENTS ${BOOST_NEEDED_LIBRARIES} REQUIRED)
 ADD_DEFINITIONS( -DBOOST_FILESYSTEM_VERSION=3)
 ADD_DEFINITIONS( -DBOOST_FILESYSTEM_NO_DEPRECATED)
+
+IF( LINK_BOOST_STATIC)
+    SET( Boost_USE_STATIC_LIBS ON)
+ENDIF()
 
 IF( RAMEN_WITH_REGEX)
     FIND_PACKAGE( PCRE REQUIRED)

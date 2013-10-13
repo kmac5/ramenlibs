@@ -23,7 +23,7 @@ THE SOFTWARE.
 #ifndef RAMEN_CORE_REGEX8_HPP
 #define RAMEN_CORE_REGEX8_HPP
 
-#include<ramen/core/final.hpp>
+#include<ramen/core/config.hpp>
 
 #include<ramen/core/string8.hpp>
 
@@ -36,7 +36,7 @@ namespace core
 \ingroup core
 \brief UTF8 regular expression class.
 */
-class RAMEN_CORE_API regex8_t : RAMEN_CORE_FINAL( regex8_t)
+class RAMEN_CORE_API regex8_t
 {
     BOOST_COPYABLE_AND_MOVABLE( regex8_t)
 

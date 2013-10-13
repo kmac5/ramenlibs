@@ -41,7 +41,7 @@ namespace containers
 \ingroup core
 \brief A collection of variant_t indexed by core::name_t keys.
 */
-class RAMEN_CORE_API dictionary_t : RAMEN_CORE_FINAL( dictionary_t)
+class RAMEN_CONTAINERS_API dictionary_t
 {
     BOOST_COPYABLE_AND_MOVABLE( dictionary_t)
 
@@ -98,7 +98,7 @@ public:
     const value_type *get( const key_type& key) const;
     value_type *get( const key_type& key);
 
-    struct dict_inserter
+    struct RAMEN_CONTAINERS_API dict_inserter
     {
         dict_inserter( dictionary_t& d) : d_( d) {}
 

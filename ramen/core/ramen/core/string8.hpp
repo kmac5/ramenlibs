@@ -25,8 +25,6 @@ THE SOFTWARE.
 
 #include<ramen/core/string_fwd.hpp>
 
-#include<ramen/core/final.hpp>
-
 #include<cstddef>
 #include<string>
 #include<iostream>
@@ -43,7 +41,7 @@ namespace core
 \ingroup core
 \brief string class with 8 bit characters.
 */
-class RAMEN_CORE_API string8_t : RAMEN_CORE_FINAL( string8_t)
+class RAMEN_CORE_API string8_t
 {
     BOOST_COPYABLE_AND_MOVABLE( string8_t)
 

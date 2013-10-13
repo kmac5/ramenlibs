@@ -530,6 +530,7 @@ enum memory_order {
                         ///  ordering.
 };
 
+/*
 /// Expression which can be used to initialize atomic_flag to clear state.
 /// Example usage:
 /// \code{.cpp}
@@ -645,7 +646,7 @@ class atomic_flag {
 #endif // !(_TTHREAD_HAS_ATOMIC_BUILTINS_ || _TTHREAD_HAS_ASM_ATOMICS_)
     volatile int mFlag;
 };
-
+*/
 
 /// Atomic template class.
 /// An atomic object provides atomic access to an underlying data element of
