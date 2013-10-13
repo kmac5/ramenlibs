@@ -136,6 +136,9 @@ ENDIF()
 ######################################################
 # definitions
 
+# disable auti-linking on windows
+ADD_DEFINITIONS( -DBOOST_ALL_NO_LIB)
+
 IF( RAMEN_BUILD_STATIC)
     SET( RAMEN_USE_INTERPROCESS_NAMES ON)
     ADD_DEFINITIONS( -DRAMEN_BUILD_STATIC)

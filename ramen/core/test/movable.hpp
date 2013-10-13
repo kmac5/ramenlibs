@@ -37,19 +37,19 @@ public:
 
     movable_t()
     {
-        std::cout << "default ctor" << std::endl;
+        //std::cout << "default ctor" << std::endl;
         ptr_ = new int( 0);
     }
 
     explicit movable_t( int x)
     {
-        std::cout << "ctor" << std::endl;
+        //std::cout << "ctor" << std::endl;
         ptr_ = new int( x);
     }
 
     movable_t( const movable_t& other)
     {
-        std::cout << "copy" << std::endl;
+        //std::cout << "copy" << std::endl;
         ptr_ = new int( other.value());
     }
 
@@ -58,13 +58,13 @@ public:
         assert( ptr_);
         assert( other.ptr_);
 
-        std::cout << "move" << std::endl;
+        //std::cout << "move" << std::endl;
         other.ptr_ = 0;
    }
 
     ~movable_t()
     {
-        std::cout << "dtor" << std::endl;
+        //std::cout << "dtor" << std::endl;
         delete ptr_;
     }
 
@@ -75,7 +75,7 @@ public:
 
         if( this != &other)
         {
-            std::cout << "assign" << std::endl;
+            //std::cout << "assign" << std::endl;
             int *tmp_p = other.ptr_ ? new int( other.value()) : 0;
             delete ptr_;
             ptr_ = tmp_p;
@@ -91,7 +91,7 @@ public:
 
        if (this != &other)
        {
-           std::cout << "move assign" << std::endl;
+           //std::cout << "move assign" << std::endl;
            delete ptr_;
            ptr_ = other.ptr_;
            other.ptr_ = 0;
@@ -109,9 +109,7 @@ public:
     bool operator==( const movable_t& other)
     {
         if( ptr_ == 0 || other.ptr_ == 0)
-        {
             return ptr_ == other.ptr_;
-        }
 
         return *ptr_ == *other.ptr_;
     }

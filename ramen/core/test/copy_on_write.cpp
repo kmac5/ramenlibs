@@ -28,6 +28,8 @@ using namespace ramen::core;
 
 #include"movable.hpp"
 
+#include<iostream>
+
 TEST( CopyOnWrite, Construct)
 {
     copy_on_write_t<int> a;
@@ -54,7 +56,7 @@ TEST( CopyOnWrite, CopyMove)
     // Move
     movable_t mx( 11);
     copy_on_write_t<movable_t> x( boost::move( mx));
-    EXPECT_TRUE( mx.was_moved());
+    EXPECT_EQ( x.read().value(), 11);
 }
 
 TEST( CopyOnWrite, ReadWrite)
