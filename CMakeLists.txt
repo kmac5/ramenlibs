@@ -42,6 +42,8 @@ ENDIF()
 ######################################################
 # options
 
+SET( RAMEN_BUILD_STATIC             OFF CACHE BOOL "Build static libs")
+
 SET( RAMEN_WITH_HALF                ON  CACHE BOOL "Build EXR Half support")
 SET( RAMEN_WITH_REGEX               ON  CACHE BOOL "Build regex support")
 SET( RAMEN_USE_INTERPROCESS_NAMES   OFF CACHE BOOL "Use interprocess singleton for names")
@@ -133,6 +135,11 @@ ENDIF()
 
 ######################################################
 # definitions
+
+IF( RAMEN_BUILD_STATIC)
+    SET( RAMEN_USE_INTERPROCESS_NAMES ON)
+    ADD_DEFINITIONS( -DRAMEN_BUILD_STATIC)
+ENDIF()
 
 IF( RAMEN_USE_INTERPROCESS_NAMES)
     ADD_DEFINITIONS( -DRAMEN_USE_INTERPROCESS_NAMES)
