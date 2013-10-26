@@ -22,6 +22,10 @@ THE SOFTWARE.
 
 #include<ramen/cameras/camera.hpp>
 
+#include<cassert>
+
+#include<ramen/cameras/distortion_function.hpp>
+
 namespace ramen
 {
 namespace cameras
@@ -29,6 +33,26 @@ namespace cameras
 
 camera_t::camera_t() {}
 camera_t::~camera_t() {}
+
+void camera_t::set_viewport_size( std::size_t w, std::size_t h)
+{
+    assert( w != 0);
+    assert( h != 0);
+
+    width_ = w;
+    height_ = h;
+    aspect_ = static_cast<float>( width_) / height_;
+}
+
+bool camera_t::is_linear() const
+{
+    return do_is_linear();
+}
+
+bool camera_t::do_is_linear() const
+{
+    return false;
+}
 
 } // cameras
 } // ramen

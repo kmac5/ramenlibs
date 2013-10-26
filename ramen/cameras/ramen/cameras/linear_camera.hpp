@@ -46,7 +46,9 @@ private:
 
     // non-copyable
     linear_camera_t( const linear_camera_t&);
-    linear_camera_t& operator=( const linear_camera_t&);   
+    linear_camera_t& operator=( const linear_camera_t&); 
+    
+    bool do_is_linear() const;    
 };
 
 } // cameras

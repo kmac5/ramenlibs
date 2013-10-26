@@ -52,6 +52,7 @@ public:
 protected:
 
     void clear_scene();
+    void init_scene();
     
     virtual void initializeGL();
     virtual void resizeGL( int w, int h);

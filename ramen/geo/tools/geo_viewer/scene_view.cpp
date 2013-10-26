@@ -264,18 +264,21 @@ scene_view_t::scene_view_t( QWidget *parent) : QGLWidget( parent) {}
 void scene_view_t::make_grid_scene()
 {
     clear_scene();
+    init_scene();
     update();
 }
 
 void scene_view_t::make_box_scene()
 {
     clear_scene();
+    init_scene();
     update();
 }
 
 void scene_view_t::make_sphere_scene()
 {
     clear_scene();
+    init_scene();
     update();
 }
 
@@ -287,12 +290,17 @@ void scene_view_t::load_scene( const boost::filesystem::path& p)
                                                    containers::dictionary_t()));
     
     objects_ = r.read().objects();
+    init_scene();
     update();
 }
 
 void scene_view_t::clear_scene()
 {
     objects_.clear();
+}
+
+void scene_view_t::init_scene()
+{
 }
 
 void scene_view_t::initializeGL()

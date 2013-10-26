@@ -31,5 +31,10 @@ linear_camera_t::linear_camera_t() : camera_t()
 {
 }
 
+bool linear_camera_t::do_is_linear() const
+{
+    return true;
+}
+
 } // cameras
 } // ramen

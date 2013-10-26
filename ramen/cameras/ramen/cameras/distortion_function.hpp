@@ -20,17 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef RAMEN_CAMERAS_CAMERA_HPP
-#define RAMEN_CAMERAS_CAMERA_HPP
-
-#include<ramen/cameras/camera_fwd.hpp>
-
-#include<cstddef>
-
-#include<ramen/core/memory.hpp>
-
-#include<ramen/math/hpoint3.hpp>
-#include<ramen/math/point2.hpp>
+#ifndef RAMEN_CAMERAS_DISTORTION_FUNCTION_HPP
+#define RAMEN_CAMERAS_DISTORTION_FUNCTION_HPP
 
 #include<ramen/cameras/distortion_function_fwd.hpp>
 
@@ -41,38 +32,23 @@ namespace cameras
 
 /*!
 \ingroup cameras
-\brief Base camera class.
+\brief Base distortion function class.
 */
-class RAMEN_CAMERAS_API camera_t
+class RAMEN_CAMERAS_API distortion_function_t
 {
 public:
     
-    virtual ~camera_t();
-    
-    std::size_t viewport_width() const;
-    std::size_t viewport_height() const;
-    float viewport_aspect() const;
-    void set_viewport_size( std::size_t w, std::size_t h);
-
-    bool is_linear() const;
+    virtual ~distortion_function_t();
 
 protected:
 
-    camera_t();
+    distortion_function_t();
     
 private:
 
     // non-copyable
-    camera_t( const camera_t&);
-    camera_t& operator=( const camera_t&);
-    
-    virtual bool do_is_linear() const;
-    
-    std::size_t width_;
-    std::size_t height_;
-    float aspect_;
-    
-    core::auto_ptr_t<distortion_function_t> distort_;
+    distortion_function_t( const distortion_function_t&);
+    distortion_function_t& operator=( const distortion_function_t&);    
 };
 
 } // cameras

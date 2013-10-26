@@ -30,6 +30,7 @@ INCLUDE_DIRECTORIES(    ../../
 FILE( GLOB_RECURSE RAMEN_CAMERAS_HEADERS ./*.hpp)
 SET( RAMEN_CAMERAS_SOURCES camera.cpp
                            camera_controller.cpp
+                           distortion_function.cpp
                            linear_camera.cpp
                            persp_camera.cpp
                            )
